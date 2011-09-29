@@ -1,14 +1,14 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
-pkgname=docbook-utils
-pkgver=0.6.14
+pkgname=qca
+pkgver=2.0.3
 pkgbuild=1
-arch=('noarch')
+arch=('auto')
 
-shortdesc="Shell scripts for managing docbook"
+shortdesc="Qt Cryptographic Architecture"
 
-tags="console app-text"
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 
-source="ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES/$pkgname-$pkgver.tar.gz"
+tags="libs app-crypt"
 
 BUILD_SYSTEM="autotools"
 
