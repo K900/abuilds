@@ -1,0 +1,43 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=ntfs-3g
+pkgver=2011.4.12
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Free and open source NTFS driver for Linux."
+
+source="http://tuxera.com/opensource/${pkgbase}-${pkgver}.tgz"
+
+tags="base sys-fs"
+
+pkglist="ntfsprogs"
+
+build()
+{
+	go_src_dir
+	burn_patches
+
+	ac_cv_path_LDCONFIG=/bin/true ./configure --prefix=/usr --with-fuse=external --disable-static --mandir=/usr/share/man
+	make
+
+	for dir in src libntfs-3g include; do
+		make -C $dir DESTDIR=$pkgdir install
+	done
+
+	ln -s /bin/ntfs-3g $pkgdir/sbin/mount{.ntfs,.ntfs-3g}
+
+	# We don't have HAL already.
+	# install -m755 -d "${pkgdir}/usr/share/hal/fdi/policy/10osvendor"
+	# install -m644 "${filedir}/25-ntfs-config-write-policy.fdi" "${pkgdir}/usr/share/hal/fdi/policy/10osvendor/"
+}
+
+ntfsprogs()
+{
+	pkgname=ntfsprogs
+	shortdesc="NTFS filesystem utilities"
+}
+ntfsprogs_prep()
+{
+	go_src_dir
+	make -C ntfsprogs DESTDIR=$pkgdir install
+}

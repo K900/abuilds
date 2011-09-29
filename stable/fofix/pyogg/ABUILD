@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=pyogg
+pkgver=1.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Python bindings for libogg"
+
+source="http://ekyo.nerim.net/software/pyogg/$pkgname-$pkgver.tar.gz"
+
+tags="libs dev-python"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	python ./config_unix.py --prefix=$pkgdir/usr
+	python setup.py install --prefix=$pkgdir/usr
+}

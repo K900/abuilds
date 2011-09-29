@@ -1,0 +1,26 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=craftbukkit-git
+pkgver=0.0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Minecraft server mod with plugin system."
+
+source="git:git://github.com/Bukkit/CraftBukkit.git"
+
+tags="games games-misc"
+
+adddep="jre"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	mvn -s $filedir/settings.xml package
+	mkdir -p $pkgdir/opt/craftbukkit/plugins
+	mkdir -p $pkgdir/etc/{init.d,conf.d}
+	cp $filedir/rc $pkgdir/etc/init.d/craftbukkit
+	cp $filedir/conf $pkgdir/etc/conf.d/craftbukkit
+	cp target/craftbukkit-0.0.1-SNAPSHOT.jar $pkgdir/opt/craftbukkit/
+}
+

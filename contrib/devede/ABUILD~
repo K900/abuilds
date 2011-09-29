@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=devede
+pkgver=3.17.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="DVD authoring tool."
+
+source="http://www.rastersoft.com/descargas/${pkgname}-${pkgver}.tar.bz2"
+
+tags="xapps media-video"
+
+adddep="pygtk dvdauthor vcdimager mencoder MPlayer dejavu-fonts-ttf cdrtools"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	./install.sh --DESTDIR=${pkgdir} --prefix=/usr --unistall=no --targeted=yes --libdir=/usr/share/ --docdir=/usr/doc/
+	install -D -m644 ${pkgname}.desktop ${pkgdir}/usr/share/applications/${pkgname}.desktop
+	cd $pkgdir/usr/bin
+	# КОСТЫЛИЩИ
+	sed s,/usr/lib/devede,/usr/share/devede,g -i devede
+}

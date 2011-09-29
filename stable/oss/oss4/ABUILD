@@ -1,0 +1,34 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=oss
+pkgver=4.2_2004
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Open Sound System"
+longdesc=("$shortdesc")
+
+source="hg:http://opensound.hg.sourceforge.net:8000/hgroot/opensound/opensound"
+tags="drivers media-sound"
+
+build()
+{
+	export NO_WARNING_CHECKS=yes
+	go_src_dir
+	cp "${filedir}/oss" "setup/Linux/oss/etc/S89oss"
+	# make build dir
+	rm -rf build
+	mkdir build
+	cd build
+	# configure and make
+	../configure --regparm
+	make build
+	# install
+	cd prototype
+	cp -a * "${pkgdir}"
+	chmod -R a+r "${pkgdir}" 
+	find "${pkgdir}" -type d -exec chmod a+x '{}' \;
+	chmod +x $pkgdir/usr/lib/oss/build/install.sh
+	install -D -m755 "$filedir/ossxmix.desktop" "$pkgdir/usr/share/applications/ossxmix.desktop"
+	install -D -m644 "$filedir/ossxmix.png" "$pkgdir/usr/share/pixmaps/ossxmix.png"
+	install -D -m755 "$filedir/50oss" "$pkgdir/etc/pm/sleep.d/50oss"
+}

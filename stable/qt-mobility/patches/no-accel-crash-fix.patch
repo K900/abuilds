@@ -1,0 +1,47 @@
+From 97d72d673c0dad42db118261b1118dca4a330ebf Mon Sep 17 00:00:00 2001
+From: Andy Ross <andy.ross@windriver.com>
+Date: Tue, 7 Jun 2011 12:51:29 -0700
+Subject: [PATCH] Fix crash in meegoorientationsensor on devices w/o accelerometers
+
+---
+ plugins/sensors/meego/meegoorientationsensor.cpp |   15 ++++++++++-----
+ 1 files changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/plugins/sensors/meego/meegoorientationsensor.cpp b/plugins/sensors/meego/meegoorientationsensor.cpp
+index 9bc1d60..cc5eca8 100644
+--- a/plugins/sensors/meego/meegoorientationsensor.cpp
++++ b/plugins/sensors/meego/meegoorientationsensor.cpp
+@@ -54,11 +54,14 @@ meegoorientationsensor::meegoorientationsensor(QSensor *sensor)
+ }
+ 
+ 
+-void meegoorientationsensor::start(){
+-    Unsigned data(((OrientationSensorChannelInterface*)m_sensorInterface)->orientation());
+-    m_reading.setOrientation(meegoorientationsensor::getOrientation(data.x()));
+-    m_reading.setTimestamp(data.UnsignedData().timestamp_);
+-    newReadingAvailable();
++void meegoorientationsensor::start()
++{
++    if(m_sensorInterface) {
++        Unsigned data(((OrientationSensorChannelInterface*)m_sensorInterface)->orientation());
++        m_reading.setOrientation(meegoorientationsensor::getOrientation(data.x()));
++        m_reading.setTimestamp(data.UnsignedData().timestamp_);
++        newReadingAvailable();
++    }
+     meegosensorbase::start();
+ }
+ 
+@@ -71,6 +74,8 @@ void meegoorientationsensor::slotDataAvailable(const Unsigned& data)
+ }
+ 
+ bool meegoorientationsensor::doConnect(){
++    if(!m_sensorInterface)
++        return false;
+     return QObject::connect(m_sensorInterface, SIGNAL(orientationChanged(const Unsigned&)),
+                             this, SLOT(slotDataAvailable(const Unsigned&)));
+ }
+-- 
+1.7.1
+
+
+

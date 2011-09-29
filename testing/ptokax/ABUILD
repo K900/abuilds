@@ -1,0 +1,39 @@
+# based on lots of arch linux patches, likely works now :)
+# lots and lots of thanks to Semitsoglou-Tsiapos Dimitrios for the patches
+pkgname=ptokax
+pkgver=0.4.1.2
+pkgbuild=1
+
+shortdesc="A Direct Connect Hub"
+longdesc=("A Direct Connect Hub, a multi-platform server application for Neo-Modus Direct Connect Peer-To-Peer sharing network.")
+
+arch=('auto')
+tags="net-p2p server"
+
+source=("http://www.czdc.org/PtokaX/${pkgver}-nix-src.tgz")
+
+build()
+{
+  # Building our own tinyxml
+  go_src_dir 
+  tar -xzf ${filedir}/tinyxml_2_6_1.tar.gz
+
+  cd tinyxml
+  patch -i $filedir/tinyxml.patch
+  make -j$numjobs
+
+  # Building PtokaX
+  cd ..
+  patch -i $filedir/ptokax${LIBDIRSUFFIX}.patch
+  make -j$numjobs
+
+  # Installing example conffiles
+  mkdir -p $pkgdir/opt/ptokax
+  cp -r cfg.example $pkgdir/opt/ptokax/cfg
+  chmod 666 $pkgdir/opt/ptokax/cfg/*
+
+  # Installing binaries
+  install -D -m755 PtokaX $pkgdir/opt/ptokax/PtokaX
+  install -D -m755 $filedir/ptokax $pkgdir/usr/bin/ptokax
+  install -D -m755 $filedir/ptokax.rc $pkgdir/etc/init.d/ptokax
+}

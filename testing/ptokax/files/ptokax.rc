@@ -1,0 +1,19 @@
+#!/sbin/runscript
+# Copyright K900, AgiliaLinux
+# Distributed under the terms of the GNU General Public License v2
+
+depend() {
+        need net
+}
+
+start() {
+        ebegin "Starting PtokaX..."
+        start-stop-daemon --start --make-pidfile --background --pidfile /var/run/ptokax.pid --exec /usr/bin/ptokax
+        eend $?
+}
+
+stop() {
+        ebegin "Stopping PtokaX..."
+        start-stop-daemon --pidfile /var/run/ptokax.pid --stop
+        eend $?
+}

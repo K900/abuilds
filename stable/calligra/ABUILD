@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=calligra
+pkgver=2.3.73
+pkgbuild=1
+arch=('auto')
+ 
+shortdesc=('Integrated office suite for KDE, built with KOM/OpenParts. Continuation of the KOffice project.')
+
+tags=('kde-base kde4')
+ 
+source="http://download.kde.org/download.php?url=unstable/calligra-$pkgver/calligra-$pkgver.tar.bz2"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \
+	     -DCMAKE_INSTALL_PREFIX=/usr \
+	     -DMAN_INSTALL_DIR=/usr/man \
+	     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+	     -DCMAKE_SKIP_RPATH=ON \
+		../"

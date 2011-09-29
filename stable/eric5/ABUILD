@@ -1,0 +1,21 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+pkgname=eric5
+pkgver=5.1.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Python IDE written on PyQt with use of QScintilla widget"
+
+source=("http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/${pkgver}/${pkgname}-${pkgver}.tar.gz"
+"http://downloads.sourceforge.net/sourceforge/eric-ide/${pkgname}/stable/${pkgver}/${pkgname}-i18n-ru-${pkgver}.tar.gz")
+
+tags="develop dev-util"
+
+adddep="python3-pyqt python3-qscintilla qt4"
+
+build()
+{
+  go_src_dir
+  burn_patches
+  python3 install.py -c -b /usr/bin -i ${pkgdir}
+}

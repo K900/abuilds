@@ -1,0 +1,20 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=quamachi
+pkgver=0.5.5
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="PyQt GUI for LogMeIn Hamachi"
+
+source="http://quamachi.googlecode.com/files/Quamachi-$pkgver.tar.bz2"
+
+tags="network www-client"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	cd Build
+	make
+	make DESTDIR=$pkgdir install
+}

@@ -1,0 +1,25 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=aerofs
+pkgver=EA27
+pkgbuild=1
+arch=('auto')
+
+shortdesc="File sync without servers."
+
+source="https://www.aerofs.com/downloads/aerofs-installer.tgz"
+
+tags="network www-client"
+
+adddep="jre sharutils"
+
+build()
+{
+	go_src_dir
+	
+	mkdir -p $pkgdir/usr/bin
+	cp {aerofs,aerofs-gui,aerofs-cli,aerofs-sh} $pkgdir/usr/bin
+
+
+	install -m644 -D $filedir/aerofs.desktop ${pkgdir}/usr/share/applications/aerofs.desktop
+	install -m644 -D $filedir/aerofs.png ${pkgdir}/usr/share/icons/aerofs.png
+}

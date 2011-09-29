@@ -1,0 +1,38 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=pcsxr-svn
+pkgver=1.9.93
+pkgbuild=1
+arch=('auto')
+
+shortdesc="PlayStation 1 emulator, a fork of pcsx-df, a fork of PCSX."
+
+source="svn:https://pcsxr.svn.codeplex.com/svn"
+
+tags="games app-emulation"
+
+before_build()
+{
+	cd pcsxr
+	# Icons are crappy
+	cp $filedir/pixmaps/* pixmaps/
+	# The translation is even crappier, but it's not fully fixed yet
+	# cp $filedir/ru_RU.po po/
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--enable-libcdio \
+--enable-opengl \
+--disable-pulse"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

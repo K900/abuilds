@@ -1,0 +1,25 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=patchutils
+pkgver=0.3.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Some tools that operate with patch files"
+source="http://cyberelk.net/tim/data/patchutils/stable/$pkgname-$pkgver.tar.bz2"
+
+tags="console dev-util"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

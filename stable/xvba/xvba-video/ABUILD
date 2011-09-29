@@ -1,0 +1,28 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=xvba-video
+pkgver=0.8.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="XvBA video backend for LibVA. Hardware video acceleration on fglrx"
+
+source="http://www.splitted-desktop.com/~gbeauchesne/xvba-video/$pkgname-$pkgver.tar.gz"
+
+tags="libs media-video"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--disable-debug \
+--enable-glx"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

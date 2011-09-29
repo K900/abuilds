@@ -1,0 +1,42 @@
+pkgname=hedgewars
+pkgver=0.9.16
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Worms-like strategy game"
+
+source=("http://download.gna.org/hedgewars/${pkgname}-src-${pkgver}.tar.bz2")
+#source="hg:https://code.google.com/p/hedgewars/"
+
+tags="games games-strategy"
+
+adddep="hedgewars-data"
+pkglist="data"
+
+conflicts="hedgewars-bin"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DDATA_INSTALL_DIR=/usr/share \
+-DQT_QMAKE_EXECUTABLE=/usr/bin/qmake \
+-DQT_MOC_EXECUTABLE=/usr/bin/moc \
+../"
+
+after_build() {
+	install -Dm644 $filedir/hedgewars.desktop $pkgdir/usr/share/applications/hedgewars.desktop
+	install -Dm644 $filedir/hedgewars.png $pkgdir/usr/share/pixmaps/hedgewars.png
+}
+
+data() {
+	pkgname=hedgewars-data
+	arch=('noarch')
+}
+
+data_prep()
+{
+	mkdir -p ${pkgdir}/usr/share
+	mv ${p_pkgdir}/usr/share/hedgewars ${pkgdir}/usr/share
+}

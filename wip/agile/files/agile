@@ -1,0 +1,144 @@
+#!/usr/bin/env python
+
+# If editing this script for resubmission to me, 
+# Agile - AUR for Agilia v0.1
+# Original Aurora code by synorgy (Bryan Bennett, bbenne10 at g mail dot com),
+# Code contributions by Edwin Marshall (aspidites / EnvoyRising)
+# Rewritten for AgiliaLinux by K900
+
+from urllib import urlretrieve
+from os import makedirs, remove, chdir, path, environ, getuid, getcwd
+from sys import exit, version_info
+
+if version_info >= (3,):
+	from subprocess import getoutput,getstatusoutput   
+else:
+	from commands import getoutput,getstatusoutput
+from subprocess import call
+from shutil import rmtree
+from optparse import OptionParser
+from json import loads
+
+baseUrl = 'http://aur.archlinux.org/rpc.php'
+categories = ['padding','none','daemons','devel','editors','emulators','games','gnome','i18n','kde','lib','modules','multimedia','network','office','science','system','x11','xfce','kernels']
+
+
+class package:
+	def __init__(self,results):
+		self.name = results['Name']
+		self.url = "http://aur.archlinux.org/{0}".format(results['URLPath'])
+		self.version = results['Version']
+		self.category = categories[int(results['CategoryID'])]
+
+	def __repr__(self):
+		return(repr(self.category, ' ', self.name, ' ', self.version, ' ', self.version))
+		
+
+	def get_name(self):
+		return self.name
+	def get_url(self):
+		return self.url
+		
+	def get_category(self):
+		return self.category
+	def get_version(self):
+		return self.version
+	
+	def download(self):
+		global dir
+		dir="."
+		print "Downloading {0} to {1}".format(self.name, dir)
+						
+		try: 
+			chdir(dir)
+			urlretrieve(self.url, "{0}/{1}.tar.gz".format(dir, self.name))
+			untar=getstatusoutput('tar xvf {0}.tar.gz'.format(self.name))
+			if untar[0] == 0:
+			    remove('{0}.tar.gz'.format(self.name))
+			else:
+			    print "Something has gone wrong with unpacking the tarball, dying now."
+			    exit(2)
+		except OSError,err:
+			overwrite="y"
+			overwrite=raw_input("""::\033[0;31mERROR\033[0;00m:{0}{1}/{1}.tar.gz exists
+			Overwrite? (Y/n)""".format(dir, self.name))
+			if overwrite.lower() == "y":
+				remove("{0}{1}/{1}.tar.gz".format(dir, self.name))
+				download()
+			else:
+				pass
+			del overwrite
+		except IOError:
+			print "::\033[0;31mERROR\033[0;00m: Your network seems to be down. Please check your internet connection."
+			exit(2) 
+				
+def search(term):
+	"""Search the interface and present the results"""
+	raw=getoutput("wget -q -O- '{0}?type=search&arg={1}'".format(baseUrl,term))
+	try:
+		results = loads(raw)['results']
+	except ValueError:
+		print "::\033[0;31mERROR\033[00;00m: Couldn't grab the package list, exiting."
+		exit(2)
+	resultsList = []
+	if results == "No results found":
+			print ":: No results found, Exiting"
+			exit()
+	if len(results) == 1:
+		pkg=package(results[0])
+		pkg.download()			
+	else:
+		#add an instance of package() for each entry in results; add
+		#each instance to resultsList and sort based on category.
+		resultsList = map(lambda i:package(i),results)
+		resultsList.sort(key=lambda x: x.category)
+		
+		#get all installed packages and their installed versions
+		if len(resultsList) > 1:
+			for entry in resultsList:
+			    print "{0}. \033[0;32m{1} \033[0;00m/ \033[0;31m{2}\033[0;00m [{3}]".format(str(int(resultsList.index(entry))+1),entry.get_category(),entry.get_name(),entry.get_version())
+			installIndex = raw_input("==>")
+			for entry in installIndex.split():
+				try:
+					pkg = resultsList[int(entry)-1]
+					pkg.download()
+				except ValueError:
+					print "::\033[0;31mERROR\033[00;00m: Entered value is not a number,exiting."
+					exit(2)
+def main():
+	if getuid() == 0:
+		print "Agile should not be run as root."
+		print "Please run as an unprivileged user."
+		exit()
+	global options
+	try:
+		parser = OptionParser()
+		parser.add_option('-S', '--search',
+				action='store',
+				dest='searchString',
+				help='Search for, select, and install packages')
+		(options, args) = parser.parse_args()
+		
+		#Nothing usable specified
+		if (options.searchString == None):
+			print "No action specified, or no search string present"
+			exit()
+			
+		#search only
+		elif (options.searchString != None):
+			type = "grab"
+			try:
+				makedirs(options.downloadDir)
+			except:
+				pass
+			search(options.searchString)
+			
+		#Multiple options present, die gracefully
+		else:
+			print "Multiple options provided. This is currently not supported."
+			exit()
+	except KeyboardInterrupt:
+		print "\n:: Keyboard Interrupt received, exiting."
+		exit(2)
+if __name__ == "__main__":
+	main()

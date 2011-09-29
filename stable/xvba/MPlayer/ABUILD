@@ -1,0 +1,68 @@
+#ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
+pkgname=MPlayer-vaapi
+pkgver=33161
+pkgbuild=1
+arch=('auto')
+
+shortdesc="MPlayer (media player)"
+source="http://pkgbuild.com/~foutrelis/mplayer-33161.tar.xz"
+
+tags="xapps media-video"
+
+adddep="esound mencoder==$pkgver"
+provides="MPlayer"
+
+
+config_files=("etc/mplayer/mplayer.conf
+etc/mplayer/codecs.conf
+etc/mplayer/dvb-menu.conf
+etc/mplayer/input.conf
+etc/mplayer/menu.conf")
+
+build()
+{
+  go_src_dir
+  for patch in mplayer-{vaapi{,-{gma500-workaround,0.29}},vdpau}; do
+	  patch -Np1 -i "$startdir/patches/$patch.patch"
+  done
+
+  unset CFLAGS LDFLAGS
+  ./configure \
+  --prefix=/usr \
+  --disable-static \
+  --mandir=/usr/man \
+  --confdir=/etc/mplayer \
+  --disable-gui \
+  --enable-largefiles \
+  --disable-arts \
+  --disable-jack \
+  --enable-vdpau \
+  --enable-shm \
+  --language=all \
+  --enable-runtime-cpudetection \
+  --enable-vaapi
+
+  echo "$pkgver" > VERSION
+  if [ $ARCH = "i686" ]; then
+	  sed 's|-march=i486|-march=i686|g' -i config.mak
+  fi
+
+  make -j${numjobs}
+  make DESTDIR="$pkgdir" install-mplayer install-mplayer-man 
+}
+
+after_build()
+{
+	( cd DOCS/xml
+	  for i in * ; do 
+	    [ -d $i ] && make html-single-$i ;
+	  done
+	)
+	
+	mkdir -p $pkgdir/usr/doc/$pkgname-$pkgver
+	cp -a DOCS/HTML DOCS/tech $pkgdir/usr/doc/$pkgname-$pkgver
+	
+	mkdir $pkgdir/etc/mplayer
+	cp etc/example.conf $pkgdir/etc/mplayer/mplayer.conf
+	cp etc/{codecs.conf,dvb-menu.conf,input.conf,menu.conf} $pkgdir/etc/mplayer
+}

@@ -1,0 +1,8 @@
+#!/bin/sh
+cd /usr/share/kag
+if [ -f "KAG.tmp" ]; then
+	mv KAG.tmp KAG
+	chmod +x KAG
+fi
+./KAG autostart Scripts/autostart.gm autoconfig Scripts/autoconfig.gm
+

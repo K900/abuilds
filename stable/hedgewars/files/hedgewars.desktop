@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.9.9
+Name=Hedgewars
+Type=Application
+Comment=Turn-based strategy game
+Exec=hedgewars
+Icon=hedgewars
+Categories=Game
+GenericName=Turn-based strategy game

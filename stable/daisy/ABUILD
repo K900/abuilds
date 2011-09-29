@@ -1,0 +1,17 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=plasmoid-daisy
+pkgver=0.0.4.25
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An application launcher inspired by nature"
+source="http://cdlszm.org/downloads/plasma-applet-daisy-0.0.4.25.tar.gz"
+
+tags="kde4 kde-misc"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

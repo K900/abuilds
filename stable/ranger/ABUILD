@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=python3-ranger
+pkgver=1.4.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A vim-inspired filemanager for the console"
+longdesc=("Ranger is a free console file manager that gives you greater flexibility
+and a good overview of your files without having to leave your *nix console.
+It visualizes the directory tree in two dimensions: the directory hierarchy
+on one, lists of files on the other, with a preview to the right so you know
+where you'll be going.")
+
+source="http://download.savannah.gnu.org/releases/ranger/releases/ranger-$pkgver.tar.gz"
+
+tags="console app-misc"
+
+build()
+{
+	go_src_dir
+	python3 setup.py install --root=$pkgdir --optimize=1
+	cd $pkgdir/usr/bin
+	mv ranger ranger3
+}

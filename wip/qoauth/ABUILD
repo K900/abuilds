@@ -1,0 +1,14 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=qoauth
+pkgver=1.0.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="OAuth protocol implementation for Qt."
+
+source="http://files.ayoy.net/qoauth/$pkgver/qoauth-$pkgver-src.tar.bz2"
+
+tags="libs www-misc"
+
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"

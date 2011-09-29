@@ -1,0 +1,75 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+pkgname=mozilla-firefox-unstableshment
+pkgver=10.0alpha1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Mozilla Firefox web browser"
+
+if echo $pkgver | grep -q alpha
+then
+	fxver=$(echo $pkgver | sed 's/alpha/a/')
+	pkgver=${pkgver}_build$(date +%Y%m%d)
+	pkgname=mozilla-firefox-nightly
+	fxcommand=firefox-nightly
+	fxname="Nightly"
+	shortdesc="Mozilla Firefox Nightly builds. The latest and greatest, yet often broken."
+	source=("ftp://ftp.mozilla.org/pub/firefox/nightly/latest-mozilla-central-l10n/firefox-$fxver.ru.linux-$ARCH.tar.bz2 o")
+elif echo $pkgver | grep -q aurora
+then
+	fxver=$(echo $pkgver | sed 's/aurora/a/')
+	newver=$(echo $pkgver | sed 's/aurora/alpha/')
+	pkgver=${newver}_build$(date +%Y%m%d)
+	pkgname=mozilla-firefox-aurora
+	fxcommand=firefox-aurora
+	fxname="Aurora"
+	shortdesc="Mozilla Firefox Aurora branch. Contains experimental and untested stuff, but is quite OK for everyday use."
+	source=("ftp://ftp.mozilla.org/pub/firefox/nightly/latest-mozilla-aurora-l10n/firefox-$fxver.ru.linux-$ARCH.tar.bz2 o")
+elif echo $pkgver | grep -q beta
+then
+	fxver=$(echo $pkgver | sed 's/beta/b/')
+	pkgname=mozilla-firefox-beta
+	fxcommand=firefox-beta
+	fxname="Firefox Beta"
+	shortdesc="Mozilla Firefox beta branch. Usually quite stable but may have some bugs here and there."
+	source=("ftp://ftp.mozilla.org/pub/firefox/releases/$fxver/linux-$ARCH/ru/firefox-$fxver.tar.bz2 o")
+elif echo $pkgver | grep -q rc
+then
+	pkgname=mozilla-firefox-beta
+	fxcommand=firefox-beta
+	fxname="Firefox Beta"
+	shortdesc="Release Candidate builds of Mozilla Firefox. Completely stable most of the time."
+	source=("ftp://ftp.mozilla.org/pub/firefox/releases/$pkgver/linux-$ARCH/ru/firefox-$pkgver.tar.bz2 o")
+else
+	echo "Trying to repack release, motherfucker?"
+	exit 1
+fi
+
+tags="network www-client"
+
+build()
+{
+	cd $srcdir
+	mkdir -p $pkgdir/{usr/{bin,share/{applications,pixmaps}},opt}
+	cp -r firefox $pkgdir/opt/$fxcommand
+	ln -s /opt/$fxcommand/firefox $pkgdir/usr/bin/$fxcommand
+	install -m644 $srcdir/firefox/icons/mozicon128.png $pkgdir/usr/share/pixmaps/$fxcommand.png
+
+}
+
+after_build()
+{
+	# Install defaults file
+	mkdir -p $pkgdir/usr/share/gnome-control-center/default-apps
+	sed "s%@FX@%$fxcommand%" ${filedir}/mozilla-firefox.xml > ${pkgdir}/usr/share/gnome-control-center/default-apps/$fxcommand.xml
+
+	# Install desktop file
+	sed "s%@FX@%$fxcommand%" ${filedir}/mozilla-firefox | sed "s%@FXNAME@%$fxname%" > ${pkgdir}/usr/share/applications/$fxcommand.desktop
+
+	# Clean up search engines
+	cd $pkgdir/opt/$fxcommand/searchplugins
+	rm ozonru.xml priceru.xml mailru.xml yandex-slovari.xml
+
+	# Handle plugins
+	ln -s /usr/lib$LIBDIRSUFFIX/mozilla/plugins/ $pkgdir/opt/$fxcommand
+}

@@ -1,0 +1,19 @@
+pkgname=calligra-l10n-ru
+_pkg=calligra-l10n
+__pkg=calligra
+pkgver=2.3.1
+pkgbuild=1
+arch=('noarch')
+ 
+shortdesc=('Calligra localization files for ru')
+longdesc=('Calligra localization files for ru')
+ 
+tags=('kde4 kde-l10n')
+adddep=('calligra')
+ 
+source=("http://mirrors.mit.edu/kde/unstable/${__pkg}-${pkgver}/${_pkg}/${pkgname}-${pkgver}.tar.bz2")
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="cmake . -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DMAN_INSTALL_DIR=/usr/man \
+	    ../"

@@ -1,0 +1,20 @@
+#!/sbin/runscript
+# Copyright 2011 AgiliaLinux
+# Distributed under the terms of the GNU General Public License, v2 or later
+
+: ${MINHEAP:="256M"}
+: ${MAXHEAP:="1024M"}
+
+depend() {	
+	after network
+}
+
+start() {
+	ebegin "Starting CraftBukkit..."
+	start-stop-daemon --start -q --exec screen --pidfile /var/run/craftbukkit.pid --make-pidfile -- -dmS craftbukkit java -Xmx$MAXHEAP -Xms$MINHEAP /opt/craftbukkit/craftbukkit-0.0.1-SNAPSHOT.jar
+}
+
+stop() {
+	ebegin "Stopping CraftBukkit..."
+	start-stop-daemon --stop -q --pidfile /var/run/craftbukkit.pid 
+}

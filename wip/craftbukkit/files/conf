@@ -1,0 +1,3 @@
+# Adjust Java heap size
+MAXHEAP=1024M
+MINHEAP=256M

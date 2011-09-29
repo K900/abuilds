@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=fb2toepub
+pkgver=1.0_4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="FB2 to ePub converter. The name kinda says it all :)"
+
+source="http://fb2-to-epub-converter.googlecode.com/files/$pkgname-$pkgver.zip"
+
+tags="console app-text"
+
+build() {
+	go_src_dir
+	cd ..
+	make VERSION="1.0_4-AgiliaLinux"
+	install -Dm755 unix_dist/fb2toepub $pkgdir/usr/bin/fb2toepub
+}

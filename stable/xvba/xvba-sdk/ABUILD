@@ -1,0 +1,20 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=xvba-sdk
+pkgver=0.74-404001
+pkgbuild=1
+arch=('auto')
+
+shortdesc="AMD's XvBA SDK header file. Epic one file packages FTW :3"
+
+source="http://developer.amd.com/downloads/xvba-sdk-$pkgver.tar.gz"
+
+tags="libs dev-libs"
+
+build()
+{
+	go_src_dir
+	cd ..
+	burn_patches
+	mkdir -p $pkgdir/usr
+	cp -r include $pkgdir/usr/
+}

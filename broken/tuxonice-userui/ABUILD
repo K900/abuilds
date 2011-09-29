@@ -1,0 +1,20 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=tuxonice-userui
+pkgver=1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="TuxOnIce userspace UI"
+
+source="git:git://git.tuxonice.net/tuxonice-userui.git"
+
+tags="console sys-power"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	make
+	make DESTDIR=$pkgdir PREFIX=/usr install
+	install -D -m755 $filedir/tuxonice.pm $pkgdir/usr/lib$LIBDIRSUFFIX/pm-utils/sleep.d/80tuxonice-ui
+}

@@ -1,0 +1,31 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+_pkgname=skype
+pkgname=skype-oss
+pkgver=2.0.0.72
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Latest Skype version with OSS support"
+longdesc=("$shortdesc")
+
+source="http://localhost/skype_static-$pkgver-oss.tar.bz2"
+tags="xapps net-im proprietary x86"
+
+provides="skype"
+
+adddep=""
+
+build()
+{
+	go_src_dir
+	burn_patches
+	install -m 755 -d ${pkgdir}/usr/share/${_pkgname}/sounds
+	install -m 644 sounds/* ${pkgdir}/usr/share/${_pkgname}/sounds
+	install -m 755 -D ${_pkgname} ${pkgdir}/usr/bin/${_pkgname}
+	install -m 644 -D ${_pkgname}.conf ${pkgdir}/etc/dbus-1/system.d/${_pkgname}.conf
+	install -m 644 -D icons/SkypeBlue_16x16.png ${pkgdir}/usr/share/icons/hicolor/16x16/${_pkgname}.png
+	install -m 644 -D icons/SkypeBlue_32x32.png ${pkgdir}/usr/share/icons/hicolor/32x32/${_pkgname}.png
+	install -m 644 -D icons/SkypeBlue_48x48.png ${pkgdir}/usr/share/icons/hicolor/48x48/${_pkgname}.png
+	install -m 644 -D icons/SkypeBlue_48x48.png ${pkgdir}/usr/share/pixmaps/${_pkgname}.png
+	install -m 644 -D ${_pkgname}.desktop ${pkgdir}/usr/share/applications/${_pkgname}.desktop
+}

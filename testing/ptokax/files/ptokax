@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ "$(whoami)" == "root" ]; then
+	pushd /opt/ptokax > /dev/null
+	./PtokaX $* || tail logs/system.log
+	popd > /dev/null
+else
+	echo "PtokaX must be run as root"
+fi

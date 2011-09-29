@@ -1,0 +1,60 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=fofix-git
+pkgver=4.0.0
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="FoFiX is a Frets on Fire fork with lots of additions (f.k.a. Alarian mod)"
+
+source="git:http://github.com/stump/fofix.git"
+
+tags="games games-simulation"
+
+adddep="cython libffi pil pyopengl pygame python-pysqlite numpy pyxml pyogg pyvorbis fofix-libs-git"
+
+pkglist="libs"
+
+build()
+{
+	go_src_dir
+	burn_patches
+
+	# Compile (w/o CCACHE, it won't work)
+	cd src/
+	CC="gcc" CXX="g++" python setup.py build_ext --inplace --force
+	cd ..
+
+	# Make dirs
+	install -d $pkgdir/usr/share/{applications,pixmaps}
+	install -d $pkgdir/usr/bin/
+	install -d $pkgdir/opt/fofix-git/
+	
+	# Install files
+	cp ${filedir}/fofix-git.desktop ${pkgdir}/usr/share/applications/
+	cp ${filedir}/fofix-git.png ${pkgdir}/usr/share/pixmaps/
+
+	# Clean up
+	rm -rf .git pkg doc src/build wiki win32
+
+	# Install data
+	cp -r * $pkgdir/opt/fofix-git
+
+	# Install launcher
+	cd $pkgdir/usr/bin/
+	echo "#/bin/sh" > fofix-git
+	echo "cd /opt/fofix-git/src/" >> fofix-git
+	echo "python ./FoFiX.py" >> fofix-git
+	chmod +x fofix-git
+}
+
+libs(){
+	pkgname=fofix-libs-git
+	shortdesc="Arch-dependent libraries for FoFiX"
+	arch="auto"
+}
+libs_prep(){
+	# Make dirs
+	install -d $pkgdir/opt/fofix-git/src/pypitch
+	mv $p_pkgdir/opt/fofix-git/src/*.so $pkgdir/opt/fofix-git/src/
+	mv $p_pkgdir/opt/fofix-git/src/pypitch/*.so $pkgdir/opt/fofix-git/src/pypitch/
+}

@@ -1,0 +1,31 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=laptop-mode-tools
+pkgver=1.58
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A set of power saving utilities for kernel's laptop mode"
+
+source="http://www.samwel.tk/laptop_mode/tools/downloads/${pkgname}_${pkgver}.tar.gz"
+
+tags="utils sys-power"
+
+adddep="bash hdparm acpid ethtool"
+
+build() {
+	go_src_dir
+	# fix udev rules location
+	sed -i 's|etc/udev|lib/udev|' install.sh
+
+	# make install
+	make DESTDIR="${pkgdir}" INIT_D=none MAN_D=/usr/man install
+
+	# fix deprecation
+	sed -i 's/return 0;/exit 0/' "${pkgdir}/usr/sbin/laptop_mode"
+
+	# fix pm-utils
+	mv $pkgdir/usr/lib $pkgdir/usr/lib$LIBDIRSUFFIX
+
+	# install init script
+	install -D -m755 $filedir/laptop-mode-tools.rc $pkgdir/etc/init.d/laptop-mode-tools
+}

@@ -1,0 +1,45 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=MPlayer2-git
+pkgver=2.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A fork of MPlayer with some patches."
+source="git:git://git.mplayer2.org/mplayer2-build.git"
+tags="xapps media-video"
+adddep="dejavu-fonts-ttf"
+provides="MPlayer"
+
+build()
+{
+	go_src_dir
+
+	echo "--enable-libmp3lame
+       	--enable-libx264
+       	--enable-libvpx" >> ffmpeg_options
+	echo "--disable-pulse
+	--enable-translation
+	--enable-runtime-cpudetection
+	--prefix=/usr
+	--language=all
+	--confdir=/etc/mplayer2" >> mplayer_options #SEPARATE CONFIG
+
+
+	./init --shallow
+
+	make -j$numjobs
+	make DESTDIR="$pkgdir" install
+
+	install -m644 mplayer/etc/{codecs,input,example}.conf "${pkgdir}/etc/mplayer2/"
+	install -d -m755 "${pkgdir}/usr/share/mplayer"
+	ln -s /usr/share/fonts/TTF/DejaVuSans.ttf "${pkgdir}/usr/share/mplayer/subfont.ttf"
+}
+
+after_build()
+{
+	mkdir -p $pkgdir/usr/
+	mv $pkgdir/usr/local/* $pkgdir/usr
+	rm -rf $pkgdir/usr/local
+	rm -rf $pkgdir/usr/etc
+	rm -rf $pkgdir/usr/lib
+}

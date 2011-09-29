@@ -1,0 +1,26 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=kag
+pkgver=137
+pkgbuild=1
+arch=('auto')
+
+shortdesc="King Arthur's Gold is a game to build castles and destroy your enemies, inspired by Soldat and Minecraft"
+
+source="http://kag2d.com/download/file/kag${pkgver}x.tar.gz"
+
+tags="games games-action"
+
+build()
+{
+	go_src_dir
+	
+	# Install game files
+	mkdir -p ${pkgdir}/usr/share/kag
+	cp -r * ${pkgdir}/usr/share/kag
+
+	# Install launcher
+	install -Dm755 ${filedir}/kag ${pkgdir}/usr/bin/kag
+	install -Dm644 ${filedir}/kag.desktop ${pkgdir}/usr/share/applications/kag.desktop
+	install -Dm644 ${filedir}/kag.png ${pkgdir}/usr/share/icons/hicolor/32x32/apps/kag.png
+}
+

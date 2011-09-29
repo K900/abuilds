@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=v86d
+pkgver=0.1.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Userspace helper for uvesafb."
+
+source="http://dev.gentoo.org/~spock/projects/uvesafb/archive/v86d-$pkgver.tar.bz2"
+
+tags="console app-emulation"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--with-x86emu"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+	install -Dm644 $filedir/uvesafb.conf $pkgdir/etc/modprobe.d/uvesafb.conf
+}

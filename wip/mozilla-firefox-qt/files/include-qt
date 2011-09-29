@@ -1,0 +1,4 @@
+moreflags="-I/usr/include/gtk-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/lib${LIBDIRSUFFIX}/gtk-2.0/include -I/usr/include/atk-1.0"
+# Add missing include paths. Didn't compile 7 times because of that.
+export CXXFLAGS="$CXXFLAGS $moreflags"
+export CFLAGS="$CFLAGS $moreflags"

@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=perl-file-next
+pkgver=1.06
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Perl File::Next module"
+
+source="http://search.cpan.org/CPAN/authors/id/P/PE/PETDANCE/File-Next-$pkgver.tar.gz"
+
+tags="libs dev-perl"
+
+build() {
+	go_src_dir
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+	make DESTDIR=$pkgdir install
+}

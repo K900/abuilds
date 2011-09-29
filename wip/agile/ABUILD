@@ -1,0 +1,14 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=agile-aur
+pkgver=0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Agile is an AUR client for other distros."
+tags="console www-client"
+adddep="python"
+
+build()
+{
+	install -Dm755 $filedir/agile $pkgdir/usr/bin/agile-aur
+}

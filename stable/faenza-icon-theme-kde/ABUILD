@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=faenza-icon-theme-kde
+pkgver=0.9_0.33
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Faenza icons for KDE. Original set by Tiheum, ported by jetpack."
+source="http://localhost/faenza.tar.gz" # Mediafire download :(
+
+provides="faenza-icon-theme"
+tags="themes kde-misc"
+custom_opts="skip_gendeps no_strip"
+depends="hicolor-icon-theme"
+
+build()
+{
+	mkdir -p $pkgdir/usr/share/icons/
+	mv {Faenza,Faenza-Dark} $pkgdir/usr/share/icons
+}

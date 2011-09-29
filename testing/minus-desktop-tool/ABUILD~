@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=minus-desktop-tool
+pkgver=1.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Desktop uploader tool for min.us"
+if [ "${LIBDIRSUFFIX}" == '64' ]; then
+	_arch='amd64'			
+else
+	_arch='i386'
+fi
+
+deb="minus-desktop-tool_${_arch}.deb"
+source="http://blog.minus.com/updates/$deb"
+
+tags="network www-client"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	ar p $srcache/$deb data.tar.gz | tar xz -C $pkgdir
+}

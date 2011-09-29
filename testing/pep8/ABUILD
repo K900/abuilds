@@ -1,0 +1,9 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=pep8
+pkgver=0.6.1
+pkgbuild=1
+arch=('auto')
+shortdesc="PEP8 checking tool"
+source="http://pypi.python.org/packages/source/p/pep8/pep8-$pkgver.tar.gz"
+tags="develop dev-python"
+BUILD_SYSTEM="python"

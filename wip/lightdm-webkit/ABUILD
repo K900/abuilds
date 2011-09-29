@@ -1,0 +1,35 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=lightdm-webkit-greeter
+pkgver=0.4.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="LightDM Webkit Greeter"
+longdesc=("Light Display Manager")
+
+source="bzr:lp:lightdm-webkit-greeter"
+
+tags="xapps x11-apps"
+
+adddep="lightdm"
+
+custom_opts="no_strip"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--with-dbus-sys=/etc/dbus-1/system.d \
+--with-log-dir=/var/log/lightdm \
+--libexecdir=/usr/lib$LIBDIRSUFFIX/lightdm \
+--enable-introspection=no"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

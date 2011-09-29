@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=bombono-dvd-git
+pkgver=1.0.3
+pkgbuild=2
+arch=('auto')
+
+shortdesc="A DVD authoring program"
+
+source="git:git://gitorious.org/bombono-dvd/bombono-dvd.git"
+tags="media-video xapps"
+adddep="mjpegtools>=1.8.0 dvdauthor dvd+rw-tools twolame enca scons"
+builddeps="scons"
+
+build() {
+	go_src_dir
+	burn_patches
+	scons PREFIX="/usr" DESTDIR="${pkgdir}" USE_EXT_BOOST=1 CPPFLAGS='-DBOOST_FILESYSTEM_VERSION=2'
+	scons PREFIX="/usr" DESTDIR="${pkgdir}" install
+}

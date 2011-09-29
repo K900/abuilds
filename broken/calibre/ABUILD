@@ -1,0 +1,21 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=calibre
+pkgver=0.8.12
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Ebook management and conversion"
+
+source="http://status.calibre-ebook.com/dist/src" # HOLY COW
+
+tags="xapps app-text"
+
+adddep=""
+
+build()
+{
+	go_src_dir
+	echo $pkgdir/opt > destdir
+	python -c "import urllib2; exec urllib2.urlopen('http://status.calibre-ebook.com/linux_installer').read(); main()" < destdir # HOLY COW AGAIN WTF
+	rm destdir
+}

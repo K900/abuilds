@@ -1,0 +1,15 @@
+#!/bin/bash
+case $1 in
+    hibernate)
+        /etc/init.d/oss stop
+        ;;
+    suspend)
+        /etc/init.d/oss stop
+        ;;
+    thaw)
+        /etc/init.d/oss start
+        ;;
+    resume)
+        /etc/init.d/oss start
+        ;;
+esac

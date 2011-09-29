@@ -1,0 +1,41 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=warmux
+pkgver=11.04
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A free clone of Worms"
+
+source="http://download.gna.org/${pkgname}/${pkgname}-${pkgver}.tar.bz2"
+
+tags="games games-strategy"
+
+adddep="warmux-data"
+pkglist="data"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+data()
+{
+	pkgname="warmux-data"
+	arch="noarch"
+}
+
+data_prep()
+{
+	mkdir -p $pkgdir/usr/share
+	mv $p_pkgdir/usr/share/warmux $pkgdir/usr/share
+}

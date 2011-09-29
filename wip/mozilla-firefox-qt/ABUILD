@@ -1,0 +1,100 @@
+pkgname=mozilla-firefox-hg
+pkgver=9.0alpha1
+
+_pkgver=$(echo $pkgver | sed s/alpha/a/ | sed s/beta/b/)
+
+if [ "$pkgname" == "mozilla-firefox-hg-qt" ]; then
+	toolkit=qt
+	desc=" Experimental Qt version."
+else
+	toolkit=gtk2
+	desc=""
+fi
+
+pkgbuild=1
+arch=('auto')
+
+provides="mozilla-firefox-hg"
+
+shortdesc="Mozilla Central branch of Firefox, the latest and greatest. Can eat you cat.$desc"
+
+tags="xapps www-client"
+
+source=("hg:http://hg.mozilla.org/mozilla-central/")
+
+# Use two-letter country codes separated with whitespaces, e.g. "ru uk jp"
+langpacks="ru uk"
+
+for langpack in $langpacks; do
+	source+=( "http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-mozilla-central-l10n/linux-x86_64/xpi/firefox-$_pkgver.$langpack.langpack.xpi n" )
+done
+
+pkglist="devel"
+
+build() 
+{
+	go_src_dir
+	set +e
+	burn_patches
+	set -e
+	
+	sed -i 's/@PRE_RELEASE_SUFFIX@//g' browser/base/content/browser.xul
+	
+	# generate mozconfig
+	cat ${filedir}/mozconfig | sed "s/%%LIBDIR%%/${LIBDIRSUFFIX}/g" > .mozconfig
+
+	# Toolkit-specific hacks
+	[ -f "$filedir/mozconfig-$toolkit" ] && cat "$filedir/mozconfig-$toolkit" >> .mozconfig
+	[ -f "$filedir/include-$toolkit" ] && source $filedir/include-$toolkit
+
+	export LDFLAGS="-Wl,-rpath,/usr/lib$LIBDIRSUFFIX/firefox-$_ffver"
+	
+	# build and install
+	make -j1 -f client.mk MOZ_MAKE_FLAGS="-j1"
+	make -j1 -f client.mk DESTDIR="$pkgdir" install
+}
+
+after_build()
+{
+	fxcommand=$(echo $pkgname | sed s/mozilla-//)
+
+	# generate launcher
+	rm -f $pkgdir/usr/bin/firefox
+	echo "#!/bin/sh
+exec /usr/lib$LIBDIRSUFFIX/firefox-$_pkgver/firefox $*" > $pkgdir/usr/bin/$fxcommand
+	chmod +x $pkgdir/usr/bin/$fxcommand
+
+	# install icons
+	for i in 16x16 22x22 24x24 32x32 48x48 256x256; do
+	    install -Dm644 browser/branding/nightly/default${i/x*/}.png "$pkgdir/usr/share/icons/hicolor/$i/apps/$fxcommand.png"
+	done
+  
+	# generate desktop files
+	mkdir -p $pkgdir/usr/share/applications/
+	$filedir/gendesktop.sh $fxcommand > $pkgdir/usr/share/applications/$fxcommand.desktop
+	
+	# thx Unnamed_Hero
+	# install langpacks
+	for langpack in $langpacks
+	do
+	    install -m644 $srcache/firefox-$_pkgver.$langpack.langpack.xpi $pkgdir/usr/lib$LIBDIRSUFFIX/firefox-$_pkgver/extensions/langpack-$langpack@firefox.mozilla.org.xpi
+	done
+
+	# use system hunspell dicts
+	rm -rf $pkgdir/usr/lib$LIBDIRSUFFIX/firefox-$_pkgver/dictionaries
+	ln -sf /usr/share/hunspell $pkgdir/usr/lib$LIBDIRSUFFIX/firefox-$_pkgver/dictionaries
+}
+
+devel()
+{
+	pkgname=$p_pkgname-dev
+	shortdesc="Development libraries and headers for Firefox Nightly."
+}
+
+devel_prep()
+{
+	mkdir -p $pkgdir/usr/{lib$LIBDIRSUFFIX,share}
+	mv $p_pkgdir/usr/lib$LIBDIRSUFFIX/firefox-devel-* $pkgdir/usr/lib$LIBDIRSUFFIX
+	mv $p_pkgdir/usr/include $pkgdir/usr/
+	mv $p_pkgdir/usr/share/idl $pkgdir/usr/share
+}
