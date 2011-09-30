@@ -9,11 +9,11 @@ _icedtea_ver=2.0
 _date=20110922
 
 _CORBA_CHANGESET=953de8c7bccb
-_HOTSPOT_CHANGESET=1dd9b3d73b22
+_HOTSPOT_CHANGESET=b28ae681bae0
 _JAXP_CHANGESET=948e734135ea
-_JAXWS_CHANGESET=83db5e316798
-_JDK_CHANGESET=0cb15650412a
-_LANGTOOLS_CHANGESET=fb7fb3071b64
+_JAXWS_CHANGESET=5d3734549424
+_JDK_CHANGESET=d9fca71ba183
+_LANGTOOLS_CHANGESET=9b85f1265346
 _OPENJDK_CHANGESET=0a76e5390e68
 
 pkgver=${_java_ver}.${_openjdk_build}_${_icedtea_ver}
@@ -30,10 +30,7 @@ source=("hg:http://icedtea.classpath.org/hg/icedtea7"
         "http://icedtea.classpath.org/hg/icedtea7-forest/jaxws/archive/${_JAXWS_CHANGESET}.tar.gz n"
         "http://icedtea.classpath.org/hg/icedtea7-forest/jdk/archive/${_JDK_CHANGESET}.tar.gz n"
         "http://icedtea.classpath.org/hg/icedtea7-forest/langtools/archive/${_LANGTOOLS_CHANGESET}.tar.gz n"
-        "http://icedtea.classpath.org/hg/icedtea7-forest/hotspot/archive/${_HOTSPOT_CHANGESET}.tar.gz n"
-        "http://icedtea.classpath.org/download/drops/jdk7-jaf-2010_08_19.zip n"
-	"http://icedtea.classpath.org/download/drops/jdk7-jaxws2_2_4-b03-2011_05_27.zip n"
-	"http://icedtea.classpath.org/download/drops/jaxp145_01.zip n")
+        "http://icedtea.classpath.org/hg/icedtea7-forest/hotspot/archive/${_HOTSPOT_CHANGESET}.tar.gz n")
 
 tags="libs sys-libs"
 
@@ -84,9 +81,7 @@ build() {
 	      --with-jaxws-src-zip=${srcache}/${_JAXWS_CHANGESET}.tar.gz \
 	      --with-jdk-src-zip=${srcache}/${_JDK_CHANGESET}.tar.gz \
 	      --with-langtools-src-zip=${srcache}/${_LANGTOOLS_CHANGESET}.tar.gz \
-	      --with-jaxp-src-zip=${srcache}/jaxp145_01.zip \
-	      --with-jaf-drop-zip=${srcache}/jdk7-jaf-2010_08_19.zip \
-	      --with-jaxws-src-zip=${srcache}/jdk7-jaxws2_2_4-b03-2011_05_27.zip --with-jdk-home=/opt/java
+	      --with-jdk-home=/opt/java
 
 	# OMEGA HACK
 	export LANG=en_US.UTF-8
