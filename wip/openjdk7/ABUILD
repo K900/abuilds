@@ -4,9 +4,7 @@ pkgbase=java7-openjdk
 
 _java_ver=7
 _openjdk_build=b147
-_openjdk_date=27_jun_2011
 _icedtea_ver=2.0
-_date=20110922
 
 _CORBA_CHANGESET=953de8c7bccb
 _HOTSPOT_CHANGESET=b28ae681bae0
@@ -17,7 +15,6 @@ _LANGTOOLS_CHANGESET=9b85f1265346
 _OPENJDK_CHANGESET=0a76e5390e68
 
 pkgver=${_java_ver}.${_openjdk_build}_${_icedtea_ver}
-pkgrel=0.20110922.1
 pkgbuild=1
 arch=('auto')
 
@@ -45,6 +42,7 @@ jre7() {
 jdk7() {
 	pkgname=jdk7-openjdk
 	shortdesc="OpenJDK 7 Development Kit"
+	adddep="jre7-openjdk"
 #	provides=jdk
 }
 jdk7-source() {
@@ -73,7 +71,7 @@ build() {
 	./configure \
 	      --disable-bootstrap \
 	      --disable-tests \
-	      --with-pkgversion=AgiliaLinux-${pkgver}-${pkgrel} \
+	      --with-pkgversion=AgiliaLinux-${pkgver} \
 	      --with-openjdk-src-zip=${srcache}/${_OPENJDK_CHANGESET}.tar.gz \
 	      --with-hotspot-src-zip=${srcache}/${_HOTSPOT_CHANGESET}.tar.gz \
 	      --with-corba-src-zip=${srcache}/${_CORBA_CHANGESET}.tar.gz \
