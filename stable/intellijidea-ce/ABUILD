@@ -62,6 +62,8 @@ build()
 	chown -R root:root "$pkgdir/usr/share"
 	
 	# launcher
+	# This makes it shut up when running on OpenJDK
+	sed "s/read IGNORE//g" -i /usr/share/$pkgname/bin/$launcher
 	echo "#!/bin/sh
 exec /usr/share/$pkgname/bin/$launcher $*" > $pkgdir/usr/bin/$pkgname
 	chmod +x $pkgdir/usr/bin/$pkgname
