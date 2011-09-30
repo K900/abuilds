@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=jetbrains-ides
-pkgver=108.1333_idea-eap-ultimate
+pkgver=1.5.4_pycharm
 
 # HAAAAACKS >>>
 if [ "$filedir" == "" ]; then
@@ -45,9 +45,9 @@ libs()
 libs_prep()
 {
 	go_src_dir
-	install -Dm755 bin/fsnotifier$LIBDIRSUFFIX $pkgdir/usr/share/$p_pkgname/bin/fsnotifier$LIBDIRSUFFIX
-	install -Dm644 bin/libbreakgen$LIBDIRSUFFIX.so $pkgdir/usr/share/$p_pkgname/bin/libbreakgen$LIBDIRSUFFIX.so
-	install -Dm644 bin/libyjpagent$LIBDIRSUFFIX.so $pkgdir/usr/share/$p_pkgname/bin/libyjpagent$LIBDIRSUFFIX.so
+	install -Dm755 bin/fsnotifier$LIBDIRSUFFIX $pkgdir/usr/share/$p_pkgname/bin/fsnotifier$LIBDIRSUFFIX || echo "No fsnotifier"
+	install -Dm644 bin/libbreakgen$LIBDIRSUFFIX.so $pkgdir/usr/share/$p_pkgname/bin/libbreakgen$LIBDIRSUFFIX.so || echo "No libbreakgen"
+	install -Dm644 bin/libyjpagent$LIBDIRSUFFIX.so $pkgdir/usr/share/$p_pkgname/bin/libyjpagent$LIBDIRSUFFIX.so || echo "No libyjpagent"
 }
 
 build()

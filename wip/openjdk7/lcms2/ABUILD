@@ -1,14 +1,14 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
-pkgname=qca
-pkgver=2.0.3
+pkgname=lcms2
+pkgver=2.2
 pkgbuild=1
 arch=('auto')
 
-shortdesc="Qt Cryptographic Architecture"
+shortdesc="Little Color Management System version 2"
 
-source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://downloads.sourceforge.net/sourceforge/lcms/${pkgname}-${pkgver}.tar.gz")
 
-tags="libs app-crypt"
+tags="libs media-gfx"
 
 BUILD_SYSTEM="autotools"
 

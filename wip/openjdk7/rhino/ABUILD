@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=rhino
+pkgver=1.7R2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Mozilla's implementation of JavaScript in Java"
+
+source="ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R1.zip"
+
+tags="libs dev-java"
+
+build()
+{
+	go_src_dir
+	install -m755 -d ${pkgdir}/usr/share/java
+	install -m644 js.jar ${pkgdir}/usr/share/java/
+}
