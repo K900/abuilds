@@ -34,6 +34,9 @@ tags="libs sys-libs"
 pkglist="jre7 jdk7 jdk7-source"
 _jvmdir=/opt/openjdk7
 
+# Comment me to replace JDK6
+_prefix="java7-"
+
 jre7() {
 	pkgname=jre7-openjdk
 	shortdesc="OpenJDK 7 Runtime Environment"
@@ -49,7 +52,6 @@ jdk7-source() {
 	pkgname=jdk7-source-openjdk
 	shortdesc="OpenJDK 7 source package"
 }
-
 build() {
 	go_src_dir
 	unset JAVA_HOME
@@ -118,7 +120,7 @@ jre7_prep()
 	pushd ${pkgdir}/${_jvmdir}/jre/bin
 	install -m755 -d ${pkgdir}/usr/bin/
 	for file in *; do
-	  ln -sf ${_jvmdir}/jre/bin/${file} ${pkgdir}/usr/bin
+	  ln -sf ${_jvmdir}/jre/bin/${file} ${pkgdir}/usr/bin/${_prefix}${file}
 	done
 	popd
 
@@ -163,7 +165,7 @@ jdk7_prep()
 	    install -m644 ../man/man1/${b}.1 ${pkgdir}/usr/share/man/man1/${b}.1
 	    install -m644 ../man/ja/man1/${b}.1 ${pkgdir}/usr/share/man/ja/man1/${b}.1
 	    # Link from /bin/
-	    ln -s ${_jvmdir}/bin/${b} ${pkgdir}/usr/bin/${b}
+	    ln -s ${_jvmdir}/bin/${b} ${pkgdir}/usr/bin/${_prefix}${b}
 	  fi
 	done
 	popd
@@ -173,7 +175,7 @@ jdk7_prep()
 
 	# Desktop files
 	install -m755 -d ${pkgdir}/usr/share/applications/
-	install -m644 ${filedir}/{jconsole,policytool}.desktop ${pkgdir}/usr/share/applications/
+	install -m644 ${filedir}/{${_prefix}jconsole,${_prefix}policytool}.desktop ${pkgdir}/usr/share/applications/
 
 	# Set some variables
 	install -m755 -d ${pkgdir}/etc/profile.d/
