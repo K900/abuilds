@@ -125,9 +125,8 @@ jre7_prep()
 	popd
 
 	# Link JKS keystore from ca-certificates-java
-	# rm -f ${pkgdir}/${_jvmdir}/jre/lib/security/cacerts
-	# ln -sf /etc/ssl/certs/java/cacerts "${pkgdir}/${_jvmdir}/jre/lib/security/cacerts"
-	# FIXME: breaks SSL completely.
+	rm -f ${pkgdir}/${_jvmdir}/jre/lib/security/cacerts
+	ln -sf /etc/ssl/certs/java/cacerts "${pkgdir}/${_jvmdir}/jre/lib/security/cacerts"
 
 	# Set some variables
 	install -m755 -d ${pkgdir}/etc/profile.d/
