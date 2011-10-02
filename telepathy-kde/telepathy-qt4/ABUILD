@@ -6,7 +6,7 @@ arch=('auto')
 
 shortdesc="Telepathy Qt4 bindings"
 
-source="http://telepathy.freedesktop.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz"
+source="git:git://anongit.freedesktop.org/telepathy/telepathy-qt4"
 
 tags="libs net-im"
 

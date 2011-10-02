@@ -1,4 +1,3 @@
-Compile in the following order:
 telepathy-qt4
 nepomuk
 main
@@ -14,3 +13,6 @@ launcher-kded
 sendfile
 presence-applet
 presence-dataengine 
+textui
+kded-module
+auth
