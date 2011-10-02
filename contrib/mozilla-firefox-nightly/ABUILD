@@ -1,6 +1,6 @@
 #ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
 pkgname=mozilla-firefox-unstableshment
-pkgver=10.0alpha1
+pkgver=10.0ux1
 pkgbuild=1
 arch=('auto')
 
@@ -40,6 +40,14 @@ then
 	fxname="Firefox Beta"
 	shortdesc="Release Candidate builds of Mozilla Firefox. Completely stable most of the time."
 	source=("ftp://ftp.mozilla.org/pub/firefox/releases/$pkgver/linux-$ARCH/ru/firefox-$pkgver.tar.bz2 o")
+elif echo $pkgver | grep -q ux
+then
+	fxver=$(echo $pkgver | sed 's/ux/a/')
+	pkgname=mozilla-firefox-ux
+	fxcommand=firefox-ux
+	fxname="Firefox UX"
+	shortdesc="Mozilla Firefox user experience branch. Sometimes broken, but looks way better. ENGLISH ONLY."
+	source=("ftp://ftp.mozilla.org/pub/firefox/nightly/latest-ux/firefox-$fxver.en-US.linux-$ARCH.tar.bz2 o")	
 else
 	echo "Trying to repack release, motherfucker?"
 	exit 1
