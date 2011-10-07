@@ -1,6 +1,6 @@
 diff -Naur old/smplayer/src/core.cpp new/smplayer/src/core.cpp
---- old/smplayer/src/core.cpp	2011-03-21 02:36:06.000000000 +0200
-+++ new/smplayer/src/core.cpp	2011-03-21 03:31:11.288858685 +0200
+--- smplayer/src/core.cpp	2011-03-21 02:36:06.000000000 +0200
++++ smplayer/src/core.cpp	2011-03-21 03:31:11.288858685 +0200
 @@ -1357,7 +1357,11 @@
  	else {
  		if (pref->vo.startsWith("vdpau")) {
@@ -15,8 +15,8 @@ diff -Naur old/smplayer/src/core.cpp new/smplayer/src/core.cpp
  #endif	
  		else {
 diff -Naur old/smplayer/src/preferences.cpp new/smplayer/src/preferences.cpp
---- old/smplayer/src/preferences.cpp	2011-03-21 02:36:06.000000000 +0200
-+++ new/smplayer/src/preferences.cpp	2011-03-21 03:31:11.292192042 +0200
+--- smplayer/src/preferences.cpp	2011-03-21 02:36:06.000000000 +0200
++++ smplayer/src/preferences.cpp	2011-03-21 03:31:11.292192042 +0200
 @@ -101,6 +101,7 @@
  
  #ifndef Q_OS_WIN
@@ -42,8 +42,8 @@ diff -Naur old/smplayer/src/preferences.cpp new/smplayer/src/preferences.cpp
  
  	use_soft_vol = set->value("use_soft_vol", use_soft_vol).toBool();
 diff -Naur old/smplayer/src/preferences.h new/smplayer/src/preferences.h
---- old/smplayer/src/preferences.h	2011-03-21 02:36:06.000000000 +0200
-+++ new/smplayer/src/preferences.h	2011-03-21 03:31:11.292192042 +0200
+--- smplayer/src/preferences.h	2011-03-21 02:36:06.000000000 +0200
++++ smplayer/src/preferences.h	2011-03-21 03:31:11.292192042 +0200
 @@ -98,6 +98,7 @@
  
  #ifndef Q_OS_WIN
@@ -53,8 +53,8 @@ diff -Naur old/smplayer/src/preferences.h new/smplayer/src/preferences.h
  
  	// Audio
 diff -Naur old/smplayer/src/prefgeneral.cpp new/smplayer/src/prefgeneral.cpp
---- old/smplayer/src/prefgeneral.cpp	2011-03-21 02:36:06.000000000 +0200
-+++ new/smplayer/src/prefgeneral.cpp	2011-03-21 04:34:59.195491278 +0200
+--- smplayer/src/prefgeneral.cpp	2011-03-21 02:36:06.000000000 +0200
++++ smplayer/src/prefgeneral.cpp	2011-03-21 04:34:59.195491278 +0200
 @@ -200,6 +200,7 @@
  
  #ifndef Q_OS_WIN
@@ -102,8 +102,8 @@ diff -Naur old/smplayer/src/prefgeneral.cpp new/smplayer/src/prefgeneral.cpp
  
  	setWhatsThis(postprocessing_check, tr("Enable postprocessing by default"),
 diff -Naur old/smplayer/src/prefgeneral.h new/smplayer/src/prefgeneral.h
---- old/smplayer/src/prefgeneral.h	2011-03-21 02:36:06.000000000 +0200
-+++ new/smplayer/src/prefgeneral.h	2011-03-21 04:16:34.350737407 +0200
+--- smplayer/src/prefgeneral.h	2011-03-21 02:36:06.000000000 +0200
++++ smplayer/src/prefgeneral.h	2011-03-21 04:16:34.350737407 +0200
 @@ -123,6 +123,9 @@
  #ifndef Q_OS_WIN
  	void setDisableFiltersWithVdpau(bool b);
@@ -115,8 +115,8 @@ diff -Naur old/smplayer/src/prefgeneral.h new/smplayer/src/prefgeneral.h
  
  	void setBlackbordersOnFullscreen(bool b);
 diff -Naur old/smplayer/src/prefgeneral.ui new/smplayer/src/prefgeneral.ui
---- old/smplayer/src/prefgeneral.ui	2011-03-21 02:36:06.000000000 +0200
-+++ new/smplayer/src/prefgeneral.ui	2011-03-21 04:13:02.782356485 +0200
+--- smplayer/src/prefgeneral.ui	2011-03-21 02:36:06.000000000 +0200
++++ smplayer/src/prefgeneral.ui	2011-03-21 04:13:02.782356485 +0200
 @@ -274,11 +274,41 @@
          </layout>
         </item>

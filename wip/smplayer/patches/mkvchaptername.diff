@@ -1,7 +1,7 @@
 Index: smplayer/trunk/src/mplayerprocess.cpp
 ===================================================================
---- smplayer/trunk/src/mplayerprocess.cpp	(revision 3604)
-+++ smplayer/trunk/src/mplayerprocess.cpp	(working copy)
+--- smplayer/src/mplayerprocess.cpp	(revision 3604)
++++ smplayer/src/mplayerprocess.cpp	(working copy)
 @@ -112,6 +112,7 @@
  static QRegExp rx_screenshot("^\\*\\*\\* screenshot '(.*)'");
  static QRegExp rx_endoffile("^Exiting... \\(End of file\\)|^ID_EXIT=EOF");
@@ -37,8 +37,8 @@ Index: smplayer/trunk/src/mplayerprocess.cpp
  			int ID = rx_vcd.cap(1).toInt();
 Index: smplayer/trunk/src/mediadata.h
 ===================================================================
---- smplayer/trunk/src/mediadata.h	(revision 3604)
-+++ smplayer/trunk/src/mediadata.h	(working copy)
+--- smplayer/src/mediadata.h	(revision 3604)
++++ smplayer/src/mediadata.h	(working copy)
 @@ -28,8 +28,8 @@
  
  #include <QString>
@@ -65,8 +65,8 @@ Index: smplayer/trunk/src/mediadata.h
  	// Clip info
 Index: smplayer/trunk/src/basegui.cpp
 ===================================================================
---- smplayer/trunk/src/basegui.cpp	(revision 3604)
-+++ smplayer/trunk/src/basegui.cpp	(working copy)
+--- smplayer/src/basegui.cpp	(revision 3604)
++++ smplayer/src/basegui.cpp	(working copy)
 @@ -2894,7 +2894,7 @@
  		for (n=0; n < core->mdat.chapters; n++) {
  			QAction *a = new QAction(chapterGroup);
@@ -87,8 +87,8 @@ Index: smplayer/trunk/src/basegui.cpp
  		} else {
 Index: smplayer/trunk/src/mediadata.cpp
 ===================================================================
---- smplayer/trunk/src/mediadata.cpp	(revision 3604)
-+++ smplayer/trunk/src/mediadata.cpp	(working copy)
+--- smplayer/src/mediadata.cpp	(revision 3604)
++++ smplayer/src/mediadata.cpp	(working copy)
 @@ -54,11 +54,13 @@
  
  #if GENERIC_CHAPTER_SUPPORT
