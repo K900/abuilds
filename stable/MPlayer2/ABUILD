@@ -1,5 +1,5 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
-pkgname=MPlayer2-git
+pkgname=MPlayer2
 pkgver=2.1
 pkgbuild=1
 arch=('auto')
@@ -25,7 +25,6 @@ build()
 	--language=all
 	--confdir=/etc/mplayer2" >> mplayer_options #SEPARATE CONFIG
 
-
 	./init --shallow
 
 	make -j$numjobs
@@ -38,9 +37,6 @@ build()
 
 after_build()
 {
-	mkdir -p $pkgdir/usr/
-	mv $pkgdir/usr/local/* $pkgdir/usr
-	rm -rf $pkgdir/usr/local
-	rm -rf $pkgdir/usr/etc
 	rm -rf $pkgdir/usr/lib
+	mv $pkgdir/usr/share/man/ $pkgdir/usr/
 }
