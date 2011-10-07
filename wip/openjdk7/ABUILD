@@ -29,6 +29,8 @@ source=("hg:http://icedtea.classpath.org/hg/icedtea7"
         "http://icedtea.classpath.org/hg/icedtea7-forest/langtools/archive/${_LANGTOOLS_CHANGESET}.tar.gz n"
         "http://icedtea.classpath.org/hg/icedtea7-forest/hotspot/archive/${_HOTSPOT_CHANGESET}.tar.gz n")
 
+adddep="ca-certificates-java"
+
 tags="libs sys-libs"
 
 pkglist="jre7 jdk7 jdk7-source"

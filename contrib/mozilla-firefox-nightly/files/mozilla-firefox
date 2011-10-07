@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Exec=@FX@ %u
+Exec=@FX@ -new-tab %u
 Icon=/usr/share/pixmaps/@FX@.png
 Type=Application
 Categories=Application;Network;
