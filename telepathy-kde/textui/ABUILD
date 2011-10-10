@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=telepathy-kde-text-ui
+pkgver=0.1.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Telepathy KDE integration - text UI"
+
+source="git:git://anongit.kde.org/telepathy-text-ui"
+
+tags="kde4 kde-misc"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

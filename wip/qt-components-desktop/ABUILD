@@ -1,0 +1,21 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=qt-components-desktop
+pkgver=4.8
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Desktop components for QtQuick/QML"
+
+source="git:git://gitorious.org/qt-components/desktop.git"
+
+tags="libs x11-libs"
+
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+
+after_build()
+{
+	# Install that too
+	mkdir -p ${pkgdir}/usr/bin
+	install -m 755 -p qmldesktopviewer/qmldesktopviewer ${pkgdir}/usr/bin
+}

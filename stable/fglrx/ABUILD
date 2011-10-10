@@ -1,6 +1,6 @@
 #ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
 pkgname=fglrx
-pkgver=11.8
+pkgver=11.9
 pkgbasever=${pkgver}
 srcver=$(echo $pkgver | sed "s/\./-/g")
 mesaver=7.10

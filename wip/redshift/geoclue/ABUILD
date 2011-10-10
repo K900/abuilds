@@ -1,0 +1,26 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+pkgname=geoclue
+pkgver=0.12.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Geographic information framework"
+
+source="git:git://anongit.freedesktop.org/git/geoclue"
+
+tags="libs media-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
