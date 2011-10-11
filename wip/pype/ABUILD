@@ -1,0 +1,22 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=pype
+pkgver=2.9.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="PYthon Programmer's Editor"
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/PyPE-${pkgver}-src.zip")
+
+adddep="wxpython"
+
+tags="develop dev-python"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	mkdir -p $pkgdir/usr/share/pype
+	cp -r * $pkgdir/usr/share/pype/
+	install -Dm755 $filedir/pype $pkgdir/usr/bin/pype
+}
