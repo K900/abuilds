@@ -6,7 +6,8 @@ arch=('auto')
 
 shortdesc="Network management stuff from KDE extragear, includes KNetworkManager"
 
-source="git:git://anongit.kde.org/networkmanagement"
+#source="git:git://anongit.kde.org/networkmanagement" # BROKEN BROKEN BROKEN BROKEN 
+source="http://download.kde.org/download.php?url=unstable/networkmanagement/0.8.80/src/networkmanagement-0.8.80.tar.bz2"
 
 tags="kde4 kde-misc"
 
