@@ -1,0 +1,13 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=pyzmq
+pkgver=2.1.9
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Python bindings for ZMQ"
+
+source="https://github.com/zeromq/pyzmq/downloads/pyzmq-$pkgver.tar.gz"
+
+tags="libs dev-python"
+
+BUILD_SYSTEM="python"

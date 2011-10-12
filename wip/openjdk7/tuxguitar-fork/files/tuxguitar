@@ -1,0 +1,4 @@
+#!/bin/sh
+pushd /usr/share/tuxguitar/ &> /dev/null
+CLASSPATH=$CLASSPATH:/usr/share/java/swt.jar:/usr/share/tuxguitar/tuxguitar.jar /opt/openjdk7/jre/bin/java org.herac.tuxguitar.gui.TGMain $*
+popd &>/dev/null

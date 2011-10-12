@@ -1,0 +1,26 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=zeromq
+pkgver=2.1.10
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Fast messaging system built on sockets."
+
+source="http://download.zeromq.org/$pkgname-$pkgver.tar.gz"
+
+tags="libs sys-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=2.2
+Type=Application
+Name=DBox
+Comment=Dosbox Frontend
+Exec=dbox
+Encoding=UTF-8
+Icon=dbox
+Categories=Game
+Terminal=false
+StartupNotify=false

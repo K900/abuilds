@@ -1,0 +1,48 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=swt
+pkgver=3.7.1
+_date=201109091335
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An open source widget toolkit for Java"
+
+if [ "$LIBDIRSUFFIX" == "64" ]; then
+	_arch=x86_64
+else
+	_arch=x86
+fi
+
+source="http://download.eclipse.org/eclipse/downloads/drops/R-${pkgver}-${_date}/swt-${pkgver}-gtk-linux-$_arch.zip"
+tags="libs dev-java"
+
+build()
+{
+	go_src_dir
+	cd ..
+
+	# Extract source
+	unzip -qo src.zip
+	mkdir src
+	mv org src/
+	cp $filedir/build.xml build.xml
+
+	burn_patches
+
+	[ "$LIBDIRSUFFIX" == "64" ] && export SWT_PTR_CFLAGS=-DJNI64
+
+	for i in make_awt make_swt make_atk make_gnome make_cairo make_glx; do # make_mozilla make_xulrunner
+		make -f make_linux.mak $i
+	done
+
+	ant compile
+
+	cp version.txt build/version.txt
+	cp src/org/eclipse/swt/internal/SWTMessages.properties build/org/eclipse/swt/internal/
+
+	ant jar
+
+	install -m755 -d ${pkgdir}/usr/{lib$LIBDIRSUFFIX,share/java}
+	install -m644 swt.jar ${pkgdir}/usr/share/java/
+	install -m755 *.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+}

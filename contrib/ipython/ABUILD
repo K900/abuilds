@@ -1,0 +1,13 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=ipython
+pkgver=0.11
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A better interactive Python shell"
+
+source="http://archive.ipython.org/release/$pkgver/ipython-$pkgver.tar.gz"
+
+tags="develop dev-python"
+
+BUILD_SYSTEM="python"

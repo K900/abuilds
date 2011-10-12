@@ -1,0 +1,68 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=tuxguitar-fork
+pkgver=1.3
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Ai better/updated version of TuxGuitar"
+
+source="svn:svn://svn.code.sf.net/p/tuxguitar-fork/code/trunk "
+
+tags="xapps media-sound"
+
+adddep="swt"
+
+pkglist="plugs"
+
+build()
+{
+	go_src_dir
+	burn_patches
+
+	mkdir -p $pkgdir/usr/share/tuxguitar/
+	cd TuxGuitar
+	cp $filedir/build.properties .
+	ant
+	cp tuxguitar.jar $pkgdir/usr/share/tuxguitar
+	cp -r share/* $pkgdir/usr/share/tuxguitar/
+
+	rm -rf $(find $pkgdir -type d -name .svn)
+
+	cd ../misc
+	install -Dm644 tuxguitar.desktop $pkgdir/usr/share/applications/tuxguitar.desktop
+	install -Dm644 tuxguitar.xpm $pkgdir/usr/share/pixmaps/tuxguitar.xpm
+	install -Dm755 $filedir/tuxguitar $pkgdir/usr/bin/tuxguitar
+}
+
+plugs() {
+	pkgname=tuxguitar-fork-plugins
+	shortdesc="TuxGuitar plugins"
+	adddep="tuxguitar-fork"
+	arch=('auto')
+}
+plugs_prep() {
+
+	go_src_dir
+	mkdir -p $pkgdir/usr/{lib$LIBDIRSUFFIX,share/tuxguitar/plugins/}
+
+	# These don't have binaries
+	for i in TuxGuitar-abc TuxGuitar-ascii TuxGuitar-browser-ftp TuxGuitar-community TuxGuitar-compat TuxGuitar-converter TuxGuitar-fluidsynth TuxGuitar-gervill TuxGuitar-gpx TuxGuitar-gtp TuxGuitar-jsa TuxGuitar-lilypond TuxGuitar-midi TuxGuitar-musicxml TuxGuitar-ptb TuxGuitar-tef TuxGuitar-tray TuxGuitar-tuner; do
+		cd $i
+		CLASSPATH=/usr/share/java/swt.jar:../TuxGuitar/tuxguitar.jar ant && cp *.jar $pkgdir/usr/share/tuxguitar/plugins/
+		cd ..
+	done
+
+	# And these do
+	for i in TuxGuitar-alsa TuxGuitar-jack TuxGuitar-oss; do
+		cd $i
+		CLASSPATH=/usr/share/java/swt.jar:../TuxGuitar/tuxguitar.jar ant
+		cp *.jar $pkgdir/usr/share/tuxguitar/plugins/
+		cd jni
+		sed -i "s#/usr/lib#/usr/lib$LIBDIRSUFFIX#g" GNUmakefile
+		make
+		cp *.so $pkgdir/usr/lib$LIBDIRSUFFIX
+		cd ../..
+	done
+
+	# Other plugins either don't compile or think that Agilia is in fact a Mac. <3 devs.
+}
