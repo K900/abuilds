@@ -1,0 +1,25 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=dbox
+pkgver=2.3
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A DosBOX frontend written in Java."
+
+source=("http://dbox.googlecode.com/files/dbox23.zip")
+
+adddep="dosbox"
+
+tags="xapps app-emulation"
+
+build()
+{
+	go_src_dir
+	cd ..
+	burn_patches
+	_pkgdir=$pkgdir/usr/share/$pkgname/
+	mkdir -p $_pkgdir/lib
+	cp DBox2.jar $_pkgdir
+	cp lib/*.jar $_pkgdir/lib
+	install -Dm755 $filedir/dbox $pkgdir/usr/bin/dbox
+}

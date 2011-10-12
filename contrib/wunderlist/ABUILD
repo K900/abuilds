@@ -1,0 +1,70 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=wunderlist
+pkgver=1.2.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A free and simple task manager/ToDo list"
+
+if [ "$LIBDIRSUFFIX" == "64" ]; then
+	_arch=64
+else
+	_arch=32
+fi
+_pkgname=Wunderlist
+
+source="http://www.6wunderkinder.com/downloads/wunderlist-1.2.4-linux-$_arch.tgz"
+
+tags="proprietary xapps app-pda"
+
+build()
+{
+	go_src_dir
+	burn_patches
+
+	local _pkgdir="$pkgdir/opt/$pkgname"
+	local _tlibdir="$_pkgdir/runtime/1.2.0.RC3"
+	local _slibdir="$(pwd)/runtime/1.2.0.RC3"
+
+	mkdir -p $_pkgdir $_tlibdir
+
+	# install app
+	cp -R Resources {ti,}manifest tiapp.xml installer modules $_pkgdir
+
+	# install binary
+	install -T -m 755 $_pkgname $_pkgdir/$pkgname
+
+	# install libraries
+	pushd $_slibdir
+	for lib in $_slibdir/libPoco*.so.9 libicu*.so.42 libkhost.so libmodman.so.1; do
+	  install -m 755 $lib $_tlibdir
+	done
+
+	# install certificate
+	install -m 644 rootcert.pem $_tlibdir
+
+	# link system libraries
+	for lib in gio libcurl.so.4 libhspell.so.0 libsoup-{gnome-,}2.4.so.1 \
+	  libgcrypt.so libg{lib,io,object,module,thread}-2.0.so.0 \
+	  libgcrypt.so.11; do
+	  ln -s /usr/lib$LIBDIRSUFFIX/${lib} $_tlibdir
+	done
+	ln -s /usr/lib$LIBDIRSUFFIX/libwebkit-1.0.so $_tlibdir/libwebkitgtk-1.0.so.0
+	ln -s /usr/share/webkit-1.0/webinspector $_tlibdir
+
+	# and now... some dirty, dirty hacks.........
+	ln -s "/usr/lib$LIBDIRSUFFIX/libgnutls.so.28" "$_tlibdir/libgnutls.so.26"
+	ln -s "/usr/lib$LIBDIRSUFFIX/libproxy.so.1.0.0" "$_tlibdir/libproxy.so.0"
+	ln -s "/usr/lib$LIBDIRSUFFIX/libnotify.so.4" "$_tlibdir/libnotify.so.1"
+	ln -s "/usr/lib$LIBDIRSUFFIX/libcrypto.so.1.0.0" "$_tlibdir/libcrypto.so.0.9.8"
+	ln -s "/usr/lib$LIBDIRSUFFIX/libssl.so.1.0.0" "$_tlibdir/libssl.so.0.9.8"
+	
+	# install small shell script in /usr/bin
+	mkdir -p "$pkgdir/usr/bin"
+	cat > "$pkgdir/usr/bin/$pkgname" << EOF
+#!/bin/sh
+/opt/$pkgname/$pkgname
+EOF
+	chmod 755 "$pkgdir/usr/bin/$pkgname"
+}
+

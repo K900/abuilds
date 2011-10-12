@@ -1,0 +1,16 @@
+pkgname=kdevelop-pg-qt
+pkgver=1.0
+pkgbuild=1
+arch=("auto")
+
+shortdesc=("kdevelop parser generator")
+
+tags=("kde-base kde4")
+
+source="git:git://anongit.kde.org/kdevelop-pg-qt"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIBDIRSUFFIX"
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+

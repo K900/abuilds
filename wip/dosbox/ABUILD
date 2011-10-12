@@ -1,0 +1,32 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=dosbox
+pkgver=0.74
+pkgbuild=1
+arch=('auto')
+
+shortdesc="DosBOX is a DOS emulator"
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+
+tags="xapps app-emulation"
+
+before_build()
+{
+	go_src_dir
+	sed -i 's/png_check_sig/png_sig_cmp/' configure 
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
