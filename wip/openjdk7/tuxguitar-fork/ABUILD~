@@ -45,17 +45,23 @@ plugs_prep() {
 	go_src_dir
 	mkdir -p $pkgdir/usr/{lib$LIBDIRSUFFIX,share/tuxguitar/plugins/}
 
-	for i in TuxGuitar-abc TuxGuitar-ascii TuxGuitar-browser-ftp TuxGuitar-community TuxGuitar-compat TuxGuitar-converter TuxGuitar-gervill TuxGuitar-gpx TuxGuitar-gtp TuxGuitar-jsa TuxGuitar-lilypond TuxGuitar-midi TuxGuitar-musicxml TuxGuitar-ptb TuxGuitar-tef TuxGuitar-tray TuxGuitar-tuner TuxGuitar-alsa TuxGuitar-jack TuxGuitar-oss TuxGuitar-fluidsynth; do
+	# These don't have binaries
+	for i in TuxGuitar-abc TuxGuitar-ascii TuxGuitar-browser-ftp TuxGuitar-community TuxGuitar-compat TuxGuitar-converter TuxGuitar-gervill TuxGuitar-gpx TuxGuitar-gtp TuxGuitar-jsa TuxGuitar-lilypond TuxGuitar-midi TuxGuitar-musicxml TuxGuitar-ptb TuxGuitar-tef TuxGuitar-tray TuxGuitar-tuner; do
 		cd $i
 		CLASSPATH=/usr/share/java/swt.jar:../TuxGuitar/tuxguitar.jar ant && cp *.jar $pkgdir/usr/share/tuxguitar/plugins/
-		if [ -d jni ]; then
-			cd jni
-			sed -i "s#/usr/lib#/usr/lib$LIBDIRSUFFIX#g" GNUmakefile
-			make
-			cp *.so $pkgdir/usr/lib$LIBDIRSUFFIX
-			cd ..
-		fi
 		cd ..
+	done
+
+	# And these do
+	for i in TuxGuitar-alsa TuxGuitar-jack TuxGuitar-oss TuxGuitar-fluidsynth; do
+		cd $i
+		CLASSPATH=/usr/share/java/swt.jar:../TuxGuitar/tuxguitar.jar ant
+		cp *.jar $pkgdir/usr/share/tuxguitar/plugins/
+		cd jni
+		sed -i "s#/usr/lib#/usr/lib$LIBDIRSUFFIX#g" GNUmakefile
+		make
+		cp *.so $pkgdir/usr/lib$LIBDIRSUFFIX
+		cd ../..
 	done
 
 	# Other plugins either don't compile or think that Agilia is in fact a Mac. <3 devs.
