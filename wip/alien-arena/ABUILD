@@ -1,0 +1,33 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=alien-arena
+pkgver=7.52
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A fast, fun and FREE deathmatch game!"
+
+source="http://icculus.org/alienarena/Files/alienarena-7_52-linux20110929.tar.gz"
+
+tags="games games-fps"
+
+adddep="openal alien-arena-data"
+
+after_build(){
+  mv -f "${pkgdir}/usr/bin/crx" "${pkgdir}/usr/bin/${pkgname}"
+  mv -f "${pkgdir}/usr/bin/crx-ded" "${pkgdir}/usr/bin/${pkgname}-ded"
+  rm -rf "$pkgdir/usr/share/alienarena"
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

@@ -1,21 +1,17 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=minecraft
-pkgver=1.8.1
+pkgver=9999
 pkgbuild=1
 arch=('noarch')
 
 shortdesc="Minecraft launcher."
-
 tags="games games-misc"
 
-adddep="jre"
-provides="minecraft"
-source="https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar n o"
+adddep="jre zenity"
 
 build()
 {
-	mkdir -p $pkgdir/usr/{bin,share/{minecraft,applications,pixmaps}}
-	cp $srcache/minecraft.jar $pkgdir/usr/share/minecraft
+	mkdir -p $pkgdir/usr/{bin,share/minecraft}
 	install -Dm755 $filedir/minecraft $pkgdir/usr/bin/minecraft
 }
 

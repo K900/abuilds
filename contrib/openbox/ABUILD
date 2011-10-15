@@ -1,0 +1,53 @@
+#ABUILD created by/создан: NomerUNO, uno.kms at gmail.com 
+pkgname=openbox
+pkgver=3.6.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A window manager for the X11 windowing system"
+
+source="git:git://git.icculus.org/dana/openbox.git"
+
+tags="xapps x11-wm"
+
+adddep="ConsoleKit>=0.4.1 upower>=0.9.4"
+
+before_build() {
+	go_src_dir
+	./bootstrap
+}
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--disable-debug \
+--disable-gprof \
+--disable-gprof-libc \
+--disable-strict-ansi \
+--enable-startup-notification \
+--enable-xcursor \
+--enable-imlib2 \
+--enable-xkb \
+--enable-xrandr \
+--enable-xshape \
+--enable-xinerama \
+--enable-xsync \
+--enable-session-management \
+--enable-nls \
+--disable-rpath \
+--enable-shared \
+--enable-fast-install"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build() {
+	install -Dm755 $filedir/xinitrc.openbox $pkgdir/etc/X11/xinit/xinitrc.openbox
+}
+

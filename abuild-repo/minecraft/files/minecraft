@@ -1,2 +1,8 @@
 #!/bin/sh
-java -Xmx1024M -Xms512M -cp /usr/share/minecraft/minecraft.jar net.minecraft.LauncherFrame
+pushd /usr/share/minecraft/
+wget -N --progress=bar:force https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar \
+	2>&1 | zenity --title="K900's ultra stupid Minecraft launcher" --progress --auto-close --auto-kill --width=400 --no-cancel \
+       	--text="Checking for updates/downloading launcher..."
+
+java -Xmx1024M -Xms512M -jar /usr/share/minecraft/minecraft.jar
+popd

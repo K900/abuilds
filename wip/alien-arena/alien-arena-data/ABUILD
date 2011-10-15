@@ -1,0 +1,20 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=alien-arena-data
+pkgver=7.52
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A fast, fun and FREE deathmatch game! Data files."
+
+source="http://icculus.org/alienarena/Files/alienarena-7_52-linux20110929.tar.gz"
+
+tags="games games-fps"
+
+adddep="alien-arena"
+
+build()
+{
+  go_src_dir
+  mkdir -p "${pkgdir}/usr/share/alienarena"
+  cp -r arena botinfo data1 "${pkgdir}/usr/share/alienarena"
+}
