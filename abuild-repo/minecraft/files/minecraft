@@ -1,31 +1,48 @@
 #!/bin/sh
+: ${MC_HOME:="~"}
+ABSOLUTE=$(cd $MC_HOME; pwd)
+: ${MC_MINHEAP:="256"}
+: ${MC_MAXHEAP:="1024"}
+
 wget_gui() {
 	eval wget -N --progress=bar:force $1 2>&1 | zenity --title="K900's ultra stupid Minecraft launcher" \
 		--progress --auto-close --auto-kill --width=400 --no-cancel --text="$2"
 }
 pushd /usr/share/minecraft/
 wget_gui https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar "Checking for updates..."
-mkdir -p ~/.minecraft/bin
-pushd ~/.minecraft/bin
-# JDK7 doesn't work with LWJGL < 2.8.1
-if [ -f lwjgl.jar ]; then
+mkdir -p $ABSOLUTE/.minecraft/bin
+pushd $ABSOLUTE/.minecraft/bin
+
+# JDK7 doesn't work with LWJGL < 2.8.1, so we check it
+if [ -f minecraft.jar ]; then
+	# If we have LWJGL and Java 7...
 	if java -version 2>&1 | grep -q 1.7; then
-	      unzip lwjgl.jar org/lwjgl/Sys.class
-	      if javap -p -constants org.lwjgl.Sys | grep -q 2.8.1; then
-		      lwjgl_ok=1
-	      else
-		      lwjgl_ok=0
-	      fi
-	      rm -rf org
+		if [ -f lwjgl.jar ]; then
+			# Check LWJGL version (HAXZ!!!)
+			unzip lwjgl.jar org/lwjgl/Sys.class
+			if javap -p -constants org.lwjgl.Sys | grep -q 2.8.1; then
+				lwjgl_ok=1
+			else
+				lwjgl_ok=0
+			fi
+			rm -rf org
+		else
+			# No LWJGL at all, so let's download latest :)
+			lwjgl_ok=0
+		fi
       else
+	      # We're fine as it is
 	      lwjgl_ok=1
       fi
 else
+	# The launcher will redownload anyway if there's no mc.jar
 	lwjgl_ok=1
-	if java -version 2>&1 | grep -q 1.7; then
+	# So let's notify people :)
+	if java -version 2>&1 | grep -q 1.7; then 
 		zenity --warning --text="We'll need to update LWJGL to 2.8.1 for OpenJDK7, so you will probably get a black window of death the first time you start Minecraft. Restart the game to make it work."
 	fi
 fi
+
 if [ "$lwjgl_ok" != "1" ]; then
 	# Download/install new LWJGL
 	wget_gui "http://citylan.dl.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%202.8.1/lwjgl-2.8.1.zip" "Downloading lwjgl..."
@@ -38,6 +55,8 @@ if [ "$lwjgl_ok" != "1" ]; then
 	mv lwjgl-2.8.1/native/linux/* natives
 	rm -rf lwjgl-2.8.1{,.zip}
 fi
+
 popd
-java -Xmx1024M -Xms512M -jar /usr/share/minecraft/minecraft.jar
+# Start the launcher
+java -Duser.home=$ABSOLUTE -Xmx${MAXHEAP}M -Xms${MINHEAP}M -jar /usr/share/minecraft/minecraft.jar
 popd
