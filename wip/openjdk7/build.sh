@@ -8,8 +8,8 @@ build_dep() {
 echo "=== Starting compilation..."
 echo "=== You need sudo access!"
 
-rm -rf openjdk7-packages/
-mkdir -p openjdk7-packages/
+rm -rf ~/openjdk7-packages/
+mkdir -p ~/openjdk7-packages/
 
 build_dep ca-certificates
 build_dep ca-certificates-java
@@ -22,6 +22,6 @@ build_dep xalan-java
 build_dep xerces2-java
 build_dep zlib
 
-mkpkg -pod openjdk7-packages/
+mkpkg -pod ~/openjdk7-packages/
 echo "=== Your packages are in openjdk7-packages/"
 echo "=== Enjoy!"

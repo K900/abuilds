@@ -8,6 +8,8 @@ shortdesc="Ai better/updated version of TuxGuitar"
 
 source="svn:svn://svn.code.sf.net/p/tuxguitar-fork/code/trunk "
 
+provides="tuxguitar"
+
 tags="xapps media-sound"
 
 adddep="swt"
