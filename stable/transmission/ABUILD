@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=transmission
-pkgver=2.40b1
+pkgver=2.41
 pkgbuild=2
 arch=('auto')
 
