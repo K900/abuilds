@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=fluidr3
+_pkg=FluidR3
+pkgver=12252001
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Fluid soundfont."
+
+source=""
+
+tags="libs media-sound"
+
+build()
+{
+	go_src_dir
+	install -Dm644 $srcache/${_pkg}.SF2 $pkgdir/usr/share/soundfonts/$pkgname/${_pkg}GM.SF2
+}

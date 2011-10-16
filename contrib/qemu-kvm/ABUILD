@@ -1,0 +1,46 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+pkgname=qemu-kvm
+pkgver=0.15.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="QEMU/KVM: Kernel-based virtualization"
+
+source=("http://downloads.sourceforge.net/kvm/${pkgname}-${pkgver}.tar.gz")
+
+tags="console app-emulation"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--enable-kvm \
+--mandir=/usr/man \
+--audio-drv-list=alsa,sdl,oss,esd \
+--audio-card-list=ac97,sb16,es1370,adlib,hda \
+--enable-docs \
+--enable-kvm-pit \
+--enable-kvm-device-assignment \
+--enable-vnc-thread \
+--enable-mixemu \
+--disable-brlapi"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+
+after_build()
+{
+	# Making arch for system. For x86_based (all) it's x86_64
+	qemu_arch=x86_64
+	# symbolic link for backwards compatibility
+	ln -s qemu-system-$qemu_arch ${pkgdir}/usr/bin/qemu-kvm
+	# symbolic link for to qemu binary for emulator apps
+	ln -s qemu-system-$qemu_arch ${pkgdir}/usr/bin/qemu
+	# symbolic link for to qemu binary for emulator apps
+	ln -s qemu-system-$qemu_arch ${pkgdir}/usr/bin/kvm
+	# fix man page
+	mv ${pkgdir}/usr/share/man/man1/qemu.1 ${pkgdir}/usr/man/man1/qemu-kvm.1
+	# install udev rules
+	install -D -m644 ${filedir}/65-kvm.rules ${pkgdir}/lib/udev/rules.d/65-kvm.rules
+}

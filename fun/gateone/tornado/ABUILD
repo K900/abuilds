@@ -1,0 +1,13 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=tornado
+pkgver=2.1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Facebook's asynchronous Python webserver"
+
+source="http://github.com/downloads/facebook/tornado/tornado-$pkgver.tar.gz"
+
+tags="libs www-servers"
+
+BUILD_SYSTEM="python"

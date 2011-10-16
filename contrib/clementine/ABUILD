@@ -1,0 +1,34 @@
+#ABUILD created by/создан: NK, nk-man at yandex.ru 
+pkgname=clementine
+pkgver=0.7.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Clementine Music Player based on Amarok 1.4"
+source=("svn:http://clementine-player.googlecode.com/svn/trunk/")
+tags="media-sound xapps"
+
+adddep="gst-ffmpeg gst-plugins-ugly gst-plugins-good" 
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="\
+-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+-DENGINE_GSTREAMER_ENABLED=ON \
+-DENGINE_LIBVLC_ENABLED=OFF \
+-DENGINE_LIBXINE_ENABLED=OFF \
+-DENGINE_QT_PHONON_ENABLED=OFF \
+-DENABLE_VISUALISATIONS=ON \
+-DENABLE_SOUNDMENU=OFF \
+-DSTATIC_SQLITE=OFF \
+-DENABLE_SCRIPTING_PYTHON=ON \
+../"
+
+after_build()
+{
+	if [ -d $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ ]; then 
+		rm -rf $pkgdir/usr/doc/${pkgname}-${pkgver}/doc/ || exit 1
+	fi
+}

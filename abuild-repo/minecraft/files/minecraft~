@@ -1,5 +1,5 @@
 #!/bin/sh
-: ${MC_HOME:=$HOME}
+: ${MC_HOME:="~"}
 ABSOLUTE=$(cd $MC_HOME; pwd)
 : ${MC_MINHEAP:="256"}
 : ${MC_MAXHEAP:="1024"}
@@ -58,5 +58,5 @@ fi
 
 popd
 # Start the launcher
-java -Duser.home=$ABSOLUTE -Xmx${MC_MAXHEAP}M -Xms${MC_MINHEAP}M -jar /usr/share/minecraft/minecraft.jar
+java -Duser.home=$ABSOLUTE -Xmx${MAXHEAP}M -Xms${MINHEAP}M -jar /usr/share/minecraft/minecraft.jar
 popd
