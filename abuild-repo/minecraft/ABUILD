@@ -7,11 +7,10 @@ arch=('noarch')
 shortdesc="Minecraft launcher."
 tags="games games-misc"
 
-adddep="jre zenity"
+adddep="jre zenity bash wget"
 
 build()
 {
-	mkdir -p $pkgdir/usr/{bin,share/minecraft}
 	install -Dm755 $filedir/minecraft $pkgdir/usr/bin/minecraft
 }
 

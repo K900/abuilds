@@ -1,0 +1,192 @@
+#ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
+#ABUILD rewritten by/переписан: K900, k0009000 at gmail.com
+pkgname=fglrx
+pkgver=11.8
+pkgbasever=${pkgver}
+srcver=$(echo $pkgver | sed "s/\./-/g")
+mesaver=7.11
+kernelver=$(uname -r)
+pkgbuild=1
+pkgbasebuild=${pkgbuild}
+arch=('auto')
+
+shortdesc="Server X Driver for ATI proprietary driver"
+
+source="http://www2.ati.com/drivers/linux/ati-driver-installer-$srcver-x86.x86_64.run"
+
+tags="proprietary x11-drivers drivers x86"
+
+adddep="fglrx-module=${pkgver} libgl-fglrx libglx-fglrx fglrx-xorg mesa xorg-server"
+
+pkglist="fglrx-module libglx-fglrx libgl-fglrx fglrx-xorg"
+
+fglrx-module() {
+    pkgname=fglrx-module
+    shortdesc="The module of kernel for the ATI proprietary driver"
+    adddep="kernel=${kernelver} fglrx=${pkgbasever}"
+    pkgver=${pkgbasever}
+    pkgbuild=${kernelver}_${pkgbasebuild}
+}
+
+libglx-fglrx() {
+    shortdesc="libglx from fglrx driver. Replaces xorg-based libglx package for ati users"
+    adddep="fglrx=${pkgbasever}"
+    pkgver=${mesaver}
+    pkgbuild=${pkgbasever}_${pkgbasebuild}
+    pkgname=libglx-fglrx
+    provides=libglx
+}
+
+libgl-fglrx() {
+    pkgname=libgl-fglrx
+    shortdesc="libGL from fglrx driver. Replaces mesa-based libgl package for ari users"  
+    provides=libgl
+    adddep="fglrx=${pkgbasever}"
+    pkgver=${mesaver}
+    pkgbuild=${pkgbasever}_${pkgbasebuild}
+}
+
+fglrx-xorg() {
+    pkgname=fglrx-xorg
+    shortdesc="X.Org modules from fglrx driver."  
+    adddep="fglrx=${pkgbasever}"
+}
+
+build() {
+	# Extract package
+	/bin/sh $srcache/ati-driver-installer-${pkgver/./-}-x86.x86_64.run --extract archive_files
+}
+
+fglrx-module_prep()
+{
+    	go_src_dir
+
+	if [ "$LIBDIRSUFFIX" == "64" ]; then
+		BUILDARCH=x86_64
+		_archdir=x86_64
+	else
+		BUILDARCH=i386
+		_archdir=x86
+	fi
+	
+	unset CFLAGS
+	unset LDFLAGS
+	unset CXXFLAGS
+	
+	. $filedir/ati_make.sh
+	_ati_check
+
+	burn_patches
+
+	_dir=$(pwd)
+	cd common/lib/modules/fglrx/build_mod
+	cp ${_dir}/arch/${_archdir}/lib/modules/fglrx/build_mod/libfglrx_ip.a .
+	cp 2.6.x/Makefile . 
+	# MAKE!
+	make -C /lib/modules/${kernelver}/build SUBDIRS="$(pwd)" ARCH=${BUILDARCH} \
+	      MODFLAGS="-DMODULE -DATI -DFGL -DPAGE_ATTR_FIX=$PAGE_ATTR_FIX -DCOMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE $def_smp $def_modversions" \
+	      PAGE_ATTR_FIX=$PAGE_ATTR_FIX COMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE modules || bash
+
+	install -m755 -d ${pkgdir}/lib/modules/${kernelver}/video/
+	install -m644 fglrx.ko ${pkgdir}/lib/modules/${kernelver}/video/
+}
+
+fglrx-xorg_prep()
+{
+	go_src_dir
+	if [ "$LIBDIRSUFFIX" == "64" ]; then
+	    cd xpic_64a/usr/X11R6/lib64/modules
+	    _arch=x86_64
+	else
+	    cd xpic/usr/X11R6/lib/modules
+	    _arch=x86
+	fi
+	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/{dri,drivers,linux}
+	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/dri
+
+	install -m755 *.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/
+	install -m755 drivers/*.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/drivers/
+	install -m755 linux/*.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/linux/
+
+	go_src_dir
+	cd arch/$_arch/usr/X11R6/lib$LIBDIRSUFFIX/modules/
+	install -m755 dri/*.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/dri/
+	ln -snf /usr/lib$LIBDIRSUFFIX/xorg/modules/dri/fglrx_dri.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/dri/fglrx_dri.so
+}
+
+libglx-fglrx_prep() {
+	go_src_dir
+	if [ "$LIBDIRSUFFIX" == "64" ]; then
+	    cd xpic_64a/usr/X11R6/lib64/modules
+	else
+	    cd xpic/usr/X11R6/lib/modules
+	fi
+	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/extensions/fglrx/
+
+	install -m755 extensions/fglrx/fglrx-libglx.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/extensions/fglrx/fglrx-libglx.so
+	ln -snf /usr/lib$LIBDIRSUFFIX/xorg/modules/extensions/fglrx/fglrx-libglx.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/extensions/libglx.so
+}
+
+after_build()
+{
+	go_src_dir
+	if [ "$LIBDIRSUFFIX" == "64" ]; then
+		cd arch/x86_64/usr
+	else
+		cd arch/x86/usr
+	fi
+	
+	mkdir -p ${pkgdir}/usr/{bin,sbin,lib$LIBDIRSUFFIX}
+	mkdir -p ${pkgdir}/usr/include/{X11/extensions,GL}
+	mkdir -p ${pkgdir}/usr/share/{ati/amdcccle,man/man8,pixmaps}
+
+	install -m755 X11R6/bin/* ${pkgdir}/usr/bin/
+	install -m755 sbin/* ${pkgdir}/usr/sbin/
+	install -m755 X11R6/lib$LIBDIRSUFFIX/libAMDXvBA.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+	ln -snf libAMDXvBA.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libAMDXvBA.so.1
+	ln -snf libAMDXvBA.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libAMDXvBA.so
+	install -m755 X11R6/lib$LIBDIRSUFFIX/libatiadlxx.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+	install -m755 X11R6/lib$LIBDIRSUFFIX/libfglrx_dm.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+	install -m755 X11R6/lib$LIBDIRSUFFIX/libXvBAW.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/
+	ln -snf libXvBAW.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libXvBAW.so.1
+	ln -snf libXvBAW.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libXvBAW.so
+	install -m644 X11R6/lib$LIBDIRSUFFIX/*.a ${pkgdir}/usr/lib$LIBDIRSUFFIX
+	install -m644 X11R6/lib$LIBDIRSUFFIX/*.cap ${pkgdir}/usr/lib$LIBDIRSUFFIX
+	install -m755 lib$LIBDIRSUFFIX/*.so* ${pkgdir}/usr/lib$LIBDIRSUFFIX
+
+	ln -snf libfglrx_dm.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libfglrx_dm.so.1
+	ln -snf libfglrx_dm.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libfglrx_dm.so
+	ln -snf libatiuki.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libatiuki.so.1
+	ln -snf libatiuki.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libatiuki.so
+
+	go_src_dir
+	cd common/
+	mkdir -p ${pkgdir}/etc/ati
+	install -m644 etc/ati/* ${pkgdir}/etc/ati/
+	chmod 755 ${pkgdir}/etc/ati/authatieventsd.sh
+
+	install -m644 usr/X11R6/bin/amdupdaterandrconfig ${pkgdir}/usr/bin/
+	install -m644 usr/include/GL/*.h ${pkgdir}/usr/include/GL/
+	install -m755 usr/sbin/*.sh ${pkgdir}/usr/sbin/
+	install -m644 usr/share/ati/amdcccle/* ${pkgdir}/usr/share/ati/amdcccle/
+	install -m644 usr/share/icons/*.xpm ${pkgdir}/usr/share/pixmaps/
+	install -m644 usr/share/man/man8/*.8 ${pkgdir}/usr/share/man/man8/
+}
+
+libgl-fglrx_prep() {
+	go_src_dir
+	if [ "$LIBDIRSUFFIX" == "64" ]; then
+		cd arch/x86_64/usr
+	else
+		cd arch/x86/usr
+	fi
+
+	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/fglrx
+
+	install -m755 X11R6/lib$LIBDIRSUFFIX/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/fglrx
+	ln -snf /usr/lib$LIBDIRSUFFIX/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/fglrx/libGL.so.1.2
+	ln -snf /usr/lib$LIBDIRSUFFIX/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/fglrx-libGL.so.1.2
+	ln -snf /usr/lib$LIBDIRSUFFIX/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libGL.so.1.2
+	ln -snf /usr/lib$LIBDIRSUFFIX/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libGL.so.1
+	ln -snf /usr/lib$LIBDIRSUFFIX/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libGL.so
+}

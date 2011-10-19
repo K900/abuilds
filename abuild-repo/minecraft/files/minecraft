@@ -8,9 +8,13 @@ wget_gui() {
 	eval wget -N --progress=bar:force $1 2>&1 | zenity --title="K900's ultra stupid Minecraft launcher" \
 		--progress --auto-close --auto-kill --width=400 --no-cancel --text="$2"
 }
-pushd /usr/share/minecraft/
-wget_gui https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar "Checking for updates..."
+
+# Make our dirs
 mkdir -p $ABSOLUTE/.minecraft/bin
+
+# Download the launcher
+pushd $ABSOLUTE/.minecraft/
+wget_gui https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar "Checking for updates..."
 pushd $ABSOLUTE/.minecraft/bin
 
 # JDK7 doesn't work with LWJGL < 2.8.1, so we check it
@@ -58,5 +62,5 @@ fi
 
 popd
 # Start the launcher
-java -Duser.home=$ABSOLUTE -Xmx${MC_MAXHEAP}M -Xms${MC_MINHEAP}M -jar /usr/share/minecraft/minecraft.jar
+java -Duser.home=$ABSOLUTE -Xmx${MC_MAXHEAP}M -Xms${MC_MINHEAP}M -jar $ABSOLUTE/.minecraft/minecraft.jar
 popd
