@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=minecraft-sp
+pkgver=9999
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Minecraft c***ed launcher."
+tags="games games-misc"
+
+adddep="jre zenity"
+
+build()
+{
+	mkdir -p $pkgdir/usr/{bin,share/minecraft-sp}
+	install -Dm755 $filedir/minecraft-sp.jar $pkgdir/usr/share/minecraft-sp/minecraft-sp.jar
+	install -Dm755 $filedir/minecraft-sp $pkgdir/usr/bin/minecraft-sp
+}
+

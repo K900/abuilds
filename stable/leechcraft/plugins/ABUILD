@@ -110,7 +110,7 @@ auscrie_prep()
 azoth()
 {
 	pkgname=leechcraft-azoth
-	shortdesc="Azoth LastSeen displays when a contact has been online and available for the list time."
+	shortdesc="Azoth Isterique fixes excessive CAPS LOCK usage in incoming messages."
 }
 
 azoth_prep()
@@ -357,6 +357,30 @@ kinotify_prep()
 {
 	go_src_dir
 	cd src/plugins/kinotify
+	
+	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER -DCMAKE_BUILD_TYPE=Release -DLIB_SUFFIX=${LIBDIRSUFFIX} -DCMAKE_INSTALL_PREFIX=/usr -DRESPECTLIB64:BOOL=TRUE ../"
+	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
+
+	rm -rf build
+	mkdir build
+	cd build
+
+	cmake $BUILD_KEYS
+	make
+	make $INSTALL_KEYS install
+}
+
+
+knowhow()
+{
+	pkgname=leechcraft-knowhow
+	shortdesc="A simple plugin providing various tips of the day regarding LeechCraft."
+}
+
+knowhow_prep()
+{
+	go_src_dir
+	cd src/plugins/knowhow
 	
 	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER -DCMAKE_BUILD_TYPE=Release -DLIB_SUFFIX=${LIBDIRSUFFIX} -DCMAKE_INSTALL_PREFIX=/usr -DRESPECTLIB64:BOOL=TRUE ../"
 	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
@@ -778,4 +802,4 @@ vgrabber_prep()
 	make $INSTALL_KEYS install
 }
 
-pkglist=" advancednotifications aggregator anhero auscrie azoth bittorrent blackdash cstp dbusmanager deadlyrics glance gmailnotifier historyholder juffed kinotify lackman lcftp lmp networkmonitor newlife otzerkalu popishu poshuku potorchu secman seekthru shellopen summary syncer tabpp tabslist vgrabber"
+pkglist=" advancednotifications aggregator anhero auscrie azoth bittorrent blackdash cstp dbusmanager deadlyrics glance gmailnotifier historyholder juffed kinotify knowhow lackman lcftp lmp networkmonitor newlife otzerkalu popishu poshuku potorchu secman seekthru shellopen summary syncer tabpp tabslist vgrabber"
