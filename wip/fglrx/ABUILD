@@ -19,6 +19,7 @@ tags="$xtags x86"
 adddep="fglrx-module=${pkgver} libgl-fglrx=${pkgver} libglx-fglrx=${pkgver} fglrx-xorg=${pkgver} mesa xorg-server"
 
 pkglist="fglrx-module libglx-fglrx libgl-fglrx fglrx-xorg"
+[ "$LIBDIRSUFFIX" == "64" ] && pkglist="$pkglist libgl32-fglrx"
 #pkglist="fglrx-module fglrx-xorg libglx-fglrx libgl-fglrx" # BREAKS!
 
 fglrx-module() {
@@ -41,6 +42,14 @@ libgl-fglrx() {
     pkgname=libgl-fglrx
     provides=libgl
     shortdesc="ATI proprietary driver - libGL files"
+    pkgver=${mesaver}_${p_pkgver}
+    tags=$xtags
+}
+
+libgl32-fglrx() {
+    pkgname=libgl32-fglrx
+    provides=libgl32
+    shortdesc="ATI proprietary driver - libGL files compat32"
     pkgver=${mesaver}_${p_pkgver}
     tags=$xtags
 }
@@ -135,6 +144,20 @@ libgl-fglrx_prep() {
 	ln -snf /usr/lib$LIBDIRSUFFIX/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libGL.so.1.2
 	ln -snf /usr/lib$LIBDIRSUFFIX/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libGL.so.1
 	ln -snf /usr/lib$LIBDIRSUFFIX/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libGL.so
+}
+
+libgl32-fglrx_prep() {
+	go_src_dir
+	cd arch/x86/usr/
+
+	mkdir -p ${pkgdir}/usr/lib/fglrx
+	# INSTALL LIBGL. SYMLINX!
+	install -m755 X11R6/lib/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/fglrx
+	ln -snf /usr/lib/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/fglrx/libGL.so.1.2
+	ln -snf /usr/lib/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/fglrx-libGL.so.1.2
+	ln -snf /usr/lib/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/libGL.so.1.2
+	ln -snf /usr/lib/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/libGL.so.1
+	ln -snf /usr/lib/fglrx/fglrx-libGL.so.1.2 ${pkgdir}/usr/lib/libGL.so
 }
 
 after_build()
