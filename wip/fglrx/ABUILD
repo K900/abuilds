@@ -99,7 +99,7 @@ fglrx-module_prep()
 	# MAKE!
 	make -C /lib/modules/${kernelver}/build SUBDIRS="$(pwd)" ARCH=${module_arch} \
 	      MODFLAGS="-DMODULE -DATI -DFGL -DPAGE_ATTR_FIX=$PAGE_ATTR_FIX -DCOMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE $def_smp $def_modversions" \
-	      PAGE_ATTR_FIX=$PAGE_ATTR_FIX COMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE modules || bash
+	      PAGE_ATTR_FIX=$PAGE_ATTR_FIX COMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE modules
 
 	install -m755 -d ${pkgdir}/lib/modules/${kernelver}/video/
 	install -m644 fglrx.ko ${pkgdir}/lib/modules/${kernelver}/video/
