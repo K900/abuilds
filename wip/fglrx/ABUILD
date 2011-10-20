@@ -6,7 +6,6 @@ srcver=$(echo $pkgver | sed "s/\./-/g")
 mesaver=7.11
 kernelver=$(uname -r)
 pkgbuild=1
-p_pkgbuild=$pkgbuild
 arch=('auto')
 
 shortdesc="ATI proprietary driver - meta and binary package"
@@ -17,7 +16,7 @@ xtags="proprietary x11-drivers drivers"
 
 tags="$xtags x86"
 
-adddep="fglrx-module=${pkgver} libgl-fglrx libglx-fglrx fglrx-xorg mesa xorg-server"
+adddep="fglrx-module=${pkgver} libgl-fglrx=${pkgver} libglx-fglrx=${pkgver} fglrx-xorg=${pkgver} mesa xorg-server"
 
 pkglist="fglrx-module libglx-fglrx libgl-fglrx fglrx-xorg"
 #pkglist="fglrx-module fglrx-xorg libglx-fglrx libgl-fglrx" # BREAKS!
@@ -26,7 +25,7 @@ fglrx-module() {
     pkgname=fglrx-module
     shortdesc="ATI proprietary driver - kernel module"
     adddep="kernel=${kernelver}"
-    pkgbuild=${kernelver}_${p_pkgbuild}
+    pkgver=${p_pkgver}_${kernelver}
     tags=$xtags
 }
 
@@ -34,8 +33,7 @@ libglx-fglrx() {
     pkgname=libglx-fglrx
     provides=libglx
     shortdesc="ATI proprietary driver - libGLX files"
-    pkgver=${mesaver}
-    pkgbuild=${p_pkgver}_${p_pkgbuild}
+    pkgver=${mesaver}_${p_pkgver}
     tags=$xtags
 }
 
@@ -43,8 +41,7 @@ libgl-fglrx() {
     pkgname=libgl-fglrx
     provides=libgl
     shortdesc="ATI proprietary driver - libGL files"
-    pkgver=${mesaver}
-    pkgbuild=${p_pkgver}_${p_pkgbuild}
+    pkgver=${mesaver}_${p_pkgver}
     tags=$xtags
 }
 
@@ -59,17 +56,21 @@ build() {
 	/bin/sh $srcache/ati-driver-installer-${pkgver/./-}-x86.x86_64.run --extract archive_files
 }
 
+if [ "$LIBDIRSUFFIX" == "64" ]; then
+	module_arch=x86_64
+	bin_arch=x86_64
+	xorg_path=xpic_64a/usr/X11R6/lib64/modules
+else
+	module_arch=i386
+	bin_arch=x86
+	xorg_path=xpic/usr/X11R6/lib/modules
+fi
+
+
 fglrx-module_prep()
 {
     	go_src_dir
 
-	if [ "$LIBDIRSUFFIX" == "64" ]; then
-		BUILDARCH=x86_64
-		_archdir=x86_64
-	else
-		BUILDARCH=i386
-		_archdir=x86
-	fi
 	
 	unset CFLAGS
 	unset LDFLAGS
@@ -82,10 +83,10 @@ fglrx-module_prep()
 
 	_dir=$(pwd)
 	cd common/lib/modules/fglrx/build_mod
-	cp ${_dir}/arch/${_archdir}/lib/modules/fglrx/build_mod/libfglrx_ip.a .
+	cp ${_dir}/arch/${bin_arch}/lib/modules/fglrx/build_mod/libfglrx_ip.a .
 	cp 2.6.x/Makefile . 
 	# MAKE!
-	make -C /lib/modules/${kernelver}/build SUBDIRS="$(pwd)" ARCH=${BUILDARCH} \
+	make -C /lib/modules/${kernelver}/build SUBDIRS="$(pwd)" ARCH=${module_arch} \
 	      MODFLAGS="-DMODULE -DATI -DFGL -DPAGE_ATTR_FIX=$PAGE_ATTR_FIX -DCOMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE $def_smp $def_modversions" \
 	      PAGE_ATTR_FIX=$PAGE_ATTR_FIX COMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE modules || bash
 
@@ -96,13 +97,7 @@ fglrx-module_prep()
 fglrx-xorg_prep()
 {
 	go_src_dir
-	if [ "$LIBDIRSUFFIX" == "64" ]; then
-	    cd xpic_64a/usr/X11R6/lib64/modules
-	    _arch=x86_64
-	else
-	    cd xpic/usr/X11R6/lib/modules
-	    _arch=x86
-	fi
+	cd $xorg_path
 
 	# INSTALL XORG LIBS
 	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/{dri,drivers,linux}
@@ -112,7 +107,7 @@ fglrx-xorg_prep()
 
 	# INSTALL DRI MODULES
 	go_src_dir
-	cd arch/$_arch/usr/X11R6/lib$LIBDIRSUFFIX/modules/
+	cd arch/$bin_arch/usr/X11R6/lib$LIBDIRSUFFIX/modules/
 	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/dri
 	install -m755 dri/*.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/dri/
 	ln -snf /usr/lib$LIBDIRSUFFIX/xorg/modules/dri/fglrx_dri.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/dri/fglrx_dri.so
@@ -120,11 +115,7 @@ fglrx-xorg_prep()
 
 libglx-fglrx_prep() {
 	go_src_dir
-	if [ "$LIBDIRSUFFIX" == "64" ]; then
-	    cd xpic_64a/usr/X11R6/lib64/modules
-	else
-	    cd xpic/usr/X11R6/lib/modules
-	fi
+	cd $xorg_path
 
 	# INSTALL LIBGLX
 	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/xorg/modules/extensions/fglrx/
@@ -134,11 +125,7 @@ libglx-fglrx_prep() {
 
 libgl-fglrx_prep() {
 	go_src_dir
-	if [ "$LIBDIRSUFFIX" == "64" ]; then
-		cd arch/x86_64/usr
-	else
-		cd arch/x86/usr
-	fi
+	cd arch/$bin_arch/usr/
 
 	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/fglrx
 	# INSTALL LIBGL. SYMLINX!
@@ -153,15 +140,11 @@ libgl-fglrx_prep() {
 after_build()
 {
 	go_src_dir
-	if [ "$LIBDIRSUFFIX" == "64" ]; then
-		cd arch/x86_64/usr
-	else
-		cd arch/x86/usr
-	fi
+	cd arch/$bin_arch/usr/
 	
-	mkdir -p ${pkgdir}/usr/{bin,sbin,lib$LIBDIRSUFFIX}
-	mkdir -p ${pkgdir}/usr/include/{X11/extensions,GL}
-	mkdir -p ${pkgdir}/usr/share/{ati/amdcccle,man/man8,pixmaps}
+	mkdir -p ${pkgdir}/usr/{bin,sbin,lib$LIBDIRSUFFIX,man/man8}
+	mkdir -p ${pkgdir}/usr/include/GL
+	mkdir -p ${pkgdir}/usr/share/{applications,ati/amdcccle,pixmaps}
 
 	# CCC + LIBS + SYMLINX
 	install -m755 X11R6/bin/* ${pkgdir}/usr/bin/
@@ -194,5 +177,6 @@ after_build()
 	install -m755 usr/sbin/*.sh ${pkgdir}/usr/sbin/
 	install -m644 usr/share/ati/amdcccle/* ${pkgdir}/usr/share/ati/amdcccle/
 	install -m644 usr/share/icons/*.xpm ${pkgdir}/usr/share/pixmaps/
-	install -m644 usr/share/man/man8/*.8 ${pkgdir}/usr/share/man/man8/
+	install -m644 usr/share/man/man8/*.8 ${pkgdir}/usr/man/man8/
+	install -m644 usr/share/applications/* ${pkgdir}/usr/share/applications/
 }
