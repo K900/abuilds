@@ -213,10 +213,11 @@ after_build()
 
 	go_src_dir
 	cd common/
-	mkdir -p ${pkgdir}/etc/ati
+	mkdir -p ${pkgdir}/etc/{ati,init.d}
 	install -m644 etc/ati/* ${pkgdir}/etc/ati/
 	chmod 755 ${pkgdir}/etc/ati/authatieventsd.sh
 
+	install -m755 ${filedir}/atieventsd.init ${pkgdir}/etc/init.d/atieventsd
 	install -m644 usr/X11R6/bin/amdupdaterandrconfig ${pkgdir}/usr/bin/
 	install -m644 usr/include/GL/*.h ${pkgdir}/usr/include/GL/
 	install -m755 usr/sbin/*.sh ${pkgdir}/usr/sbin/
