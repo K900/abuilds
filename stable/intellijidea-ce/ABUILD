@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=jetbrains-ides
-pkgver=110.3_idea-eap-ultimate
+pkgver=110.187_idea-eap-ultimate
 
 # HAAAAACKS >>>
 if [ "$filedir" == "" ]; then
@@ -63,7 +63,7 @@ build()
 	
 	# launcher
 	# This makes it shut up when running on OpenJDK
-	sed "s/read IGNORE//g" -i /usr/share/$pkgname/bin/$launcher
+	sed "s/read IGNORE//g" -i $pkgdir/usr/share/$pkgname/bin/$launcher
 	echo "#!/bin/sh
 exec /usr/share/$pkgname/bin/$launcher $*" > $pkgdir/usr/bin/$pkgname
 	chmod +x $pkgdir/usr/bin/$pkgname
