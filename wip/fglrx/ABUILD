@@ -188,7 +188,7 @@ after_build()
 
 	mkdir -p ${pkgdir}/usr/doc/fglrx-$pkgver/
 	eval $(head -n20 ~/.mkpkg/source_cache/ati-driver-installer-11-8-x86.x86_64.run  | grep label)
-	echo $label > ${pkgdir}/usr/doc/fglrx/ATI-VERSION
+	echo $label > ${pkgdir}/usr/doc/fglrx-$pkgver/ATI-VERSION
 
 	cd arch/$bin_arch/usr/
 	
