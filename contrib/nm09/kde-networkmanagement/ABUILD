@@ -1,22 +1,17 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kde-networkmanagement
-pkgver=0.9
+pkgver=0.8.90
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Network management stuff from KDE extragear, includes KNetworkManager"
 
-source="git:git://anongit.kde.org/networkmanagement" # BROKEN BROKEN BROKEN BROKEN 
-#source="http://download.kde.org/download.php?url=unstable/networkmanagement/0.8.80/src/networkmanagement-0.8.80.tar.bz2"
+#source="git:git://anongit.kde.org/networkmanagement"
+source="http://download.kde.org/download.php?url=unstable/networkmanagement/$pkgver/src/networkmanagement-$pkgver.tar.bz2"
 
 tags="kde4 kde-misc"
 
 adddep="NetworkManager"
-
-before_build() {
-	go_src_dir
-	git checkout nm09
-}
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \

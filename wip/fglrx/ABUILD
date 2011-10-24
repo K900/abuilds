@@ -3,7 +3,7 @@
 pkgname=fglrx
 pkgver=11.8
 srcver=$(echo $pkgver | sed "s/\./-/g")
-mesaver=7.11
+mesaver=$(mpkg-show mesa | head -n 1 | cut -d " " -f 2 | cut -d- -f1)
 kernelver=$(uname -r)
 pkgbuild=1
 arch=('auto')
@@ -185,6 +185,11 @@ libgl32-fglrx_prep() {
 after_build()
 {
 	go_src_dir
+
+	mkdir -p ${pkgdir}/usr/doc/fglrx-$pkgver/
+	eval $(head -n20 ~/.mkpkg/source_cache/ati-driver-installer-11-8-x86.x86_64.run  | grep label)
+	echo $label > ${pkgdir}/usr/doc/fglrx/ATI-VERSION
+
 	cd arch/$bin_arch/usr/
 	
 	mkdir -p ${pkgdir}/usr/{bin,sbin,lib$LIBDIRSUFFIX,man/man8}
