@@ -1,10 +1,11 @@
 #ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
 #ABUILD rewritten by/переписан: K900, k0009000 at gmail.com
 pkgname=fglrx
-pkgver=11.8
+pkgver=11.10
 srcver=$(echo $pkgver | sed "s/\./-/g")
 mesaver=$(mpkg-show mesa | head -n 1 | cut -d " " -f 2 | cut -d- -f1)
-kernelver=$(uname -r)
+KERNEL=${KERNEL:-$(uname -r)}
+KERNELPATH=${KERNELPATH:-/lib/modules/${KERNEL}/build}
 pkgbuild=1
 arch=('auto')
 
@@ -18,16 +19,14 @@ tags="$xtags x86"
 
 adddep="fglrx-module libgl-fglrx libglx-fglrx fglrx-xorg mesa xorg-server"
 
-pkglist="fglrx-module libglx-fglrx libgl-fglrx libgl32-fglrx fglrx-xorg"
-
-#pkglist="libgl32-fglrx $pkglist" # MKPKG TEST CASE 1
-#pkglist="fglrx-module fglrx-xorg libglx-fglrx libgl-fglrx" # MKPKG TEST CASE 2
+pkglist="fglrx-module libglx-fglrx libgl-fglrx fglrx-xorg libgl32-fglrx"
+#if [ "$LIBDIRSUFFIX" == "64" ]; then pkglist="$pkglist libgl32-fglrx"; fi
 
 fglrx-module() {
     	pkgname=fglrx-module
     	shortdesc="ATI proprietary driver - kernel module"
-	adddep="kernel=${kernelver}"
-    	pkgver=${p_pkgver}_${kernelver}
+	adddep="kernel=${KERNEL}"
+    	pkgver=${p_pkgver}_${KERNEL}
     	tags=$xtags
 }
 
@@ -53,6 +52,8 @@ libgl32-fglrx() {
     shortdesc="ATI proprietary driver - libGL files compat32"
     pkgver=${mesaver}_${p_pkgver}
     tags="x11-drivers compat32 x86 proprietary"
+    custom_opts="skip_gendeps"
+    adddep="fglrx"
     arch="x86_64"
 }
 
@@ -87,7 +88,7 @@ fglrx-module_prep()
 	unset LDFLAGS
 	unset CXXFLAGS
 	
-	. $filedir/ati_make.sh
+	kernelver=$KERNEL . $filedir/ati_make.sh
 	_ati_check
 
 	burn_patches
@@ -97,12 +98,12 @@ fglrx-module_prep()
 	cp ${_dir}/arch/${bin_arch}/lib/modules/fglrx/build_mod/libfglrx_ip.a .
 	cp 2.6.x/Makefile . 
 	# MAKE!
-	make -C /lib/modules/${kernelver}/build SUBDIRS="$(pwd)" ARCH=${module_arch} \
+	make -C /lib/modules/${KERNEL}/build SUBDIRS="$(pwd)" ARCH=${module_arch} KDIR=${KERNELPATH} \
 	      MODFLAGS="-DMODULE -DATI -DFGL -DPAGE_ATTR_FIX=$PAGE_ATTR_FIX -DCOMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE $def_smp $def_modversions" \
 	      PAGE_ATTR_FIX=$PAGE_ATTR_FIX COMPAT_ALLOC_USER_SPACE=$COMPAT_ALLOC_USER_SPACE modules
 
-	install -m755 -d ${pkgdir}/lib/modules/${kernelver}/video/
-	install -m644 fglrx.ko ${pkgdir}/lib/modules/${kernelver}/video/
+	install -m755 -d ${pkgdir}/lib/modules/${KERNEL}/video/
+	install -m644 fglrx.ko ${pkgdir}/lib/modules/${KERNEL}/video/
 }
 
 fglrx-xorg_prep()

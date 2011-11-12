@@ -10,14 +10,13 @@ tags="network www-client"
 build()
 {
 	go_src_dir
-	export LCVER=$(git describe)
+	export LCVER=$(git describe)-AgiliaLinux
 	echo Building Leechcraft $LCVER
 
 	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER \
 			-DCMAKE_BUILD_TYPE=Release \
 			-DLIB_SUFFIX=${LIBDIRSUFFIX} \
 			-DCMAKE_INSTALL_PREFIX=/usr \
-			-DRESPECTLIB64:BOOL=TRUE \
 			../src \
 		-DENABLE_HTTP=OFF \
 		-DENABLE_POSHUKU=OFF \

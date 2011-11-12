@@ -20,14 +20,16 @@ build()
 	autoreconf --force --install
 	./configure --prefix=/usr --with-jdk-home=/opt/openjdk7 --libdir=/usr/lib$LIBDIRSUFFIX --docdir=/usr/doc/$pkgname
 
-	make -j$numjobs
-	make DESTDIR=$pkgdir install-exec-local install-data-local
+	make -j$numjobs || echo "MAKE FAIL"
+	make DESTDIR=$pkgdir install-exec-local install-data-local || echo "INSTALL FAIL"
 
 	# Install desktop files
 	mkdir -p ${pkgdir}/usr/share/{applications,pixmaps}
 	install -m644 javaws.png ${pkgdir}/usr/share/pixmaps
 	install -m644 {javaws,itweb-settings}.desktop ${pkgdir}/usr/share/applications
 
+	echo "DESKTOP OK"
 	mkdir -p ${pkgdir}/usr/lib$LIBDIRSUFFIX/mozilla/plugins/
 	ln -sf /usr/lib$LIBDIRSUFFIX/IcedTeaPlugin.so ${pkgdir}/usr/lib$LIBDIRSUFFIX/mozilla/plugins/
+	echo "SYMLINK OK"
 }

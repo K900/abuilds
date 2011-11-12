@@ -587,30 +587,6 @@ poshuku_prep()
 }
 
 
-potorchu()
-{
-	pkgname=leechcraft-potorchu
-	shortdesc="[ II ] potorchu : Leechcraft plugin potorchu"
-}
-
-potorchu_prep()
-{
-	go_src_dir
-	cd src/plugins/potorchu
-	
-	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER -DCMAKE_BUILD_TYPE=Release -DLIB_SUFFIX=${LIBDIRSUFFIX} -DCMAKE_INSTALL_PREFIX=/usr -DRESPECTLIB64:BOOL=TRUE ../"
-	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
-
-	rm -rf build
-	mkdir build
-	cd build
-
-	cmake $BUILD_KEYS
-	make
-	make $INSTALL_KEYS install
-}
-
-
 secman()
 {
 	pkgname=leechcraft-secman
@@ -802,4 +778,4 @@ vgrabber_prep()
 	make $INSTALL_KEYS install
 }
 
-pkglist=" advancednotifications aggregator anhero auscrie azoth bittorrent blackdash cstp dbusmanager deadlyrics glance gmailnotifier historyholder juffed kinotify knowhow lackman lcftp lmp networkmonitor newlife otzerkalu popishu poshuku potorchu secman seekthru shellopen summary syncer tabpp tabslist vgrabber"
+pkglist=" advancednotifications aggregator anhero auscrie azoth bittorrent blackdash cstp dbusmanager deadlyrics glance gmailnotifier historyholder juffed kinotify knowhow lackman lcftp lmp networkmonitor newlife otzerkalu popishu poshuku secman seekthru shellopen summary syncer tabpp tabslist vgrabber"

@@ -15,6 +15,7 @@ then
 	fxname="Nightly"
 	shortdesc="Mozilla Firefox Nightly builds. The latest and greatest, yet often broken."
 	source=("ftp://ftp.mozilla.org/pub/firefox/nightly/latest-mozilla-central-l10n/firefox-$fxver.ru.linux-$ARCH.tar.bz2 o")
+	_lang="none"
 elif echo $pkgver | grep -q aurora
 then
 	fxver=$(echo $pkgver | sed 's/aurora/a/')
@@ -47,7 +48,9 @@ then
 	fxcommand=firefox-ux
 	fxname="Firefox UX"
 	shortdesc="Mozilla Firefox user experience branch. Sometimes broken, but looks way better. ENGLISH ONLY."
-	source=("ftp://ftp.mozilla.org/pub/firefox/nightly/latest-ux/firefox-$fxver.en-US.linux-$ARCH.tar.bz2 o")	
+	source=("ftp://ftp.mozilla.org/pub/firefox/nightly/latest-ux/firefox-$fxver.en-US.linux-$ARCH.tar.bz2 o"
+	"http://forum.mozilla-russia.org/uploaded/firefox-ux-10.0a1.ru.langpack.xpi")
+	_langs="ru"
 else
 	echo "Trying to repack release, motherfucker?"
 	exit 1
@@ -80,4 +83,8 @@ after_build()
 
 	# Handle plugins
 	ln -s /usr/lib$LIBDIRSUFFIX/mozilla/plugins/ $pkgdir/opt/$fxcommand
+
+	for _lang in $_langs; do
+		install -m644 ${srcache}/$fxcommand-$fxver.$_lang.langpack.xpi ${pkgdir}/opt/$fxcommand/extensions/langpack-$_lang@firefox.mozilla.org.xpi
+	done
 }
