@@ -20,10 +20,9 @@ tags="$xtags x86"
 adddep="fglrx-module libgl-fglrx libglx-fglrx fglrx-xorg mesa xorg-server"
 
 pkglist="fglrx-module libglx-fglrx libgl-fglrx fglrx-xorg libgl32-fglrx"
-#if [ "$LIBDIRSUFFIX" == "64" ]; then pkglist="$pkglist libgl32-fglrx"; fi
 
 fglrx-module() {
-    	pkgname=fglrx-module
+    	pkgname=fglrx-module${KERNELMOD}
     	shortdesc="ATI proprietary driver - kernel module"
 	adddep="kernel=${KERNEL}"
     	pkgver=${p_pkgver}_${KERNEL}

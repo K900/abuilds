@@ -1,13 +1,12 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kde-networkmanagement
-pkgver=0.8.90
+pkgver=0.9
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Network management stuff from KDE extragear, includes KNetworkManager"
 
-#source="git:git://anongit.kde.org/networkmanagement"
-source="http://download.kde.org/download.php?url=unstable/networkmanagement/$pkgver/src/networkmanagement-$pkgver.tar.bz2"
+source="git:git://anongit.kde.org/networkmanagement"
 
 tags="kde4 kde-misc"
 

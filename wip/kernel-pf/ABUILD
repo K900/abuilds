@@ -71,6 +71,9 @@ build() {
         # Clean up
         rm -rf ../aufs3-standalone
 
+	# KERNEL-PF
+	wget -qO- http://pf.natalenko.name/sources/$vanilla_ver/patch-$kernel_ver.bz2 | bzcat | patch -Np1
+
 	# Now copy kernel config
 	if [ "$ARCH" = "x86_64" ] ; then
 		cat $filedir/3.$kernel_base.defconfig-x86_64 > .config
