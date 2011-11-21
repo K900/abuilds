@@ -1,0 +1,27 @@
+#!/bin/sh
+zenity --info --text="Сейчас вы увидите белое окно. Нажмите все нужные клавиши и закройте его."
+temp=$(mktemp)
+xev | grep -A2 --line-buffered -i NoSymbol | sed -n 's/^.*keycode *\([0-9]\+\).*$/\1/p' | uniq > $temp
+if [ ! -s $temp ]; then
+	zenity --info --text="Новых клавиш не найдено."
+	exit 0
+fi
+if [ ! -f ~/.Xmodmap ]; then
+	touch ~/.Xmodmap
+fi
+flag=false
+while read line; do
+	zenity --info --text="Настраиваем клавишу с кодом $line. Выберите удобный скан-код для нее в следующем окне."
+	xf86=$(zenity --list --radiolist --column=X --column=Keycode --hide-header $(cat /usr/include/X11/XF86keysym.h | cut -d ' ' -f 2 | grep XF86XK_ | sed 's/\t.*//g' | sed 's/XK_//g'))
+	echo "keycode $line = $xf86" >> ~/.Xmodmap
+	flag=true
+done < $temp
+xmodmap ~/.Xmodmap
+mkdir -p ~/.config/autostart
+rm ~/.config/autostart/xmodmap.desktop
+echo "[Desktop Entry]
+Exec=xmodmap ~/.Xmodmap
+Name=XModMap
+Terminal=false
+Type=Application" > ~/.config/autostart/xmodmap.desktop
+zenity --info --text="Готово!"

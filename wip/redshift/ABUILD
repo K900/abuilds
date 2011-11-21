@@ -1,14 +1,18 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=redshift
-pkgver=1.7
+pkgver=1.8
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Adjusts the color temperature of your screen according to your surroundings."
 
-source="http://launchpad.net/${pkgname}/trunk/${pkgver}/+download/${pkgname}-${pkgver}.tar.bz2"
+source="bzr:lp:redshift"
 
 tags="xapps x11-misc"
+
+before_build() {
+	autoreconf --force --install
+}
 
 BUILD_SYSTEM="autotools"
 
