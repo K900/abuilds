@@ -4,6 +4,7 @@ temp=$(mktemp)
 xev | grep -A2 --line-buffered -i NoSymbol | sed -n 's/^.*keycode *\([0-9]\+\).*$/\1/p' | uniq > $temp
 if [ ! -s $temp ]; then
 	zenity --info --text="Новых клавиш не найдено."
+	rm $temp
 	exit 0
 fi
 if [ ! -f ~/.Xmodmap ]; then
