@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<name>
+		kross-interpreters
+	</name>
+	<version>
+		4.7.3
+	</version>
+	<arch>
+		i686
+	</arch>
+	<build>
+		1
+	</build>
+	<short_description>
+		Language interpreters to enable in-process scripting with Kross
+	</short_description>
+	<description>
+		
+		
+		
+	
+	
+	
+	</description>
+	<dependencies>
+		<dep>
+			<name>
+				cxxlibs
+			</name>
+			<condition>
+				atleast
+			</condition>
+			<version>
+				6.0.13
+			</version>
+		</dep>
+		<dep>
+			<name>
+				python
+			</name>
+			<condition>
+				atleast
+			</condition>
+			<version>
+				2.6.6
+			</version>
+		</dep>
+		<dep>
+			<name>
+				glibc-solibs
+			</name>
+			<condition>
+				atleast
+			</condition>
+			<version>
+				2.12.2
+			</version>
+		</dep>
+		<dep>
+			<name>
+				gcc
+			</name>
+			<condition>
+				atleast
+			</condition>
+			<version>
+				4.5.2
+			</version>
+		</dep>
+		<dep>
+			<name>
+				qt4
+			</name>
+			<condition>
+				atleast
+			</condition>
+			<version>
+				4.7.4
+			</version>
+		</dep>
+		<dep>
+			<name>
+				kdelibs
+			</name>
+			<condition>
+				atleast
+			</condition>
+			<version>
+				4.7.3
+			</version>
+		</dep>
+	</dependencies>
+	<suggests/>
+	<maintainer>
+		<name>
+			aix27249
+		</name>
+		<email>
+			i27249@gmail.com
+		</email>
+	</maintainer>
+	<tags>
+		<tag>
+			kde-base
+		</tag>
+		<tag>
+			kde4
+		</tag>
+	</tags>
+</package>

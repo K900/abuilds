@@ -1,0 +1,13 @@
+--- kdewebdev-4.7.0/klinkstatus/src/tidy/tidyx.h.orig	2008-07-29 11:49:30.000000000 +0000
++++ kdewebdev-4.7.0/klinkstatus/src/tidy/tidyx.h	2011-08-18 13:57:55.000000000 +0000
+@@ -48,8 +48,8 @@
+   Created 2002-07-11 by Charles Reitzel
+ */
+ 
+-#include <tidy.h>
+-#include <buffio.h>
++#include <tidy/tidy.h>
++#include <tidy/buffio.h>
+ 
+ #include <config-tidy.h>
+     

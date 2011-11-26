@@ -1,0 +1,17 @@
+# ABUILD by K900
+pkgname=analitza
+pkgver=4.7.80
+pkgbuild=1
+arch=('auto')
+shortdesc="Math library for KAlgebra"
+tags=('libs sci-mathematics')
+source=("ftp://ftp.kde.org/pub/kde/unstable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
+
+
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
