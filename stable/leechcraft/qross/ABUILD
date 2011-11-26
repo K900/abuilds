@@ -1,5 +1,5 @@
 pkgname=qross
-pkgver=0.1
+pkgver=0.2.1
 pkgbuild=1
 arch=('auto')
 shortdesc="A Qt-only fork of Kross"
