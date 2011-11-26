@@ -1,3 +1,18 @@
+Структура файлов
+================
++ auto - автобамп, просто обновил версию
++ new-deps - некоторые (частично необязательные) зависимости на мой вкус
+  + обязательные
+    + kactivities для Plasma
+    + analitza для KAlgebra
+  + необязательные
+    + avogadro, openbabel - редактор молекул в Kalzium
+    + libepub - ePub в Okular
+    + libqalculate - расширенная математика для KRunner (kde-workspace)
+    + ntrack - состояние подключения в Solid (kdelibs)
+    + tidy - выделено из kdewebdev
++ new-pkgs - новые пакеты из поставки KDE 4.8 и измененные абилды старых пакетов
+
 Обсуждается
 ===========
 + kopete + gtalk (много зависимостей)
@@ -16,7 +31,4 @@ Upstream
 Нет в наличии
 =============
 + kimono, qyoto (mono)
-
-TODO
-====
-+ Морды к qualculate
++ qalculate-kde (оно на Qt3)
