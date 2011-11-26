@@ -5,7 +5,7 @@ ABSOLUTE=$(cd $MC_HOME; pwd)
 : ${MC_MAXHEAP:="1024"}
 
 wget_gui() {
-	eval wget -N --progress=bar:force $1 2>&1 | zenity --title="K900's ultra stupid Minecraft launcher" \
+	eval wget -N --progress=bar:force --no-check-certificate $1 2>&1 | zenity --title="K900's ultra stupid Minecraft launcher" \
 		--progress --auto-close --auto-kill --width=400 --no-cancel --text="$2"
 }
 
