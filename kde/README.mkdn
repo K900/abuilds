@@ -1,17 +1,22 @@
-== Обсуждается
-* kopete + gtalk (много зависимостей)
-* antlr в kdesdk (Java)
-* R в cantor (тяжелое и вполне самодостаточное)
+Обсуждается
+===========
++ kopete + gtalk (много зависимостей)
++ antlr в kdesdk (Java)
++ R в cantor (тяжелое и вполне самодостаточное)
 
-== Upstream
-- kdeplasma-addons не собирается
-* perlkde не собирается
+Upstream
+========
++ kdeplasma-addons не собирается
++ perlkde не собирается
 
-== Баги
-* ``site_perl`` в perlqt (старое)
+Баги
+====
++ ``site_perl`` в perlqt (старое)
 
-== Нет в наличии
-* kimono, qyoto (mono)
+Нет в наличии
+=============
++ kimono, qyoto (mono)
 
-== TODO
-* Морды к qualculate
+TODO
+====
++ Морды к qualculate
