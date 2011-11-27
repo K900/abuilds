@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=dbusmenu-qt
+_pkgname=libdbusmenu-qt
+pkgver=0.9.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A library that provides a Qt implementation of the DBusMenu spec"
+
+source="http://launchpad.net/${_pkgname}/trunk/${pkgver}/+download/${_pkgname}-${pkgver}.tar.bz2"
+
+tags="libs kde-base"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
