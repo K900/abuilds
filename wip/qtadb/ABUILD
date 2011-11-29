@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=qtadb
+pkgver=0.8.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A GUI for adb Android tool"
+
+source="http://qtadb.com/qtadb/QtADB_${pkgver}_src"
+
+tags="xapps dev-util"
+
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+
+after_build() {
+	go_src_dir
+	install -Dm755 QtADB $pkgdir/usr/bin/qtadb
+}
