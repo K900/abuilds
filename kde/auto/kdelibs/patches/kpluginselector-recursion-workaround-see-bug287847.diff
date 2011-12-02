@@ -1,0 +1,36 @@
+commit 70c6350fac3ab2b74d61811606eb250da7c5a061
+Author: Thomas Lübking <thomas.luebking@gmail.com>
+Date:   Thu Dec 1 19:46:16 2011 +0100
+
+    Fix regression induced (but likely not caused) by commit e91e5fed6b1aad365e12e919f430c3e8147552d3
+    
+    Commiting on behalf of Jaime Torres.
+    
+    Ratio:
+    On k-c-d I suggested this would be another ouotcome of bug #213068 and Jaime could confirm this and the
+    scrollbar policy workaround to work.
+    He suggested to fix it by "setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);" instead (since presumingly the
+    pluginselector is always top-down oriented)
+    I tested that variant as well and could not reproduce the issue.
+    
+    Since Jaime has no acces to his development environment for today he asked me to either revert his commit or
+    apply the hotfix working around bug #213068 as mentioned above.
+    
+    Because i could not spot any bug in his commit i'll go with the hotfix to prevent a regression.
+    Resolving the actual recursion bug is an outstanding issue.
+    
+    CCBUG: 213068
+    CCBUG: 287847
+
+diff --git a/kutils/kpluginselector.cpp b/kutils/kpluginselector.cpp
+index a4155d7..ca0691d 100644
+--- a/kutils/kpluginselector.cpp
++++ b/kutils/kpluginselector.cpp
+@@ -258,6 +258,7 @@ KPluginSelector::KPluginSelector(QWidget *parent)
+     d->listView = new KCategorizedView(this);
+     d->listView->setVerticalScrollMode(QListView::ScrollPerPixel);
+     d->listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn); // bug 213068
++    d->listView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); // bug 213068
+     d->listView->setAlternatingRowColors(true);
+     d->listView->setCategoryDrawer(d->categoryDrawer);
+     d->dependenciesWidget = new Private::DependenciesWidget(this);

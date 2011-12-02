@@ -2,7 +2,7 @@
 
 pkgname=kdelibs
 pkgver=4.7.80
-pkgbuild=1
+pkgbuild=3
 arch=('auto')
 
 # Conflicts with gnome-menus, so it is ok to configure it.
