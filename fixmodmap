@@ -13,8 +13,12 @@ fi
 flag=false
 while read line; do
 	zenity --info --text="Настраиваем клавишу с кодом $line. Выберите удобный скан-код для нее в следующем окне."
-	xf86=$(zenity --list --radiolist --column=X --column=Keycode --hide-header $(cat /usr/include/X11/XF86keysym.h | cut -d ' ' -f 2 | grep XF86XK_ | sed 's/\t.*//g' | sed 's/XK_//g'))
-	echo "keycode $line = $xf86" >> ~/.Xmodmap
+	xf86=$(zenity --list --radiolist --column=X --column=Keycode --hide-header $(cat /usr/include/X11/XF86keysym.h | cut -d ' ' -f 2 | grep XF86XK_ | sed 's/\t.*//g' | sed 's/XK_//g' | sed 's/^/FALSE /g'))
+	if [ "$xf86" == "" ]; then
+		echo "Skipped $keycode..."
+	else
+		echo "keycode $line = $xf86" >> ~/.Xmodmap
+	fi
 	flag=true
 done < $temp
 xmodmap ~/.Xmodmap
