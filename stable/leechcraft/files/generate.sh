@@ -1,6 +1,6 @@
 #!/bin/bash
 srcache=~/.mkpkg/source_cache/
-root=$srcache/leechcraft.src/src/plugins/
+root=$srcache/leechcraft.git.src/src/plugins/
 
 echo "== Generating plugins ABUILD..."
 mkdir -p plugins

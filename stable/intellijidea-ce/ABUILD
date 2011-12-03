@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=jetbrains-ides
-pkgver=111.33_pycharm
+pkgver=111.41_idea-eap-ce
 
 # HAAAAACKS >>>
 if [ "$filedir" == "" ]; then
