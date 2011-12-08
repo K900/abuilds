@@ -2,7 +2,7 @@
 
 pkgname=kde-workspace-gles
 provides=kde-workspace
-pkgver=4.7.80
+pkgver=4.7.90
 #strict_version='yes'
 pkgbuild=1
 arch=('auto')
