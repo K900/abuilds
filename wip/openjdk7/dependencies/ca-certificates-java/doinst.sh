@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo init-jks-keystore
+init-jks-keystore

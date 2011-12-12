@@ -8,6 +8,8 @@ shortdesc="Common CA certificates for Java."
 
 source="http://ftp.debian.org/debian/pool/main/c/${pkgname}/${pkgname}_${pkgver}.tar.gz"
 
+adddep="run-parts"
+
 tags="network net-misc"
 
 build()
