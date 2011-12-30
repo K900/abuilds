@@ -1,0 +1,29 @@
+#ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
+pkgname=bumblebee
+pkgver=2.4.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Stable branch of Bumblebee - nVidia Optimus support tool."
+
+source=("https://github.com/downloads/Bumblebee-Project/Bumblebee/$pkgname-$pkgver.tar.gz")
+
+config_files="etc/bumblebee/xorg.conf.nvidia
+etc/bumblebee/bumblebee.conf
+etc/conf.d/bumblebee"
+
+tags="drivers x11-drivers"
+
+adddep="virtualgl nvidia-driver bash>=4.0"
+
+build()
+{
+	go_src_dir
+	burn_patches
+	./install --dest-dir=$pkgdir --actions=build,install --skip-stages=uninstall
+	# And now Agilia initscripts
+	# Wonder if I can actually make it install from MrMEEE's build system...
+	install -Dm644 $filedir/bumblebee.confd $pkgdir/etc/conf.d/bumblebee
+	install -Dm755 $filedir/bumblebee.initd $pkgdir/etc/init.d/bumblebee
+	install -Dm755 $filedir/autobee $pkgdir/usr/bin/autobee
+}

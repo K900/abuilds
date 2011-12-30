@@ -1,0 +1,40 @@
+#!/bin/bash
+confirm () {
+    read -r -p "Would you like to configure bumblebee? [y/n]" response
+    case $response in
+        [yY][eE][sS]|[yY]) 
+            true
+            ;;
+        *)
+            false
+            ;;
+    esac
+}
+
+if [ "$(whoami)" != "root" ]; then
+	echo "You must run autobee as root!"
+	exit 1
+fi
+
+if ! which lshw > /dev/null; then
+	echo "Autobee needs lshw to work!"
+	echo "We'll try to install now..."
+	mpkg-install lshw
+	if ! which lshw > /dev/null; then
+		echo "Something went wrong..."
+		echo "I still can't find lshw..."
+		exit 0
+	fi
+fi
+
+pciids=$(lshw -class video -businfo | grep -i nvidia | grep "pci@.*[0-9][0-9]:[0-9][0-9].[0-9]" -o)
+for item in $pciids; do
+	echo "We found a PCI nVidia device at $item."
+	if confirm; then
+		pretty=$(echo $item | sed s/pci@0000:// | sed "s/[.]/:/")
+		sed "s/BusID \".*\"/BusID \"PCI:$pretty\"/" -i /etc/bumblebee/xorg.conf.nvidia
+		echo "Configured! Restarting bumblebee..."
+		/etc/init.d/bumblebee restart
+		exit 0
+	fi
+done

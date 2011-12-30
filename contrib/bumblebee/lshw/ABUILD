@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=lshw
+pkgver=B.02.15
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Hardware Lister is a tool to view system information"
+
+source="http://ezix.org/software/files/lshw-$pkgver.tar.gz"
+tags="console app-misc"
+
+build() {
+	go_src_dir
+	make
+	make gui
+	make DESTDIR=$pkgdir/ install
+	make DESTDIR=$pkgdir/ install-gui
+}
