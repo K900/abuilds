@@ -1,6 +1,6 @@
 #ABUILD created by/создан: fat0troll, fat0troll at riseup.n
 pkgname=ca-certificates
-pkgver=20110502+nmu1
+pkgver=20111211
 pkgbuild=1
 arch=('noarch')
 
@@ -9,7 +9,7 @@ shortdesc="Common CA certificates"
 source=("http://ftp.debian.org/debian/pool/main/c/${pkgname}/${pkgname}_${pkgver}.tar.gz")
 
 tags="network net-misc"
-adddep="bash openssl coreutils sed"
+adddep="bash openssl coreutils sed run-parts"
 config_files='etc/ca-certificates.conf'
 
 build()
