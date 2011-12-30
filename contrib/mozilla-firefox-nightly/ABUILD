@@ -1,6 +1,6 @@
 #ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
 pkgname=mozilla-firefox-unstableshment
-pkgver=10.0ux1
+pkgver=12.0ux1
 pkgbuild=1
 arch=('auto')
 
