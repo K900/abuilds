@@ -12,11 +12,6 @@ tags="kde4 kde-misc"
 
 adddep="NetworkManager"
 
-before_build() {
-	echo "====== HACK!!!!!!!!"
-	git reset --hard 2a9ab1e3
-}
-
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 -DCMAKE_BUILD_TYPE=RELEASE \
