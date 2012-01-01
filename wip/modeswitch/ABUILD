@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=usb_modeswitch
+pkgver=1.2.1
+_pkgdata=20111023
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A tool to switch USB devices from one mode to another"
+
+source=("http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-${pkgver}.tar.bz2"
+	"http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-data-${_pkgdata}.tar.bz2")
+
+tags="console app-misc"
+
+build()
+{
+  go_src_dir
+  make
+  make DESTDIR=${pkgdir} install
+
+  go_src_dir
+  cd ../usb-modeswitch-data-${_pkgdata}
+  make DESTDIR=$pkgdir install
+}
