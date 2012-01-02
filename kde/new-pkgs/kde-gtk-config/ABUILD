@@ -1,14 +1,14 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
-pkgname=kwallet
+pkgname=kde-gtk-config
 pkgver=4.7.95
 pkgbuild=1
 arch=('auto')
 
-shortdesc="KDE's secure storage for passwords."
+shortdesc="A KCM for GTK+2/GTK+3 appearance configuration"
 
-source="http://download.kde.org/unstable/$pkgver/src/$pkgname-$pkgver.tar.bz2"
+source="git:git://anongit.kde.org/$pkgname"
 
-tags="kde4 app-text"
+tags="kde4 kde-misc"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \

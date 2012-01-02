@@ -16,6 +16,7 @@ adddep="jre"
 build()
 {
 	go_src_dir
+	burn_patches
 	/opt/maven/bin/mvn -s $filedir/settings.xml package
 	install -Dm644 target/launcher-dev-SNAPSHOT.jar $pkgdir/usr/share/spoutcraft/launcher.jar
 	install -Dm755 $filedir/spoutcraft $pkgdir/usr/bin/spoutcraft

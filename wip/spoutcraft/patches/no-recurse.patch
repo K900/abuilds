@@ -1,0 +1,38 @@
+diff --git a/src/main/java/org/spoutcraft/launcher/Main.java b/src/main/java/org/spoutcraft/launcher/Main.java
+index a070265..3906113 100644
+--- a/src/main/java/org/spoutcraft/launcher/Main.java
++++ b/src/main/java/org/spoutcraft/launcher/Main.java
+@@ -98,7 +98,7 @@ public class Main {
+ 			//e.printStackTrace();
+ 		}
+ 
+-		if (relaunch) {
++		if ( (relaunch) && options.needRecursion() ) {
+ 			if (SettingsUtil.getMemorySelection() < 6) {
+ 				int mem = 1 << (9 + SettingsUtil.getMemorySelection());
+ 				recursion.createNewFile();
+diff --git a/src/main/java/org/spoutcraft/launcher/Options.java b/src/main/java/org/spoutcraft/launcher/Options.java
+index 5b707d6..1f87cce 100644
+--- a/src/main/java/org/spoutcraft/launcher/Options.java
++++ b/src/main/java/org/spoutcraft/launcher/Options.java
+@@ -41,6 +41,9 @@ public class Options {
+ 	@Parameter(names = { "-safe", "-smode", "-safe_mode", "-sm" }, description = "Safe Mode - Prevents Addons from being loaded")
+ 	private boolean safe_mode = false;
+ 
++	@Parameter(names = { "-n", "--no-recurse" }, description = "Don't recurse to allocate more mem.")
++	private boolean no_recurse = false;
++
+ 	public List<String> getParameters() {
+ 		return parameters;
+ 	}
+@@ -77,4 +80,8 @@ public class Options {
+ 		return safe_mode;
+ 	}
+ 
+-}
+\ No newline at end of file
++	public boolean needRecursion() {
++		return !no_recurse;
++	}
++
++}
