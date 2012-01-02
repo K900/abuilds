@@ -1,12 +1,12 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=kcm-chakra-gtk-config
-pkgver=1.6
+pkgver=1.7
 pkgbuild=1
 arch=('auto')
 
 shortdesc="KDE Systemsettings module for GTK+ configuration from Chakra Project"
 
-source=("http://chakra-project.org/sources/gtk-integration/chakra-gtk-config-$pkgver.tar.gz")
+source="http://sourceforge.net/projects/chakra/files/Tools/Chakra-Gtk-Config/chakra-gtk-config-$pkgver.tar.gz"
 
 tags="kde4 kde-misc"
 
