@@ -3,7 +3,6 @@
 ABSOLUTE=$(cd $MC_HOME; pwd)
 : ${MC_MINHEAP:="256"}
 : ${MC_MAXHEAP:="1024"}
-
 LWJGL=2.8.1
 
 wget_gui() {
@@ -15,11 +14,11 @@ wget_gui() {
 mkdir -p $ABSOLUTE/.minecraft/bin
 
 # Download the launcher
-pushd $ABSOLUTE/.minecraft/
-wget_gui https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar "Checking for updates..."
-pushd $ABSOLUTE/.minecraft/bin
+pushd $ABSOLUTE/.minecraft/ > /dev/null
+#wget_gui https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar "Checking for updates..."
+pushd $ABSOLUTE/.minecraft/bin > /dev/null
 
-if which java7-java; then
+if which java7-java &> /dev/null; then
 	JAVA=java7-java
 	JAVAP=java7-javap
 else
@@ -33,7 +32,7 @@ if [ -f minecraft.jar ]; then
 	if $JAVA -version 2>&1 | grep -q 1.7; then
 		if [ -f lwjgl.jar ]; then
 			# Check LWJGL version (HAXZ!!!)
-			unzip -o lwjgl.jar org/lwjgl/Sys.class
+			unzip -o lwjgl.jar org/lwjgl/Sys.class > /dev/null
 			if $JAVAP -p -constants -cp . org.lwjgl.Sys | grep -q $LWJGL; then
 				lwjgl_ok=1
 			else
@@ -70,7 +69,36 @@ if [ "$lwjgl_ok" != "1" ]; then
 	rm -rf lwjgl-$LWJGL{,.zip}
 fi
 
-popd
+# Check for Optimus
+if which optirun &> /dev/null; then
+	# We have optimus
+	if glxinfo | grep -q VirtualGL; then
+		# Already running on nvidia
+		optirun=""
+	else
+		# Not running on nvidia
+		if [ -f $ABSOLUTE/.minecraft/use-nvidia ]; then
+			optirun="optirun "
+		else
+			if zenity --question --text="Would you like to use NVidia card?"; then
+				optirun="optirun "
+				if zenity --question --text="Would you like to always use NVidia?"; then
+					touch $ABSOLUTE/.minecraft/use-nvidia
+				fi
+			else
+				optirun=""
+			fi
+		fi
+	fi
+fi
+
+if [ "$optirun" == "" ]; then
+	echo "Running without Optimus..."
+else
+	echo "Running with Optimus"
+fi
+
+popd > /dev/null
 # Start the launcher
-$JAVA -Duser.home=$ABSOLUTE -Xmx${MC_MAXHEAP}M -Xms${MC_MINHEAP}M -jar $ABSOLUTE/.minecraft/minecraft.jar
-popd
+$optirun $JAVA -Duser.home=$ABSOLUTE -Xmx${MC_MAXHEAP}M -Xms${MC_MINHEAP}M -jar $ABSOLUTE/.minecraft/minecraft.jar
+popd > /dev/null
