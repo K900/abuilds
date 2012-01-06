@@ -1,6 +1,6 @@
 #ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
 pkgname=xbmc-git
-pkgver=10.1
+pkgver=11.0
 pkgbuild=3
 arch=('auto')
 
@@ -18,7 +18,8 @@ build()
 	go_src_dir
 	unset LDFLAGS; LDFLAGS="-Wl,--hash-style=gnu"
 	unset CC; unset CXX; export CC="gcc"; export CXX="g++"
-
+	
+	go_src_dir
 	./bootstrap
 	./configure --prefix=/usr \
 		--libdir=/usr/lib${LIBDIRSUFFIX} \
@@ -28,14 +29,9 @@ build()
 		--enable-xrandr \
 		--enable-dvdcss \
 		--enable-non-free \
-		--enable-goom \
 		--enable-joystick \
 		--disable-hal \
-		--disable-external-liba52 \
-		--disable-external-libdts \
-		--disable-external-libass \
 		--enable-external-ffmpeg \
-		--enable-external-python \
 		--enable-webserver \
 		--disable-debug
 	make 

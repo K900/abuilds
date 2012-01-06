@@ -1,0 +1,31 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=module-init-tools-kmod-git
+pkgver=3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A kernel module management tool, similar to module-init-tools"
+
+source="git:git://git.profusion.mobi/kmod.git"
+
+tags="base sys-apps"
+
+provides="module-init-tools"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"-Wstrict-aliasing=0\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+
+BUILD_KEYS="--sysconfdir=/etc \
+--with-rootprefix= \
+--with-rootlibdir=/lib$LIBDIRSUFFIX \
+--with-zlib --with-xz"
+
+after_build() {
+	mkdir -p $pkgdir/sbin
+	mkdir -p $pkgdir/{etc,lib$LIBDIRSUFFIX}/{depmod,modprobe}.d
+	for tool in insmod rmmod depmod lsmod modinfo modprobe; do
+		ln -s /usr/bin/kmod "$pkgdir/sbin/$tool"
+	done
+	install -Dm644 $filedir/search.conf $pkgdir/lib$LIBDIRSUFFIX/depmod.d/search.conf
+}
