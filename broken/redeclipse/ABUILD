@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=redeclipse
-pkgver=1.1
+pkgver=1.2
 pkgbuild=1
 arch=('auto')
 
@@ -33,7 +33,7 @@ build()
 	# install desktop icon
 	install -D -m644 $filedir/redeclipse.desktop $pkgdir/usr/share/applications/redeclipse.desktop
 
-	# extract icon (epic hack)
+	# extract icon
 	mkdir -p $pkgdir/usr/share/pixmaps/
 	convert -resize 48x48 "redeclipse.ico[2]" $pkgdir/usr/share/pixmaps/redeclipse.png
 }
@@ -44,6 +44,7 @@ data()
 	pkgver=$p_pkgver
 	adddep="redeclipse=$pkgver"
 	shortdesc="Data files for Red Eclipse"
+	arch=noarch
 }
 
 data_prep()

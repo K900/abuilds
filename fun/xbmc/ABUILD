@@ -33,7 +33,8 @@ build()
 		--disable-hal \
 		--enable-external-ffmpeg \
 		--enable-webserver \
-		--disable-debug
+		--disable-debug \
+		--enable-vaapi
 	make 
 	make -C lib/addons/script.module.pil
 	make DESTDIR=$pkgdir install

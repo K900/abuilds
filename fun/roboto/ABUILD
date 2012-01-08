@@ -2,7 +2,7 @@
 pkgname=ttf-roboto
 pkgver=4.0.3
 pkgbuild=1
-arch=('auto')
+arch=('noarch')
 
 shortdesc="Android 4.0's new default system font."
 
