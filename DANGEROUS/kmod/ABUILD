@@ -12,9 +12,14 @@ tags="base sys-apps"
 
 provides="module-init-tools"
 
+before_build() {
+    go_src_dir
+    NOCONFIGURE=1 ./autogen.sh
+}
+
 BUILD_SYSTEM="autotools"
 
-BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"-Wstrict-aliasing=0\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"-Wstrict-aliasing=0\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--sysconfdir=/etc \
 --with-rootprefix= \
