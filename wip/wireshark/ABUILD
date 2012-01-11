@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=wireshark
+pkgver=1.6.5
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A network sniffer"
+#longdesc=(""
+#)
+
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="xapps net-misc"
+
+build() {
+    go_src_dir
+    ./configure --prefix=/usr --with-ssl --with-zlib=yes
+    make all
+    make DESTDIR=$pkgdir install
+    for d in 16 32 48; do
+	install -Dm644 image/hi${d}-app-wireshark.png ${pkgdir}/usr/share/icons/hicolor/${d}x${d}/apps/wireshark.png
+    done
+    install -Dm644 wireshark.desktop ${pkgdir}/usr/share/applications/wireshark.desktop
+}
