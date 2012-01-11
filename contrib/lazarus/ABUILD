@@ -18,9 +18,6 @@ provides="lazarus"
 
 build() {
     go_src_dir
-    config=tools/install/linux/environmentoptions.xml
-    sed "s@__LAZARUSDIR__@/usr/lib$LIBDIRSUFFIX/lazarus/@" -i $config
-    sed "s@__FPCSRCDIR__@/usr/lib$LIBDIRSUFFIX/fpc/\$(FPCVER)/src/@" -i $config
     make FPC=/usr/bin/fpc LCL_PLATFORM=gtk2 clean bigide
 }
 
@@ -44,4 +41,11 @@ after_build()
   
     rm -r ${pkgdir}/usr/lib${LIBDIRSUFFIX}/lazarus/install
     find $pkgdir -type d -name .svn -exec rm -rf {} \;
+
+    # install config
+    mkdir -p $pkgdir/etc/lazarus
+    config=tools/install/linux/environmentoptions.xml
+    sed "s@__LAZARUSDIR__@/usr/lib$LIBDIRSUFFIX/lazarus/@" -i $config
+    sed "s@__FPCSRCDIR__@/usr/lib$LIBDIRSUFFIX/fpc/\$(FPCVER)/src/@" -i $config
+    cp -r tools/install/linux/* $pkgdir/etc/lazarus
 }
