@@ -14,9 +14,11 @@ tags="xapps net-misc"
 
 build() {
     go_src_dir
-    ./configure --prefix=/usr --with-ssl --with-zlib=yes
+    ./configure --prefix=/usr --with-ssl --with-zlib=yes --libdir=/usr/lib$LIBDIRSUFFIX
     make all
     make DESTDIR=$pkgdir install
+    chgrp 150 "${pkgdir}/usr/bin/dumpcap"
+    chmod 754 "${pkgdir}/usr/bin/dumpcap"
     for d in 16 32 48; do
 	install -Dm644 image/hi${d}-app-wireshark.png ${pkgdir}/usr/share/icons/hicolor/${d}x${d}/apps/wireshark.png
     done
