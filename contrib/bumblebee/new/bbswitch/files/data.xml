@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<name>
+		nvidia-kernel
+	</name>
+	<version>
+		290.10_3.1.8
+	</version>
+	<arch>
+		x86_64
+	</arch>
+	<build>
+		1
+	</build>
+	<short_description>
+		nvidia-kernel (Kernel Interface for the nvidia driver)
+	</short_description>
+	<description>
+		This is the kernel module needed by the binary nvidia-driver.
+	</description>
+	<dependencies>
+		<dep>
+			<name>
+				kernel
+			</name>
+			<condition>
+				equal
+			</condition>
+			<version>
+				3.1.8
+			</version>
+		</dep>
+	</dependencies>
+	<suggests/>
+	<maintainer>
+		<name>
+			aix27249
+		</name>
+		<email>
+			i27249@gmail.com
+		</email>
+	</maintainer>
+	<tags>
+		<tag>
+			drivers
+		</tag>
+		<tag>
+			proprietary
+		</tag>
+		<tag>
+			x11-drivers
+		</tag>
+	</tags>
+</package>
