@@ -25,7 +25,7 @@ build()
     autoreconf -fi
     ./configure CONF_DRIVER=nvidia CONF_DRIVER_MODULE_NVIDIA=nvidia \
         CONF_LDPATH_NVIDIA=/usr/lib$LIBDIRSUFFIX/nvidia-optimus:/usr/lib/nvidia-optimus \
-        CONF_MODPATH_NVIDIA=/usr/lib$LIBDIRSUFFIX/nvidia-optimus/,/usr/lib$LIBDIRSUFFIX/xorg/modules \
+        CONF_MODPATH_NVIDIA=/usr/lib$LIBDIRSUFFIX/nvidia-optimus/,/usr/lib/nvidia-optimus/,/usr/lib$LIBDIRSUFFIX/xorg/modules,/usr/lib/xorg/modules \
         --prefix=/usr --sysconfdir=/etc
     make
     make DESTDIR=$pkgdir install
