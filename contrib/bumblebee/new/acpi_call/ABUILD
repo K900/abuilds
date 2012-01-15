@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
-pkgname=acpi_call-git
-pkgver=0.1
+pkgname=acpi_call
+pkgver=0.1_$KERNEL
 pkgbuild=1
 arch=('auto')
 

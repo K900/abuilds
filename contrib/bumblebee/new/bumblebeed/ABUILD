@@ -10,7 +10,7 @@ source="git:https://github.com/Bumblebee-Project/bumblebeed.git"
 
 tags="drivers x11-drivers"
 
-adddep="bbswitch nvidia-driver" #-optimus"
+adddep="bbswitch nvidia-driver virtualgl libgl libglx" #-optimus"
 provides="bumblebee"
 
 config_files="etc/bumblebee/bumblebee.conf
@@ -21,8 +21,11 @@ etc/conf.d/bumblebeed"
 build()
 {
     go_src_dir
+    git checkout release-3.0
+    git pull
     burn_patches
     autoreconf -fi
+    export LDFLAGS="$LDFLAGS -lX11"
     ./configure CONF_DRIVER=nvidia CONF_DRIVER_MODULE_NVIDIA=nvidia \
         CONF_LDPATH_NVIDIA=/usr/lib$LIBDIRSUFFIX/nvidia-optimus:/usr/lib/nvidia-optimus \
         CONF_MODPATH_NVIDIA=/usr/lib$LIBDIRSUFFIX/nvidia-optimus/,/usr/lib/nvidia-optimus/,/usr/lib$LIBDIRSUFFIX/xorg/modules,/usr/lib/xorg/modules \
