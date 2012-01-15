@@ -1,7 +1,7 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=bumblebeed
 pkgver=3.0
-pkgbuild=1
+pkgbuild=2
 arch=('auto')
 
 shortdesc="The next generation of bumblebee"
@@ -34,4 +34,5 @@ build()
     make DESTDIR=$pkgdir install
     install -Dm755 $filedir/bumblebeed.init $pkgdir/etc/init.d/bumblebeed
     install -Dm644 $filedir/bumblebeed.conf $pkgdir/etc/conf.d/bumblebeed
+    install -Dm644 scripts/bash_completion/bumblebee $pkgdir/etc/bash_completion.d/bumblebee
 }
