@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=zsh
-pkgver=4.3.12
+pkgver=4.3.15
 pkgbuild=1
 arch=('auto')
 
@@ -17,20 +17,13 @@ BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--prefix=/usr \
---sysconfdir=/etc \
---localstatedir=/var \
---libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
---mandir=/usr/man \
---program-prefix= \
---program-suffix= \
 --bindir=/bin \
---enable-etcdir=/usr/share/zsh \
---enable-zshenv=/usr/share/zsh/zshenv \
---enable-zlogin=/usr/share/zsh/zlogin \
---enable-zlogout=/usr/share/zsh/zlogout \
---enable-zprofile=/etc/profile \
---enable-zshrc=/usr/share/zsh/zshrc \
+--enable-etcdir=/etc/zsh \
+--enable-zshenv=/etc/zsh/zshenv \
+--enable-zlogin=/etc/zsh/zlogin \
+--enable-zlogout=/etc/zsh/zlogout \
+--enable-zprofile=/etc/zprofile \
+--enable-zshrc=/etc/zsh/zshrc \
 --enable-maildir-support \
 --with-term-lib='ncursesw' \
 --enable-multibyte \
@@ -45,5 +38,7 @@ BUILD_KEYS="--prefix=/usr \
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 after_build() {
+    echo "# This is the zsh profile file. It is set to call /etc/profile by default." > $pkgdir/etc/zprofile
+    echo "emulate sh -c 'source /etc/profile'" >> $pkgdir/etc/zprofile
 	echo "# This is your global zshrc file. Add whatever you need to be available to all users in here." > $pkgdir/usr/share/zsh/zshrc
 }
