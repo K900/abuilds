@@ -18,6 +18,7 @@ BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\
 
 BUILD_KEYS="--prefix=/usr \
 --bindir=/bin \
+--mandir=/usr/man \
 --enable-etcdir=/etc/zsh \
 --enable-zshenv=/etc/zsh/zshenv \
 --enable-zlogin=/etc/zsh/zlogin \
