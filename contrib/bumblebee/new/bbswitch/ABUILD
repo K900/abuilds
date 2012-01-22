@@ -13,7 +13,6 @@ build_deps="kernel-source"
 shortdesc="Bumblebee kernel module"
 
 tags=('drivers x11-drivers')
-adddep="acpi_call"
 
 build() {
     go_src_dir

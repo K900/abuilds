@@ -24,6 +24,7 @@ BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"-Wstrict-aliasing=0\" CXXFLAGS=\"$S
 BUILD_KEYS="--sysconfdir=/etc \
 --with-rootprefix= \
 --with-rootlibdir=/lib$LIBDIRSUFFIX \
+--libdir=/usr/lib$LIBDIRSUFFIX \
 --with-zlib --with-xz"
 
 after_build() {

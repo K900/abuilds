@@ -1,12 +1,12 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=bumblebeed
 pkgver=3.0
-pkgbuild=2
+pkgbuild=
 arch=('auto')
 
 shortdesc="The next generation of bumblebee"
 
-source="git:https://github.com/Bumblebee-Project/bumblebeed.git"
+source="git:https://github.com/Bumblebee-Project/Bumblebee.git"
 
 tags="drivers x11-drivers"
 
