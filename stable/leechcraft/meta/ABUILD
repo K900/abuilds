@@ -9,7 +9,7 @@ build()
 {
 	echo "Meta package, move along, nothing to see here."
 }
-adddep=" leechcraft-advancednotifications leechcraft-aggregator leechcraft-anhero leechcraft-auscrie leechcraft-azoth leechcraft-bittorrent leechcraft-blackdash leechcraft-choroid leechcraft-cstp leechcraft-dbusmanager leechcraft-deadlyrics leechcraft-glance leechcraft-gmailnotifier leechcraft-historyholder leechcraft-juffed leechcraft-kinotify leechcraft-knowhow leechcraft-lackman leechcraft-lcftp leechcraft-lmp leechcraft-netstoremanager leechcraft-networkmonitor leechcraft-newlife leechcraft-otzerkalu leechcraft-popishu leechcraft-poshuku leechcraft-qrosp leechcraft-secman leechcraft-seekthru leechcraft-shellopen leechcraft-sidebar leechcraft-summary leechcraft-syncer leechcraft-tabpp leechcraft-tabsessmanager leechcraft-tabslist leechcraft-vgrabber"
+adddep=" leechcraft-advancednotifications leechcraft-aggregator leechcraft-auscrie leechcraft-azoth leechcraft-bittorrent leechcraft-blackdash leechcraft-choroid leechcraft-cstp leechcraft-dbusmanager leechcraft-deadlyrics leechcraft-glance leechcraft-gmailnotifier leechcraft-historyholder leechcraft-juffed leechcraft-kinotify leechcraft-knowhow leechcraft-lackman leechcraft-lcftp leechcraft-lmp leechcraft-netstoremanager leechcraft-networkmonitor leechcraft-newlife leechcraft-otzerkalu leechcraft-popishu leechcraft-poshuku leechcraft-qrosp leechcraft-secman leechcraft-seekthru leechcraft-shellopen leechcraft-sidebar leechcraft-summary leechcraft-syncer leechcraft-tabpp leechcraft-tabsessmanager leechcraft-tabslist leechcraft-vgrabber"
 meta-chat() {
 	pkgname="leechcraft-chat"
 	shortdesc="Leechcraft plugins for chatting"

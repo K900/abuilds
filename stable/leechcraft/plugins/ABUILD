@@ -59,30 +59,6 @@ aggregator_prep()
 }
 
 
-anhero()
-{
-	pkgname=leechcraft-anhero
-	shortdesc="Crash handler"
-}
-
-anhero_prep()
-{
-	go_src_dir
-	cd src/plugins/anhero
-	
-	BUILD_KEYS="-DLEECHCRAFT_VERSION=$LCVER -DCMAKE_BUILD_TYPE=Release -DLIB_SUFFIX=${LIBDIRSUFFIX} -DCMAKE_INSTALL_PREFIX=/usr -DRESPECTLIB64:BOOL=TRUE ../"
-	INSTALL_KEYS="DESTDIR=${pkgdir} PREFIX=${pkgdir}/usr"
-
-	rm -rf build
-	mkdir build
-	cd build
-
-	cmake $BUILD_KEYS
-	make
-	make $INSTALL_KEYS install
-}
-
-
 auscrie()
 {
 	pkgname=leechcraft-auscrie
@@ -898,4 +874,4 @@ vgrabber_prep()
 	make $INSTALL_KEYS install
 }
 
-pkglist=" advancednotifications aggregator anhero auscrie azoth bittorrent blackdash choroid cstp dbusmanager deadlyrics glance gmailnotifier historyholder juffed kinotify knowhow lackman lcftp lmp netstoremanager networkmonitor newlife otzerkalu popishu poshuku qrosp secman seekthru shellopen sidebar summary syncer tabpp tabsessmanager tabslist vgrabber"
+pkglist=" advancednotifications aggregator auscrie azoth bittorrent blackdash choroid cstp dbusmanager deadlyrics glance gmailnotifier historyholder juffed kinotify knowhow lackman lcftp lmp netstoremanager networkmonitor newlife otzerkalu popishu poshuku qrosp secman seekthru shellopen sidebar summary syncer tabpp tabsessmanager tabslist vgrabber"
