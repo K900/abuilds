@@ -1,5 +1,5 @@
 pkgname=leechcraft-plugins
-pkgver=0.4.95
+pkgver=0.4.99
 pkgbuild=1
 arch=('auto')
 shortdesc="LeechCraft plugin packages. DO NOT UPLOAD THIS PACKAGE"

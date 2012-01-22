@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Minecraft
-GenericName=Minecraft
+Name=Minecraft (MCWrapper)
+GenericName=Minecraft (MCWrapper)
 Comment=A game about placing blocks while running from skeletons.
-Exec=minecraft
+Exec=mcwrapper
 Icon=minecraft
 Terminal=false
 Type=Application

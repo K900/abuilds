@@ -1,23 +1,61 @@
 #!/bin/sh
-: ${MC_HOME:=$HOME}
-ABSOLUTE=$(cd $MC_HOME; pwd)
-: ${MC_MINHEAP:="256"}
-: ${MC_MAXHEAP:="1024"}
-LWJGL=2.8.1
+
+[ -f ~/.mcwrapperrc ] && . ~/.mcwrapperrc || (
+echo "# Home directory for Minecraft
+# You can override it any time by specifying MC=/path/to/dir
+home_directory=~
+# Heap size
+heap_max=1024M
+heap_min=256M
+# LWJGL version to use w/Java7
+lwjgl_version=2.8.1
+# Enable/disable optimus. You can put 'ask' here to ask every time.
+use_optimus=ask
+# Put the full texture pack filename, 'keep' or 'default' here.
+optimus_texture=\"default\"
+intel_texture=\"default\"" > ~/.mcwrapperrc
+)
+
+[ -z "$home_directory" ]  && home_directory=~
+[ -z "$heap_max" ]        && heap_max=1024M
+[ -z "$heap_min" ]        && heap_min=256M
+[ -z "$lwjgl_version" ]   && lwjgl_version=2.8.1
+[ -z "$use_optimus" ]     && use_optimus=ask_auto
+[ -z "$optimus_texture" ] && optimus_texture="keep"
+[ -z "$intel_texture" ]   && intel_texture="keep"
+
+[ -z "$MC" ] && home_directory=$MC
+
+ABSOLUTE=$(cd $home_directory; pwd)
+LWJGL=$lwjgl_version
 
 wget_gui() {
-	eval wget -N --progress=bar:force --no-check-certificate $1 2>&1 | zenity --title="K900's ultra stupid Minecraft launcher" \
+	eval wget -N --progress=bar:force --no-check-certificate $1 2>&1 | zenity --title="MCWrapper" \
 		--progress --auto-close --auto-kill --width=400 --no-cancel --text="$2"
 }
 
-# Make our dirs
+set_texture() {
+	cd $ABSOLUTE/.minecraft/
+	if [ -f options.txt ]; then
+		if [ "$1" == "keep" ]; then
+			return
+		else
+			sed "s/skin:.*//g" -i options.txt
+			if [ "$1" != "default" ]; then
+				echo "skin:$1" >> options.txt
+			fi
+		fi
+	fi
+}
+
+# Make the home directory
 mkdir -p $ABSOLUTE/.minecraft/bin
-
 # Download the launcher
-pushd $ABSOLUTE/.minecraft/ > /dev/null
-#wget_gui https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar "Checking for updates..."
-pushd $ABSOLUTE/.minecraft/bin > /dev/null
+cd $ABSOLUTE/.minecraft/
+wget_gui https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar "Checking for updates..."
+cd $ABSOLUTE/.minecraft/bin
 
+# Check for java7
 if which java7-java &> /dev/null; then
 	JAVA=java7-java
 	JAVAP=java7-javap
@@ -59,7 +97,7 @@ fi
 if [ "$lwjgl_ok" != "1" ]; then
 	# Download/install new LWJGL
 	wget_gui "http://citylan.dl.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%20$LWJGL/lwjgl-$LWJGL.zip" "Downloading lwjgl..."
-	unzip -o lwjgl-$LWJGL.zip 2>&1 | zenity --title="K900's ultra stupid Minecraft launcher" \
+	unzip -o lwjgl-$LWJGL.zip 2>&1 | zenity --title="MCWrapper" \
 					  --progress --auto-close --auto-kill --width=400 --no-cancel  --text="Extracting lwjgl..." --pulsate
 	mv lwjgl-$LWJGL/jar/jinput.jar .
 	mv lwjgl-$LWJGL/jar/lwjgl.jar .
@@ -77,14 +115,16 @@ if which optirun &> /dev/null; then
 		optirun=""
 	else
 		# Not running on nvidia
-		if [ -f $ABSOLUTE/.minecraft/use-nvidia ]; then
+		if [ "$use_optimus" == "1" ]; then
 			optirun="optirun "
+		elif [ "$use_optimus" == "0" ]; then
+			optirun=""
 		else
 			if zenity --question --text="Would you like to use NVidia card?"; then
 				optirun="optirun "
-				if zenity --question --text="Would you like to always use NVidia?"; then
-					touch $ABSOLUTE/.minecraft/use-nvidia
-				fi
+                if [ "$use_optimus" == "ask_auto" ]; then
+    				zenity --warning --text="To set up Optimus, edit ~/.mcwrapperrc."
+                fi
 			else
 				optirun=""
 			fi
@@ -94,11 +134,12 @@ fi
 
 if [ "$optirun" == "" ]; then
 	echo "Running without Optimus..."
+	set_texture "$intel_texture"
 else
 	echo "Running with Optimus"
+	set_texture "$optimus_texture"
 fi
 
-popd > /dev/null
+cd $ABSOLUTE/.minecraft/
 # Start the launcher
-$optirun $JAVA -Duser.home=$ABSOLUTE -Xmx${MC_MAXHEAP}M -Xms${MC_MINHEAP}M -jar $ABSOLUTE/.minecraft/minecraft.jar
-popd > /dev/null
+$optirun $JAVA -Duser.home=$ABSOLUTE -Xmx${heap_max} -Xms${heap_min} -jar $ABSOLUTE/.minecraft/minecraft.jar

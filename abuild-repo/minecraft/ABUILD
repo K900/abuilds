@@ -1,16 +1,16 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
-pkgname=minecraft
+pkgname=mcwrapper
 pkgver=9999
 pkgbuild=1
 arch=('noarch')
 
-shortdesc="Minecraft launcher."
+shortdesc="A launcher for the (Notchian) Minecraft launcher."
 tags="games games-misc"
 
 adddep="jre zenity bash wget"
 
 build()
 {
-	install -Dm755 $filedir/minecraft $pkgdir/usr/bin/minecraft
+	install -Dm755 $filedir/$pkgname $pkgdir/usr/bin/$pkgname
 }
 
