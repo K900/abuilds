@@ -23,7 +23,7 @@ depend() {
 
 start() {
 	ebegin "Starting Bumblebee daemon..."
-	start-stop-daemon --start -q --exec /usr/bin/bumblebeed --pidfile /var/run/bumblebeed.pid -b -P -- --daemon
+	start-stop-daemon --start -q --exec /usr/sbin/bumblebeed --pidfile /var/run/bumblebeed.pid -b -P -- --daemon
 }
 
 stop() {
