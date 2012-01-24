@@ -1,0 +1,14 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=ffmpeg2theora
+pkgver=0.28
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A simple OGG Theora converter"
+
+source=(http://www.v2v.cc/~j/${pkgname}/downloads/${pkgname}-${pkgver}.tar.bz2)
+
+tags="console media-video"
+
+BUILD_SYSTEM="scons"
+INSTALL_KEYS="destdir=\"${pkgdir}\" prefix=\"/usr\""

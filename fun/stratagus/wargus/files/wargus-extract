@@ -1,0 +1,10 @@
+#!/bin/sh
+if [ "$(whoami)" != "root" ]; then
+    echo "wargus-extract must be run as root!"
+    exit 0
+fi
+if [ -z $1 ]; then
+    echo "Usage: wargus-extract /path/to/warcraft/2/data/dir"
+    exit 0
+fi
+wartool -mvr $1 /usr/share/games/stratagus/wargus
