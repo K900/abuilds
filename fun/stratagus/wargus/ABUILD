@@ -4,7 +4,7 @@ pkgver=2.2.7
 pkgbuild=1
 arch=('auto')
 
-shortdesc="An open source RTS engine."
+shortdesc="An open source RTS engine - Warcraft II data files."
 
 source="bzr:lp:wargus"
 
