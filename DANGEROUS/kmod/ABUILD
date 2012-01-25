@@ -22,6 +22,7 @@ BUILD_SYSTEM="autotools"
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"-Wstrict-aliasing=0\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--sysconfdir=/etc \
+--bindir=/bin \
 --with-rootprefix= \
 --with-rootlibdir=/lib$LIBDIRSUFFIX \
 --libdir=/usr/lib$LIBDIRSUFFIX \
@@ -31,7 +32,7 @@ after_build() {
 	mkdir -p $pkgdir/sbin
 	mkdir -p $pkgdir/{etc,lib$LIBDIRSUFFIX}/{depmod,modprobe}.d
 	for tool in insmod rmmod depmod lsmod modinfo modprobe; do
-		ln -s /usr/bin/kmod "$pkgdir/sbin/$tool"
+		ln -s /bin/kmod "$pkgdir/sbin/$tool"
 	done
 	install -Dm644 $filedir/search.conf $pkgdir/lib$LIBDIRSUFFIX/depmod.d/search.conf
 }

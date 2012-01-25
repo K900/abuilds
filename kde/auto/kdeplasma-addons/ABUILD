@@ -8,7 +8,7 @@ shortdesc=('kdeplasma-addons (Plasma addons for KDE)')
 
 tags=('kde-base kde4')
 
-source=("ftp://ftp.kde.org/pub/kde/unstable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
+source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
 
 BUILD_SYSTEM='cmake'
 BUILD_KEYS="-DCMAKE_BUILD_TYPE=Release \

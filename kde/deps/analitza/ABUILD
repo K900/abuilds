@@ -5,7 +5,7 @@ pkgbuild=1
 arch=('auto')
 shortdesc="Math library for KAlgebra"
 tags=('libs sci-mathematics')
-source=("ftp://ftp.kde.org/pub/kde/unstable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
+source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
 
 
 

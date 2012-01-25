@@ -6,7 +6,7 @@ arch=('auto')
 
 shortdesc="KMouseTool clicks the mouse for you, so you don't have to."
 
-source="http://download.kde.org/unstable/$pkgver/src/$pkgname-$pkgver.tar.bz2"
+source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.bz2"
 
 tags="kde4 app-accessibility"
 

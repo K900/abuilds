@@ -11,7 +11,7 @@ longdesc=('KDE Software Development Kit. This is a collection of applications an
 tags=('kde-base kde4')
 
 #source=("svn:svn://anonsvn.kde.org/home/kde/tags/KDE/${pkgver}/${pkgname}")
-source=("ftp://ftp.kde.org/pub/kde/unstable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
+source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
 
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then
   QTDIR=/usr/lib${LIBDIRSUFFIX}/qt

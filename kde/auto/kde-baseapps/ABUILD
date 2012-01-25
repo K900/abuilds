@@ -11,7 +11,7 @@ longdesc=('kdebase is the second mandatory package (besides kdelibs) for the K D
 
 tags=('kde-base kde4')
 
-source=("ftp://ftp.kde.org/pub/kde/unstable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
+source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
 
 
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then

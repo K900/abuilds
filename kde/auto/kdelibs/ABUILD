@@ -13,7 +13,7 @@ longdesc=('System libraries and other resources required by KDE.')
 
 tags=('kde-base kde4')
 
-source=("ftp://ftp.kde.org/pub/kde/unstable/${pkgver}/src/kdelibs-${pkgver}.tar.bz2")
+source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/kdelibs-${pkgver}.tar.bz2")
 
 
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then

@@ -10,7 +10,7 @@ shortdesc=('KDE PIM Runtime Environment')
 
 tags=('kde-base kde4')
 
-source=("ftp://ftp.kde.org/pub/kde/unstable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
+source=("ftp://ftp.kde.org/pub/kde/stable/${pkgver}/src/${pkgname}-${pkgver}.tar.bz2")
 
 
 if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then

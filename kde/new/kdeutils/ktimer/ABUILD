@@ -6,7 +6,7 @@ arch=('auto')
 
 shortdesc="KTimer is a little tool to execute programs after some time."
 
-source="http://download.kde.org/unstable/$pkgver/src/$pkgname-$pkgver.tar.bz2"
+source="http://download.kde.org/stable/$pkgver/src/$pkgname-$pkgver.tar.bz2"
 
 tags="kde4 app-misc"
 
