@@ -14,23 +14,19 @@ build()
 {
 	go_src_dir
 
-	./configure --disable-pulse
-	--enable-translation
-	--enable-runtime-cpudetection
-	--prefix=/usr
-	--language=all
-	--confdir=/etc/mplayer2
+	./configure --disable-pulse --enable-translation --enable-runtime-cpudetection \
+--prefix=/usr --language=all --confdir=/etc/mplayer2 --datadir=/usr/share/mplayer2
 
 	make -j$numjobs
 	make DESTDIR="$pkgdir" install
 
 	install -m644 etc/{codecs,input,example}.conf "${pkgdir}/etc/mplayer2/"
-	install -d -m755 "${pkgdir}/usr/share/mplayer"
-	ln -s /usr/share/fonts/TTF/DejaVuSans.ttf "${pkgdir}/usr/share/mplayer/subfont.ttf"
+	install -d -m755 "${pkgdir}/usr/share/mplayer2"
+	ln -s /usr/share/fonts/TTF/DejaVuSans.ttf "${pkgdir}/usr/share/mplayer2/subfont.ttf"
 }
 
 after_build()
 {
-#	rm -rf $pkgdir/usr/lib
+  	rm -rf $pkgdir/usr/lib/
 	mv $pkgdir/usr/share/man/ $pkgdir/usr/
 }
