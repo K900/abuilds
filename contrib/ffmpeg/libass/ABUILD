@@ -1,0 +1,24 @@
+pkgname=libass
+pkgver=0.10.0
+pkgbuild=2
+arch=('auto')
+
+shortdesc="LibASS (SSA/ASS subtitles rendering library)"
+source="http://libass.googlecode.com/files/libass-$pkgver.tar.xz"
+
+tags="libs media-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix="
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

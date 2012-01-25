@@ -1,0 +1,22 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=wvdial
+pkgver=1.61
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A simple dialer program for 3G and GPRS modems."
+
+source=("http://wvstreams.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+
+tags="drivers net-misc"
+
+build()
+{
+    go_src_dir
+    burn_patches
+    unset CFLAGS
+    unset CXXFLAGS
+    ./configure
+    make
+    make prefix=$pkgdir/usr PPPDIR=$pkgdir/etc/ppp/peers install
+}

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<name>
+		x264
+	</name>
+	<version>
+		git20110320
+	</version>
+	<arch>
+		x86_64
+	</arch>
+	<build>
+		1
+	</build>
+	<short_description>
+		x264 (free h264/avc encoder)
+	</short_description>
+	<description>
+		x264 is a free library for encoding H264/AVC video streams. Homepage:
+ http://www.videolan.org/developers/x264.html
+	</description>
+	<dependencies>
+		<dep>
+			<name>
+				glibc-solibs
+			</name>
+			<condition>
+				any
+			</condition>
+			<version>
+			</version>
+		</dep>
+	</dependencies>
+	<suggests/>
+	<maintainer>
+		<name>
+			agr3ss0r
+		</name>
+		<email>
+			agr3ss0r86@gmail.com
+		</email>
+	</maintainer>
+	<tags>
+		<tag>
+			libs
+		</tag>
+		<tag>
+			media-libs
+		</tag>
+	</tags>
+</package>

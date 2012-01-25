@@ -63,9 +63,11 @@ build() {
 	. /etc/profile.d/apache-ant.sh
 
 	cp ${patchdir}/*.diff patches
-	export DISTRIBUTION_PATCHES="patches/fontconfig-paths.diff patches/fix_corba_cmds_path.diff patches/openjdk7_fix_jdk_cmds_path.diff patches/openjdk7_nonreparenting-wm.diff"
+    #TODO stop hardcoding that here.
+    export DISTRIBUTION_PATCHES="patches/fontconfig-paths.diff patches/fix_corba_cmds_path.diff patches/openjdk7_fix_jdk_cmds_path.diff patches/openjdk7_nonreparenting-wm.diff"
 
 	# Bootstrap IcedTea with ecj and a GNU Classpath-based JDK:
+    # NOTE It's actually Oracle JDK, except it doesn't know that :P
 	autoreconf --force --install
 
 	./configure \

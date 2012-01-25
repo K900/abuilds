@@ -1,0 +1,30 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=wvstreams
+pkgver=4.6.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A network programming library"
+
+source=("http://wvstreams.googlecode.com/files/${pkgname}-${pkgver}.tar.gz")
+
+tags="libs net-misc"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--disable-static \
+--mandir=/usr/man \
+--program-prefix= \
+--program-suffix= \
+--without-tcl --without-qt"
+
+build() {
+    go_src_dir
+    burn_patches
+    ./configure $BUILD_KEYS
+    make
+    make DESTDIR=$pkgdir install
+    rm $pkgdir/usr/lib$LIBDIRSUFFIX/pkgconfig/libwvqt.pc
+}
