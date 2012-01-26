@@ -1,0 +1,43 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=libav
+pkgver=0.9
+pkgbuild=1
+arch=('auto')
+
+shortdesc="An open source multi-format decoder/encoder and library."
+
+source="git:git://git.libav.org/libav.git"
+
+tags="libs media-libs"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man \
+--enable-shared \
+--disable-static \
+--enable-gpl \
+--enable-version3 \
+--enable-nonfree \
+--enable-x11grab \
+--enable-vaapi \
+--enable-vda \
+--enable-vdpau \
+--enable-runtime-cpudetect \
+--enable-bzlib \
+--enable-libcdio \
+--enable-libfaac \
+--enable-libfreetype \
+--enable-libopencore-amrnb \
+--enable-libopencore-amrwb \
+--enable-libspeex \
+--enable-libtheora \
+--enable-libvpx \
+--enable-libx264 \
+--enable-zlib \
+--extra-version=AgiliaLinux"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"

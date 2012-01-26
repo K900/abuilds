@@ -1,0 +1,23 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com
+pkgname=qca
+pkgver=2.0.3
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Qt Cryptographic architecture"
+
+source=("http://delta.affinix.com/download/qca/2.0/${pkgname}-${pkgver}.tar.bz2")
+
+tags="libs app-crypt"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--release \
+--disable-tests \
+--no-separate-debug-info"
+
+INSTALL_KEYS="INSTALL_ROOT=$pkgdir"

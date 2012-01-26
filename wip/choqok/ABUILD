@@ -1,12 +1,13 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=choqok
-pkgver=1.1
+pkgver=1.2
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Microblogging for KDE"
 
-source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+#source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+source="git:git://anongit.kde.org/$pkgname"
 
 tags="kde4 www-misc"
 

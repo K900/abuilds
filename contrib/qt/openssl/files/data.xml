@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<name>
+		openssl
+	</name>
+	<version>
+		0.9.8p
+	</version>
+	<arch>
+		x86_64
+	</arch>
+	<build>
+		2
+	</build>
+	<short_description>
+		Secure Sockets Layer toolkit
+	</short_description>
+	<description>
+		The OpenSSL certificate management tool and the shared libraries that provide
+ various encryption and decryption algorithms and protocols. This product
+ includes software developed by the OpenSSL Project for use in the OpenSSL
+ Toolkit (http://www.openssl.org). This product includes cryptographic software
+ written by Eric Young (eay@cryptsoft.com). This product includes software
+ written by Tim Hudson (tjh@cryptsoft.com).
+	</description>
+	<dependencies>
+		<dep>
+			<name>
+				glibc-solibs
+			</name>
+			<condition>
+				atleast
+			</condition>
+			<version>
+				2.11.2
+			</version>
+		</dep>
+		<dep>
+			<name>
+				openssl-solibs
+			</name>
+			<condition>
+				equal
+			</condition>
+			<version>
+				0.9.8p
+			</version>
+		</dep>
+	</dependencies>
+	<suggests/>
+	<maintainer>
+		<name>
+			aix27249
+		</name>
+		<email>
+			i27249@gmail.com
+		</email>
+	</maintainer>
+	<tags>
+		<tag>
+			dev-libs
+		</tag>
+		<tag>
+			network
+		</tag>
+	</tags>
+</package>
