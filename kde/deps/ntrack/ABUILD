@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=ntrack
-pkgver=014
+pkgver=016
 pkgbuild=1
 arch=('auto')
 
