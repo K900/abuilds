@@ -1,0 +1,41 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=bsnes
+pkgver=0.82
+_pkgver=$(echo $pkgver | sed s/[.]//)
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A very accurate Super Nintendo emulator"
+
+source=("http://bsnes.googlecode.com/files/bsnes_v${_pkgver}-source.tar.bz2")
+
+tags="xapps app-emulation"
+
+build() {
+  cd bsnes_v${_pkgver}-source/bsnes
+
+  # disable pulseaudio
+  sed -e 's|audio.pulseaudio ||' -e 's|audio.pulseaudiosimple ||' -i 'ui/Makefile'  
+ 
+  # disable cheat file
+  sed -e '/mkdir -p ~\/.config\/$(name)/{d}' -e '/cp data\/cheats.xml/{N;d}' -i 'ui/Makefile'
+ 
+  # build
+  make flags="$CXXFLAGS -I. -DPROFILE_ACCURACY" compiler=gcc platform=x profile=accuracy phoenix=qt
+  make install profile=accuracy DESTDIR="${pkgdir}" prefix=/usr
+
+  # filters/shaders
+  cd ../snesfilter
+  make compiler=gcc platform=x
+  cd ..
+  install -d "${pkgdir}/usr/share/${pkgname}/filters"
+  install -Dm644 snesfilter/out/*.filter "${pkgdir}/usr/share/${pkgname}/filters"
+  install -d "${pkgdir}/usr/share/${pkgname}/shaders"
+  install -Dm644 snesshader/*.shader "${pkgdir}/usr/share/${pkgname}/shaders"
+
+  # purify
+  cd snespurify
+  sed "s/g++-4.5/g++/g" -i cc-gtk.sh
+  ./cc-gtk.sh
+  install -Dm755 snespurify-gtk "${pkgdir}/usr/bin/snespurify-gtk"
+}
