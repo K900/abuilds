@@ -1,7 +1,7 @@
 #ABUILD created by/создан: SirAnthony, anthony at adsorbtion.org 
 #ABUILD rewritten by/переписан: K900, k0009000 at gmail.com
 pkgname=fglrx
-pkgver=11.10
+pkgver=12.1
 srcver=$(echo $pkgver | sed "s/\./-/g")
 mesaver=$(mpkg-show mesa | head -n 1 | cut -d " " -f 2 | cut -d- -f1)
 KERNEL=${KERNEL:-$(uname -r)}
@@ -11,7 +11,7 @@ arch=('auto')
 
 shortdesc="ATI proprietary driver - meta and binary package"
 
-source="http://www2.ati.com/drivers/linux/ati-driver-installer-$srcver-x86.x86_64.run"
+source="http://www2.ati.com/drivers/linux/amd-driver-installer-$srcver-x86.x86_64.run"
 
 xtags="proprietary x11-drivers drivers"
 
@@ -64,7 +64,7 @@ fglrx-xorg() {
 
 build() {
 	# Extract package
-	/bin/sh $srcache/ati-driver-installer-${pkgver/./-}-x86.x86_64.run --extract archive_files
+	/bin/sh $srcache/amd-driver-installer-${pkgver/./-}-x86.x86_64.run --extract archive_files
 }
 
 if [ "$LIBDIRSUFFIX" == "64" ]; then
@@ -192,9 +192,14 @@ after_build()
 
 	cd arch/$bin_arch/usr/
 	
-	mkdir -p ${pkgdir}/usr/{bin,sbin,lib$LIBDIRSUFFIX,man/man8}
-	mkdir -p ${pkgdir}/usr/include/GL
+	mkdir -p ${pkgdir}/usr/{bin,sbin,lib$LIBDIRSUFFIX,man/man8,include/GL}
 	mkdir -p ${pkgdir}/usr/share/{applications,ati/amdcccle,pixmaps}
+
+    # OpenCL
+    mkdir -p ${pkgdir}/etc/OpenCL/vendors
+    [ "$LIBDIRSUFFIX" == "64" ] && vendor_arch=64 || vendor_arch=32
+    install -Dm644 ../etc/OpenCL/vendors/amdocl${vendor_arch}.icd $pkgdir/etc/OpenCL/vendors/amdocl${vendor_arch}.icd
+    install -Dm755 bin/clinfo $pkgdir/usr/bin/fglrx-clinfo
 
 	# CCC + LIBS + SYMLINX
 	install -m755 X11R6/bin/* ${pkgdir}/usr/bin/
@@ -215,6 +220,7 @@ after_build()
 	ln -snf libfglrx_dm.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libfglrx_dm.so
 	ln -snf libatiuki.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libatiuki.so.1
 	ln -snf libatiuki.so.1.0 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libatiuki.so
+    ln -snf libOpenCL.so.1 ${pkgdir}/usr/lib$LIBDIRSUFFIX/libOpenCL.so
 
 	go_src_dir
 	cd common/
