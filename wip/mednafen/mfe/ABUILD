@@ -12,9 +12,3 @@ adddep="pygtk python-configobj mednafen"
 tags="games app-emulation"
 
 BUILD_SYSTEM="python"
-
-
-
-
-
-
