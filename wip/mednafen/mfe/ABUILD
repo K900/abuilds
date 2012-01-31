@@ -1,0 +1,18 @@
+pkgname=mfe
+pkgver=0.1.7
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A GTK+2 frontend for mednafen"
+
+source="http://downloads.sourceforge.net/mednafenfe/$pkgname-$pkgver.tar.gz"
+
+tags="games app-emulation"
+
+BUILD_SYSTEM="python"
+
+
+
+
+
+
