@@ -24,7 +24,7 @@ intel_texture=\"default\"" > ~/.mcwrapperrc
 [ -z "$optimus_texture" ] && optimus_texture="keep"
 [ -z "$intel_texture" ]   && intel_texture="keep"
 
-[ -z "$MC" ] && home_directory=$MC
+! [ -z "$MC" ] && home_directory=$MC
 
 ABSOLUTE=$(cd $home_directory; pwd)
 LWJGL=$lwjgl_version
@@ -141,5 +141,6 @@ else
 fi
 
 cd $ABSOLUTE/.minecraft/
+echo "Running in $ABSOLUTE..."
 # Start the launcher
 $optirun $JAVA -Duser.home=$ABSOLUTE -Xmx${heap_max} -Xms${heap_min} -jar $ABSOLUTE/.minecraft/minecraft.jar
