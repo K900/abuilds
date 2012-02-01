@@ -11,6 +11,8 @@ tags="xapps media-video"
 export CC="gcc"
 export CXX="g++"
 
+provides="tvtime"
+
 BUILD_SYSTEM="autotools"
 
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
