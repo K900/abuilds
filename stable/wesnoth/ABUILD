@@ -1,5 +1,5 @@
 pkgname=wesnoth
-pkgver=1.9.10
+pkgver=1.10
 pkgbuild=1
 arch=('auto')
 
