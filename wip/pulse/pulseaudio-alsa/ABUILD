@@ -1,0 +1,14 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=pulseaudio-alsa
+pkgver=0.2
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="ALSA config for use with PulseAudio"
+
+adddep="alsa-plugins"
+tags="libs media-sound"
+
+build() {
+    install -Dm644 $filedir/asound.conf $pkgdir/etc/asound.conf
+}
