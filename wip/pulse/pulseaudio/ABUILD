@@ -1,6 +1,4 @@
 #ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=pulseaudio
 pkgver=1.1
 pkgbuild=1
@@ -10,34 +8,9 @@ shortdesc="PulseAudio sound server"
 
 source=("http://freedesktop.org/software/$pkgname/releases/$pkgname-$pkgver.tar.gz")
 
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="libs media-sound"
-
-#dependencies only needed to build package
-build_deps=""
-
-provides=""
-conflicts=""
-
-adddep=""
-removedep=""
-
-#for multi pkg abuild
 pkglist="libpulse"
 
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into ${pkgdir}/usr/doc/${pkgname}-${pkgver} dir from sources
-docs=
-gendeps_blacklist=
-
-#custom_opts: skip_validate skip_gendeps no_postperm no_strip
-custom_opts=""
 config_files="etc/pulse/daemon.conf
 etc/pulse/default.pa
 etc/pulse/system.pa"
@@ -69,35 +42,32 @@ BUILD_KEYS="--prefix=/usr \
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-#ran after function build() 
-#после сборки
 after_build()
 {
-    # Lower resample quality
-    sed -e '/resample-method/iresample-method=speex-float-0' \
-    	-i "$pkgdir/etc/pulse/daemon.conf"
-    # Make module-console-kit optional
+    # Lower resample quality, save some CPU
+    sed -e '/resample-method/iresample-method=speex-float-0' -i "$pkgdir/etc/pulse/daemon.conf"
+    
+    # Make ConsoleKit optional
     sed -e $'/module-console-kit/{i.nofail\n;a.fail\n;}' -i "$pkgdir/etc/pulse/default.pa"
+
+    # Disable cork-request module, can result in e.g. media players unpausing
+    # when there's a Skype call incoming
+    sed -e 's|/usr/bin/pactl load-module module-x11-cork-request|#&|' -i "$pkgdir/usr/bin/start-pulseaudio-x11"
+
+    # Install xinit script
     install -Dm755 "$filedir/$pkgname.xinit" "$pkgdir/etc/X11/xinit/xinitrc.d/$pkgname"
 
     rm "$pkgdir/etc/dbus-1/system.d/$pkgname-system.conf"
-    # Move to libpulse   
-    mkdir -p "$srcdir"/libpulse/{etc/pulse,usr/{lib$LIBDIRSUFFIX,share/man/man5}}
-
-    mv {"$pkgdir","$srcdir/libpulse"}/etc/pulse/client.conf
-
-    mv "$pkgdir"/usr/lib$LIBDIRSUFFIX/libpulse{,dsp,-simple,-mainloop-glib}.so* \
-      "$pkgdir"/usr/lib$LIBDIRSUFFIX/libpulsecommon-*.so \
-      "$srcdir/libpulse/usr/lib$LIBDIRSUFFIX"
-
-    mv {"$pkgdir","$srcdir/libpulse"}/usr/lib$LIBDIRSUFFIX/pkgconfig
-    mv {"$pkgdir","$srcdir/libpulse"}/usr/include
-
-    mv {"$pkgdir","$srcdir/libpulse"}/usr/share/man/man5/pulse-client.conf.5
-    mv {"$pkgdir","$srcdir/libpulse"}/usr/share/vala
 }
 
 libpulse_prep()
 {
-	mv $srcdir/libpulse/* $pkgdir/
+    mkdir -p $pkgdir/{etc/pulse,usr/{lib$LIBDIRSUFFIX,share}}
+
+    mv $p_pkgdir/usr/lib$LIBDIRSUFFIX/libpulse{,dsp,-simple,-mainloop-glib,common*}.so* $pkgdir/usr/lib$LIBDIRSUFFIX
+
+    mv {$p_pkgdir,$pkgdir}/etc/pulse/client.conf
+    mv {$p_pkgdir,$pkgdir}/usr/lib$LIBDIRSUFFIX/pkgconfig
+    mv {$p_pkgdir,$pkgdir}/usr/include
+    mv {$p_pkgdir,$pkgdir}/usr/share/vala
 }
