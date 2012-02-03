@@ -1,5 +1,5 @@
 pkgname=wesnoth
-pkgver=1.9.9
+pkgver=1.9.10
 pkgbuild=1
 arch=('auto')
 
@@ -20,9 +20,9 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 ../"
 
 data() {
-	pkgname="wesnoth-data-fial"
+	pkgname="wesnoth-data"
 	shortdesc="Data files for Wesnoth"
-	arch=('noarch')
+	arch='noarch'
 	custom_opts="skip_gendeps no_strip"
 }
 
