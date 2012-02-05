@@ -1,0 +1,30 @@
+#!/bin/bash 
+die()
+{
+    rm $cookies_file
+    echo "ERROR: $1"
+    exit 1
+}
+
+[ -f ~/.agiloadrc ] && . ~/.agiloadrc
+[ -z $server ] && server="http://packages.agilialinux.ru"
+if [ -z "$login" ]; then
+    echo -n "Login: "; read login
+fi
+if [ -z "$password" ]; then
+    echo -n "Pass: "; stty -echo; read password; echo; stty echo
+fi
+
+cookies_file=$(mktemp)
+
+CURL="curl -c $cookies_file -b $cookies_file"
+HASH=$($CURL $server/ajaxlogin.php -d "login=$login&pass=$password" &> /dev/null)
+
+for item in $@; do
+    [  -f $item ] || die "No such file (or not a file): $item!"
+    echo "Uploading $item"
+    RES=$($CURL $server/upload.php -F "u=@$item;type=application/octet-stream" -#)
+    [ "$RES" != "OK" ] && die "$item: $RES"
+done
+
+rm $cookies_file

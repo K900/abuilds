@@ -1,0 +1,16 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=agiload
+pkgver=0.1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="A shell script for uploading packages to AgiliaLinux repos."
+tags="console app-misc"
+
+adddep="curl"
+
+build()
+{
+	install -Dm755 $filedir/$pkgname $pkgdir/usr/bin/$pkgname
+}
+
