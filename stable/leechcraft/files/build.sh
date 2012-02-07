@@ -6,6 +6,9 @@ cd ..
 cd qxmpp
 mkpkg -si $*
 cd ..
+cd libvmime
+mkpkg -si $*
+cd ..
 echo "== Done!"
 
 echo "== Building and installing core..."
