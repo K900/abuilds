@@ -22,7 +22,6 @@ EOF
 
 for item in $profiles; do
     $item
-    echo $home_directory
     if [ -d $home_directory ]; then
         list+=([$item]="$desc")
     fi
@@ -47,11 +46,6 @@ fi
 [ -z "$use_optimus" ]     && use_optimus=ask_auto
 [ -z "$optimus_texture" ] && optimus_texture="keep"
 [ -z "$intel_texture" ]   && intel_texture="keep"
-
-if ! [ -d $home_directory ]; then
-    echo "No such directory!"
-    exit 1
-fi
 
 _pushd() {
     pushd $@ &> /dev/null
