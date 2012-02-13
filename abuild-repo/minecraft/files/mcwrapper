@@ -1,20 +1,44 @@
 #!/bin/sh
 
-[ -f ~/.mcwrapperrc ] && . ~/.mcwrapperrc || (
-echo "# Home directory for Minecraft
-# You can override it any time by specifying MC=/path/to/dir
-home_directory=~
-# Heap size
-heap_max=1024M
+declare -A list
+[ -f ~/.mcwrapperrc ] || (
+cat << EOF > ~/.mcwrapperrc
+profiles="vanilla" # you can add as many as you want
+heap_max=2048M
 heap_min=256M
-# LWJGL version to use w/Java7
-lwjgl_version=2.8.1
-# Enable/disable optimus. You can put 'ask' here to ask every time.
-use_optimus=ask
-# Put the full texture pack filename, 'keep' or 'default' here.
-optimus_texture=\"default\"
-intel_texture=\"default\"" > ~/.mcwrapperrc
+lwjgl_version=2.8.1 # 2.8.1 seems faster for me
+use_optimus=1
+optimus_texture=keep
+intel_texture=default
+
+vanilla() {
+    desc="Vanilla Minecraft"
+    home_directory=~
+}
+EOF
 )
+
+. ~/.mcwrapperrc
+
+for item in $profiles; do
+    $item
+    echo $home_directory
+    if [ -d $home_directory ]; then
+        list+=([$item]="$desc")
+    fi
+done
+count=${#list[@]}
+if [ "$count" == "1" ]; then
+    ${!list[@]}
+elif [ "$count" == "0" ]; then
+    zenity --warning --title MCWrapper --text "No playable profiles found!"
+else
+    args="zenity --title MCWrapper --list --text \"Choose a profile\" --radiolist --column \"Choose\" --column \"Name\" --column \"Description\" "
+    for item in "${!list[@]}"; do
+        args+="FALSE \"$item\" \"${list[$item]}\" "
+    done
+    eval $(eval $args)
+fi
 
 [ -z "$home_directory" ]  && home_directory=~
 [ -z "$heap_max" ]        && heap_max=1024M
@@ -24,7 +48,18 @@ intel_texture=\"default\"" > ~/.mcwrapperrc
 [ -z "$optimus_texture" ] && optimus_texture="keep"
 [ -z "$intel_texture" ]   && intel_texture="keep"
 
-! [ -z "$MC" ] && home_directory=$MC
+if ! [ -d $home_directory ]; then
+    echo "No such directory!"
+    exit 1
+fi
+
+_pushd() {
+    pushd $@ &> /dev/null
+}
+
+_popd() {
+    popd $@ &> /dev/null
+}
 
 ABSOLUTE=$(cd $home_directory; pwd)
 LWJGL=$lwjgl_version
@@ -35,7 +70,7 @@ wget_gui() {
 }
 
 set_texture() {
-	cd $ABSOLUTE/.minecraft/
+	_pushd $ABSOLUTE/.minecraft/
 	if [ -f options.txt ]; then
 		if [ "$1" == "keep" ]; then
 			return
@@ -46,14 +81,15 @@ set_texture() {
 			fi
 		fi
 	fi
+    _popd
 }
 
 # Make the home directory
 mkdir -p $ABSOLUTE/.minecraft/bin
 # Download the launcher
-cd $ABSOLUTE/.minecraft/
+_pushd $ABSOLUTE/.minecraft/
 wget_gui https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar "Checking for updates..."
-cd $ABSOLUTE/.minecraft/bin
+_pushd $ABSOLUTE/.minecraft/bin
 
 # Check for java7
 if which java7-java &> /dev/null; then
@@ -85,6 +121,7 @@ if [ -f minecraft.jar ]; then
 	      # We're fine as it is
 	      lwjgl_ok=1
       fi
+
 else
 	# The launcher will redownload anyway if there's no mc.jar
 	lwjgl_ok=1
@@ -140,7 +177,8 @@ else
 	set_texture "$optimus_texture"
 fi
 
-cd $ABSOLUTE/.minecraft/
+_popd # to $ABSOLUTE/.minecraft
 echo "Running in $ABSOLUTE..."
 # Start the launcher
 $optirun $JAVA -Duser.home=$ABSOLUTE -Xmx${heap_max} -Xms${heap_min} -jar $ABSOLUTE/.minecraft/minecraft.jar
+_popd # out and away
