@@ -1,67 +1,26 @@
 #ABUILD created by/создан: agr3ss0r, agr3ss0r86 at gmail.com 
-#----------------------------- General vars --------------------------------------
-#------------------------- Основные переменные -----------------------------------
 pkgname=vlc
-pkgver=1.1.13
+pkgver=2.0.0-rc1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="VLC (VideoLAN Client multimedia player)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("For various audio and video  formats (MPEG-1, MPEG-2, MPEG-4, DivX mp3, ogg, ...)  as  well  as  DVDs,  VCDs,  and  various streaming protocols. It can also be used as a server to stream in unicast or multicast in IPv4 or IPv6 on a high-bandwidth network."
-	  ""
-	  "http://www.videolan.org/vlc/"
-)
+source=("http://download.videolan.org/pub/testing/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.xz")
 
-source=("http://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
-
-patch_opts=("")
-
-#----------------------------- AgiliaLinux vars --------------------------------------
-#--------------------- Специфичные для AgiliaLinux ------------------------------
-#short and long tags / длинный и короткий тег
 tags="xapps media-video"
 
-#dependencies only needed to build package
 build_deps="xulrunner-devel"
 
-provides=""
-conflicts=""
-
-adddep=""
 removedep="xulrunner"
 
-#for multi pkg abuild
 pkglist="vlc-mozilla-plugin"
-
-#Set number of jobs while compliling, otherwise it'll be autodetected
-#numjobs=1
-
-#additional files should be copied into /usr/docs/${pkgname} dir from sources
-docs=
-gendeps_blacklist=
-
-#----------------------------- Make PKG --------------------------------------
-#-------------------------- Сборка пакета ------------------------------------
-
-#ran before function build()
-#запускается перед сборкой
-before_build()
-{
-echo ""
-}
 
 build()
 {
-go_src_dir
-burn_patches
+    go_src_dir
+    burn_patches
 
-sed -i -e 's:truetype/freefont/FreeSerifBold.ttf:TTF/DroidSans-Bold.ttf:g' modules/misc/freetype.c
-
-LDFLAGS="$SLKLDFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./configure \
+    LDFLAGS="$SLKLDFLAGS" CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" ./configure \
 --prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
@@ -71,7 +30,6 @@ CXXFLAGS="$SLKCFLAGS" \
 --program-prefix= \
 --program-suffix= \
 --enable-dependency-tracking \
---disable-macosx-defaults \
 --disable-static \
 --enable-shared \
 --enable-fast-install \
@@ -97,27 +55,20 @@ CXXFLAGS="$SLKCFLAGS" \
 --disable-growl \
 --enable-notify \
 --disable-taglib \
---enable-live555 \
---with-live555-tree=/usr/lib${LIBDIRSUFFIX}/live-media \
 --enable-dc1394 \
 --enable-dv \
 --enable-dvdread \
 --enable-dvdnav \
---with-dvdnav-config-path=/usr/bin \
 --disable-dshow \
---disable-bda \
 --disable-opencv \
 --enable-smb \
 --enable-dvbpsi \
---enable-v4l \
 --enable-v4l2 \
---enable-libv4l2 \
 --enable-pvr \
 --enable-gnomevfs \
 --enable-libcddb \
 --enable-vcdx \
 --enable-vcd \
---enable-dvb \
 --enable-screen \
 --enable-ogg \
 --enable-mkv \
@@ -127,7 +78,6 @@ CXXFLAGS="$SLKCFLAGS" \
 --disable-wma-fixed \
 --enable-shine \
 --enable-mad \
---disable-id3tag \
 --enable-avcodec \
 --enable-avformat \
 --enable-swscale \
@@ -154,13 +104,11 @@ CXXFLAGS="$SLKCFLAGS" \
 --enable-zvbi \
 --disable-telx \
 --enable-libass \
---enable-asademux \
 --enable-kate \
 --enable-tiger \
 --enable-xvideo \
 --enable-glx \
 --enable-xcb \
---enable-opengl \
 --enable-sdl \
 --enable-sdl-image \
 --enable-freetype \
@@ -168,12 +116,8 @@ CXXFLAGS="$SLKCFLAGS" \
 --enable-fontconfig \
 --enable-libxml2 \
 --enable-svg \
---enable-snapshot \
 --disable-directx \
---enable-fb \
---enable-svgalib \
 --disable-directfb \
---disable-ggi \
 --enable-aa \
 --enable-caca \
 --disable-wingdi \
@@ -184,7 +128,6 @@ CXXFLAGS="$SLKCFLAGS" \
 --disable-waveout \
 --disable-macosx-audio \
 --disable-jack \
---enable-cyberlink \
 --enable-upnp \
 --enable-skins2 \
 --enable-qt4 \
@@ -199,40 +142,27 @@ CXXFLAGS="$SLKCFLAGS" \
 --enable-lirc \
 --enable-libgcrypt \
 --enable-gnutls \
---enable-remoteosd \
---disable-osso_screensaver \
 --disable-update-check \
 --disable-loader \
 --enable-vlc
 
-make -j${numjobs} || exit 1
-make install DESTDIR=${pkgdir} || exit 1
+    make -j${numjobs}
+    make install DESTDIR=${pkgdir}
 }
 
 vlc-mozilla-plugin()
 {
-pkg_files=mozplugin
-pkgname=vlc-mozilla-plugin
-shortdesc="VLC (Mozilla plugin)"
-#-ruler---|--------------------------------------------------------------------------|
-longdesc=("VLC media player plugin for Mozilla compatible browser"
-	  ""
-	  "**WARNING CAN CAUSE MOZILLA CRASH**"
-	  ""
-	  "http://www.videolan.org/vlc/"
-)
-adddep="vlc==$pkgver"
+    pkgname=vlc-mozilla-plugin
+    shortdesc="VLC (Mozilla plugin)"
+    adddep="vlc==$pkgver"
 }
 
-#ran after function build() 
-#после сборки
 after_build()
 {
-echo ""
-mkdir -p ${pkgdir}/usr/doc/$pkgname-$pkgver
-cp -a ${pkgdir}/usr/share/doc/vlc/* ${pkgdir}/usr/doc/$pkgname-$pkgver/
-rm -rf ${pkgdir}/usr/share/doc
+    mkdir -p ${pkgdir}/usr/doc/$pkgname-$pkgver
+    cp -a ${pkgdir}/usr/share/doc/vlc/* ${pkgdir}/usr/doc/$pkgname-$pkgver/
+    rm -rf ${pkgdir}/usr/share/doc
 
-mkdir -p ${startdir}/vlc-mozilla-plugin/usr/lib${LIBDIRSUFFIX}
-mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/mozilla ${startdir}/vlc-mozilla-plugin/usr/lib${LIBDIRSUFFIX}/
+    mkdir -p ${startdir}/vlc-mozilla-plugin/usr/lib${LIBDIRSUFFIX}
+    mv ${pkgdir}/usr/lib${LIBDIRSUFFIX}/mozilla ${startdir}/vlc-mozilla-plugin/usr/lib${LIBDIRSUFFIX}/
 }
