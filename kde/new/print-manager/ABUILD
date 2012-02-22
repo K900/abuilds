@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=print-manager
+pkgver=0.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A printing KCM and plasmoid for KDE4"
+
+source="git:git://anongit.kde.org/print-manager"
+
+tags="kde4 kde-misc"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
