@@ -1,0 +1,26 @@
+pkgname=upower
+pkgver=0.9.15
+pkgbuild=1
+arch=('auto')
+
+shortdesc="abstraction for power management"
+
+source=("http://upower.freedesktop.org/releases/${pkgname}-${pkgver}.tar.xz")
+
+tags="base sys-power"
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--libexecdir=/usr/lib$LIBDIRSUFFIX/upower \
+--disable-static \
+--mandir=/usr/man \
+--with-backend=linux \
+--enable-introspection"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
+

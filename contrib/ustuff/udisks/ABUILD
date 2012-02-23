@@ -1,0 +1,29 @@
+pkgname=udisks
+pkgver=1.0.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Daemon providing interfaces to work with storage devices"
+source=("http://hal.freedesktop.org/releases/${pkgname}-${pkgver}.tar.gz")
+
+tags="sys-fs base"
+
+build() 
+{
+    go_src_dir
+    burn_patches
+
+    export SLKCFLAGS="$SLKCFLAGS -fno-strict-aliasing"
+
+    LDFLAGS="$SLKLDFLAGS" CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" \
+    ./configure --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --disable-static 
+
+    sed -i -e 's|profile.d|bash_completion.d|' tools/Makefile
+    
+    make -j${numjobs}
+    make install DESTDIR=$pkgdir
+}
