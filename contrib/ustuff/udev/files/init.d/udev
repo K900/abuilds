@@ -86,12 +86,11 @@ start()
 	# if udevd is already running, rc.udev start will try to re-run
 	# failed events. Else, it will start udevd.
 	if ps axc | grep -q udevd ; then
-	  OPT="--type=failed $OPT"
 	  ( cd ${UDEV_ROOT}/.udev
 	    for TMPFILE in tmp-rules-*.rules ; do
 		mv $TMPFILE /etc/udev/rules.d/${TMPFILE/tmp-rules--/} 2>/dev/null
 	    done
-	  ) 
+	  )
 	else
 	  # Mount tmpfs on $UDEV_ROOT:
 	  if ! grep -E -q "^[^[:space:]]+ $UDEV_ROOT tmpfs" /proc/mounts; then
@@ -119,8 +118,8 @@ start()
 	  cp --preserve=all --recursive --remove-destination /lib/udev/devices/* $UDEV_ROOT 
 
 	  # Start udevd:
-	  echo "Starting udevd:  /sbin/udevd --daemon"
-	  /sbin/udevd --daemon
+	  echo "Starting udevd:  /lib/udev/udev/udevd --daemon"
+	  /lib/udev/udev/udevd --daemon
 
 	  # Create rootdev rules
 	  DEVICENUMBER=$( /bin/stat -c %d / )
@@ -133,9 +132,9 @@ start()
 
 	fi
 
-	echo "Triggering udev events:  /sbin/udevadm trigger $OPT"	
+	echo "Triggering udev events:  /bin/udevadm trigger $OPT"	
 	# Call udevtrigger and udevsettle to do the device configuration:
-	/sbin/udevadm trigger $OPT && /sbin/udevadm settle --timeout=120
+	/bin/udevadm trigger $OPT && /bin/udevadm settle --timeout=120
 
 
 

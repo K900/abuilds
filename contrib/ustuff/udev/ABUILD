@@ -38,9 +38,9 @@ build() {
 	make -j${numjobs}
 	make install DESTDIR=${pkgdir}
     
-    mkdir -p $pkgdir/sbin
+	mkdir -p $pkgdir/sbin
 	# Make symlink for udevd, which is in new place since udev 174:
-	( cd ${pkgdir}/sbin ; ln -s ../lib/udev/udevd udevd )
+	( cd ${pkgdir}/sbin ; ln -s ../lib/udev/udev/udevd udevd )
 
 	# scsi_id and vol_id are needed by multipath
 	( cd $pkgdir/sbin 
@@ -67,18 +67,12 @@ build() {
 	install -m755 $filedir/init.d/udev $pkgdir/etc/init.d/udev
 	install -m644 $filedir/conf.d/udev $pkgdir/etc/conf.d/udev.new
 
-	# Add extra device nodes to the package that udev doesn't make:
-	tar xvf $filedir/udev-fixed-devices.tar.gz -C $pkgdir
-	
 	# Add various helper scripts:
 	for file in $filedir/config/scripts/* ; do
 		cp -a $file $pkgdir/lib/udev/
 	done
 	chown -R root:root $pkgdir/lib/udev
 	chmod 755 $pkgdir/lib/udev/*
-
-	mkdir -p $pkgdir/usr/lib$LIBDIRSUFFIX
-	mv $pkgdir/lib${LIBDIRSUFFIX}/pkgconfig $pkgdir/usr/lib$LIBDIRSUFFIX/
 
 	# Remove gtk docs, it's a huge crap
 	rm -rf ${pkgdir}/usr/share/gtk-doc
