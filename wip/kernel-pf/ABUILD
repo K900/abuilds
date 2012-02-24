@@ -12,7 +12,7 @@ tags=("base sys-kernel")
 adddep="kernel-modules-pf==$pkgver kernel-firmware-pf"
 
 source=("http://www.kernel.org/pub/linux/kernel/v3.x/linux-${vanilla_ver}.tar.xz")
-skip_gendeps=1
+custom_opts="skip_gendeps"
 
 pkglist=("modules headers firmware sources")
 
@@ -20,9 +20,9 @@ modules() {
 	pkgname=kernel-modules-pf
 	arch=("auto")
 	shortdesc=('SMP Linux kernel modules for postfactum kernel')
-
 	tags=('base sys-kernel')
 	adddep="module-init-tools>=3.11 kernel-pf==$pkgver"
+    custom_opts="skip_gendeps"
 }
 
 headers() {
@@ -30,6 +30,7 @@ headers() {
 	arch=("auto")
 	shortdesc=('kernel-headers (Linux kernel include files) for postfactum kernel')
 	tags=('develop sys-kernel')
+    custom_opts="skip_gendeps no_strip"
 }
 
 firmware() {
@@ -37,6 +38,7 @@ firmware() {
 	arch=("fw")
 	shortdesc=('kernel-firmware (Firmware installed by the kernel) for postfactum kernel')
 	tags=('base sys-kernel')
+    custom_opts="skip_gendeps no_strip"
 }
 
 sources() {
@@ -44,6 +46,7 @@ sources() {
 	arch=('auto')
 	shortdesc=('kernel-source (Linux kernel source) with postfactum patches')
 	tags=('develop sys-kernel')
+    custom_opts="skip_gendeps no_strip"
 }
 
 build() {
