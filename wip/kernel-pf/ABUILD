@@ -140,8 +140,13 @@ headers_prep() {
 
 firmware_prep() {
 	go_src_dir
-	make firmware_install INSTALL_FW_PATH=${pkgdir}/lib/firmware
-	cp -a firmware/WHENCE ${pkgdir}/lib/firmware
+    mkdir linux-firmware
+    cd linux-firmware
+    git clone git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git
+    mkdir -p $pkgdir/lib/firmware
+    cp -ra linux-firmware/* $pkgdir/lib/firmware
+    cd ..
+    rm -rf linux-firmware
 }
 
 sources_prep() {
