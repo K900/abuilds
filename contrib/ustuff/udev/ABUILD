@@ -11,7 +11,8 @@ tags=('base sys-fs')
 
 source="ftp://ftp.kernel.org/pub/linux/utils/kernel/hotplug/$pkgname-$pkgver.tar.xz"
 
-config_files="etc/conf.d/udev etc/udev/udev.conf"
+config_files="etc/conf.d/udev
+etc/udev/udev.conf"
 
 adddep="pciutils usbutils"
 
@@ -30,10 +31,15 @@ build() {
     ln -s /usr/bin/udevadm ${pkgdir}/sbin/udevadm
 
     # clone gentoo initscripts
-    mkdir -p ${pkgdir}/etc/udev/rules.d/
+    mkdir -p ${pkgdir}/{lib/udev,/etc/{udev/rules.d/,init.d}}
     git clone git://git.overlays.gentoo.org/proj/udev-gentoo-scripts.git
     cd udev-gentoo-scripts
-    cp -r {conf.d,init.d,modprobe.d} ${pkgdir}/etc
-    cp -r helpers/* ${pkgdir}/lib/udev/
+    install -Dm755 init.d/* ${pkgdir}/etc/init.d
+    cp -r {conf.d,modprobe.d} ${pkgdir}/etc
+    install -Dm755 helpers/* ${pkgdir}/lib/udev/
     cp rules.d/90-network.rules ${pkgdir}/lib/udev/rules.d
+
+    # make a place for udev to store the socket
+    mkdir -p ${pkgdir}/run/udev/
 }
+
