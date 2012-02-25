@@ -11,69 +11,29 @@ tags=('base sys-fs')
 
 source="ftp://ftp.kernel.org/pub/linux/utils/kernel/hotplug/$pkgname-$pkgver.tar.xz"
 
-adddep="pciutils usbutils"
+config_files="etc/conf.d/udev etc/udev/udev.conf"
 
-gendeps_blacklist="lib/udev/devices\*"
+adddep="pciutils usbutils"
 
 build() {
 	go_src_dir
 	burn_patches
-	CFLAGS=$SLKCFLAGS ./configure \
-		--prefix="" \
-		--exec-prefix=/ \
-		--sbindir=/sbin \
-		--sysconfdir=/etc \
-		--libexecdir=/lib/udev \
-		--libdir=/lib${LIBDIRSUFFIX} \
-		--datarootdir=/usr/share \
-		--includedir=/usr/include \
-		--enable-shared \
-		--enable-static \
-		--mandir=/usr/man \
-		--with-rootlibdir=/lib${LIBDIRSUFFIX} \
-		--enable-rule_generator \
-		--enable-udev_acl
-
+	CFLAGS=$SLKCFLAGS ./configure --sysconfdir=/etc --with-rootprefix=/ --libdir=/usr/lib$LIBDIRSUFFIX \
+        --libexecdir=/lib --enable-rule_generator --enable-udev_acl --enable-floppy --enable-edd
 
 	make -j${numjobs}
 	make install DESTDIR=${pkgdir}
     
-	mkdir -p $pkgdir/sbin
-	# Make symlink for udevd, which is in new place since udev 174:
-	( cd ${pkgdir}/sbin ; ln -s ../lib/udev/udev/udevd udevd )
+    # make symlinks back to where stuff was before
+    mkdir -p ${pkgdir}/sbin
+    ln -s /lib/udev/udevd ${pkgdir}/sbin/udevd
+    ln -s /usr/bin/udevadm ${pkgdir}/sbin/udevadm
 
-	# scsi_id and vol_id are needed by multipath
-	( cd $pkgdir/sbin 
-		ln -s ../lib/udev/scsi_id scsi_id
-		ln -s ../lib/udev/vol_id vol_id
-	)
-
-	mkdir -p $pkgdir/etc/modprobe.d $pkgdir/etc/init.d $pkgdir/lib/udev/rules.d $pkgdir/lib/firmware
-
-	# Yes, these will clobber existing config files.
-	cp -a $filedir/config/udev.conf $pkgdir/etc/udev/udev.conf
-
-	# Copy Slackware custom rules
-	cp -a $filedir/config/rules.d/* $pkgdir/lib/udev/rules.d/
-
-	# Now the init script and module-init-tools stuff
-	cp -a $filedir/config/modprobe.d/* $pkgdir/etc/modprobe.d
-
-	chown -R root:root $pkgdir/etc
-	find $pkgdir/etc -type f -exec chmod 644 {} \;
-	find $pkgdir/etc -type d -exec chmod 755 {} \;
-
-	mkdir -p $pkgdir/etc/{init.d,conf.d}
-	install -m755 $filedir/init.d/udev $pkgdir/etc/init.d/udev
-	install -m644 $filedir/conf.d/udev $pkgdir/etc/conf.d/udev.new
-
-	# Add various helper scripts:
-	for file in $filedir/config/scripts/* ; do
-		cp -a $file $pkgdir/lib/udev/
-	done
-	chown -R root:root $pkgdir/lib/udev
-	chmod 755 $pkgdir/lib/udev/*
-
-	# Remove gtk docs, it's a huge crap
-	rm -rf ${pkgdir}/usr/share/gtk-doc
+    # clone gentoo initscripts
+    mkdir -p ${pkgdir}/etc/udev/rules.d/
+    git clone git://git.overlays.gentoo.org/proj/udev-gentoo-scripts.git
+    cd udev-gentoo-scripts
+    cp -r {conf.d,init.d,modprobe.d} ${pkgdir}/etc
+    cp -r helpers/* ${pkgdir}/lib/udev/
+    cp rules.d/90-network.rules ${pkgdir}/lib/udev/rules.d
 }
