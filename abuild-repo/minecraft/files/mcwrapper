@@ -36,7 +36,13 @@ else
     for item in "${!list[@]}"; do
         args+="FALSE \"$item\" \"${list[$item]}\" "
     done
-    eval $(eval $args)
+    while true; do
+        result=$(eval $args || echo "MCW_FIAL")
+        if [ "$result" != "MCW_FIAL" ]; then
+            eval $result
+            break
+        fi
+    done
 fi
 
 [ -z "$home_directory" ]  && home_directory=~
