@@ -1,0 +1,12 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=python-minus
+pkgver=1.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A Python client library/tool for min.us (minus.com)"
+source="http://pypi.python.org/packages/source/m/minus/minus-$pkgver.tar.gz"
+
+tags="libs dev-python"
+BUILD_SYSTEM="python"
+
