@@ -1,19 +1,24 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=lightdm
-pkgver=1.1.3
+pkgver=1.1.4
 pkgbuild=1
 arch=('auto')
 
 shortdesc="LightDM"
-longdesc=("Light Display Manager")
 
-source="bzr:lp:lightdm"
+source="http://launchpad.net/$pkgname/trunk/$pkgver/+download/$pkgname-$pkgver.tar.gz"
 
 tags="xapps x11-apps"
 
-build_deps="gobject-introspection gnome-doc-utils gnome-common"
+config_files="etc/lightdm/lightdm.conf
+etc/lightdm/users.conf
+etc/lightdm/keys.conf"
 
-custom_opts="no_strip"
+before_build() {
+    go_src_dir
+    sed -i -e "/minimum-uid/s:500:1000:" data/users.conf
+    sed -i -e "s:gtk+-3.0:gtk+-2.0:" configure.ac
+}
 
 BUILD_SYSTEM="autotools"
 
@@ -27,15 +32,18 @@ BUILD_KEYS="--prefix=/usr \
 --libexecdir=/usr/lib$LIBDIRSUFFIX/lightdm \
 --with-greeter-session=lightdm-gtk-greeter \
 --with-greeter-user=lightdm \
+--with-user-session=lightdm \
 --enable-introspection=no"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 after_build()
 {
-	mkdir -p $pkgdir/etc/{pam.d,init.d,lightdm}
-	cp $filedir/lightdm.rc $pkgdir/etc/init.d/lightdm
-	cp $filedir/lightdm $pkgdir/etc/pam.d
-	cp $filedir/lightdm.conf $pkgdir/etc/lightdm
+	install -Dm755 $filedir/lightdm.rc $pkgdir/etc/init.d/lightdm
+    for item in lightdm lightdm-autologin; do
+        install -Dm644 $filedir/$item $pkgdir/etc/pam.d/$item
+    done
+    install -Dm755 $filedir/Xsession $pkgdir/etc/lightdm/Xsession
 	rm -rf $pkgdir/etc/init
+    mkdir -p $pkgdir/var/lib/lightdm
 }

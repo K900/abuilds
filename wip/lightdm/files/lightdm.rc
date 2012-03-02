@@ -6,12 +6,12 @@
 depend() {
 	use logger acpid
 	after coldplug dns nscd consolefont keymaps dbus
-        provide xdm
+    provide xdm
 }
 
 start() {
 	ebegin "Starting X11 login with LightDM..."
-	start-stop-daemon --start -q --exec /usr/bin/lightdm --pidfile /var/run/lightdm.pid -b
+	start-stop-daemon --start -q --exec /usr/sbin/lightdm --pidfile /var/run/lightdm.pid -b
 }
 
 stop() {
