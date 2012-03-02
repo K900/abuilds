@@ -1,0 +1,18 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=lightdm-kde-greeter
+pkgver=0.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="LightDM KDE Greeter"
+
+source="git:git://anongit.kde.org/lightdm"
+
+tags="xapps x11-misc"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

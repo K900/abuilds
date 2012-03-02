@@ -1,0 +1,23 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=lightdm-qt-greeter
+pkgver=1.1.4
+pkgbuild=1
+arch=('auto')
+
+shortdesc="LightDM Qt4 Greeter"
+
+source="bzr:lp:$pkgname"
+
+tags="xapps x11-apps"
+
+BUILD_SYSTEM="autotools"
+
+BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./autogen.sh"
+
+BUILD_KEYS="--prefix=/usr \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--libdir=/usr/lib${LIBDIRSUFFIX} \
+--mandir=/usr/man"
+
+INSTALL_KEYS="DESTDIR=$pkgdir"
