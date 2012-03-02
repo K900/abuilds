@@ -85,7 +85,7 @@ build() {
 	export LANG=C
 	export LC_ALL=C
 
-	make -j$numjobs
+	make
 }
 
 jre7_prep()
