@@ -81,9 +81,9 @@ build() {
 	      --with-langtools-src-zip=${srcache}/${_LANGTOOLS_CHANGESET}.tar.gz \
 	      --with-jdk-home=/opt/java
 
-	# OMEGA HACK
-	export LANG=en_US.UTF-8
-	export LC_ALL=en_US.UTF-8
+	# OMEGA HACK VERSION 2
+	export LANG=C
+	export LC_ALL=C
 
 	make -j$numjobs
 }
