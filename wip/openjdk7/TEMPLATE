@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=openjdk7
-pkgver=7u02-2.1
+pkgver=7u@@UPDATE@@-2.1
 pkgbuild=1
 arch=('auto')
 
@@ -8,13 +8,13 @@ shortdesc="OpenJDK 7 meta-package. DO NOT upload."
 
 source=("hg:http://icedtea.classpath.org/hg/icedtea7")
 
-_CORBA_CHANGESET=78cd4b4fcb75
-_HOTSPOT_CHANGESET=433e4570d57c
-_JAXP_CHANGESET=7300d2ab9fb2
-_JAXWS_CHANGESET=d26ff33070cb
-_JDK_CHANGESET=afdcedc27c23
-_LANGTOOLS_CHANGESET=58f6a950cd72
-_OPENJDK_CHANGESET=a66b58021165
+_CORBA_CHANGESET=@@CORBA@@
+_HOTSPOT_CHANGESET=@@HOTSPOT@@
+_JAXP_CHANGESET=@@JAXP@@
+_JAXWS_CHANGESET=@@JAXWS@@
+_JDK_CHANGESET=@@JDK@@
+_LANGTOOLS_CHANGESET=@@LANGTOOLS@@
+_OPENJDK_CHANGESET=@@OPENJDK@@
 
 hg_snapshots=("http://icedtea.classpath.org/hg/icedtea7-forest/archive/${_OPENJDK_CHANGESET}.tar.gz"
 "http://icedtea.classpath.org/hg/icedtea7-forest/corba/archive/${_CORBA_CHANGESET}.tar.gz"
