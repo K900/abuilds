@@ -6,8 +6,6 @@ arch=('auto')
 
 shortdesc="OpenJDK 7 meta-package. DO NOT upload."
 
-source=("hg:http://icedtea.classpath.org/hg/icedtea7")
-
 _CORBA_CHANGESET=@@CORBA@@
 _HOTSPOT_CHANGESET=@@HOTSPOT@@
 _JAXP_CHANGESET=@@JAXP@@
@@ -16,13 +14,14 @@ _JDK_CHANGESET=@@JDK@@
 _LANGTOOLS_CHANGESET=@@LANGTOOLS@@
 _OPENJDK_CHANGESET=@@OPENJDK@@
 
-hg_snapshots=("http://icedtea.classpath.org/hg/icedtea7-forest/archive/${_OPENJDK_CHANGESET}.tar.gz"
-"http://icedtea.classpath.org/hg/icedtea7-forest/corba/archive/${_CORBA_CHANGESET}.tar.gz"
-"http://icedtea.classpath.org/hg/icedtea7-forest/jaxp/archive/${_JAXP_CHANGESET}.tar.gz"
-"http://icedtea.classpath.org/hg/icedtea7-forest/jaxws/archive/${_JAXWS_CHANGESET}.tar.gz"
-"http://icedtea.classpath.org/hg/icedtea7-forest/jdk/archive/${_JDK_CHANGESET}.tar.gz"
-"http://icedtea.classpath.org/hg/icedtea7-forest/langtools/archive/${_LANGTOOLS_CHANGESET}.tar.gz"
-"http://icedtea.classpath.org/hg/icedtea7-forest/hotspot/archive/${_HOTSPOT_CHANGESET}.tar.gz")
+source=("hg:http://icedtea.classpath.org/hg/icedtea7"
+"http://icedtea.classpath.org/hg/icedtea7-forest/archive/${_OPENJDK_CHANGESET}.tar.gz n"
+"http://icedtea.classpath.org/hg/icedtea7-forest/corba/archive/${_CORBA_CHANGESET}.tar.gz n"
+"http://icedtea.classpath.org/hg/icedtea7-forest/jaxp/archive/${_JAXP_CHANGESET}.tar.gz n"
+"http://icedtea.classpath.org/hg/icedtea7-forest/jaxws/archive/${_JAXWS_CHANGESET}.tar.gz n"
+"http://icedtea.classpath.org/hg/icedtea7-forest/jdk/archive/${_JDK_CHANGESET}.tar.gz n"
+"http://icedtea.classpath.org/hg/icedtea7-forest/langtools/archive/${_LANGTOOLS_CHANGESET}.tar.gz n"
+"http://icedtea.classpath.org/hg/icedtea7-forest/hotspot/archive/${_HOTSPOT_CHANGESET}.tar.gz n")
 
 source+=$hg_snapshots
 
