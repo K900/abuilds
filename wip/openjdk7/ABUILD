@@ -1,33 +1,12 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=openjdk7
-pkgbase=java7-openjdk
-
-_java_ver=7
-_openjdk_build=b147
-_icedtea_ver=2.0
-
-_CORBA_CHANGESET=4d9e4fb8af09
-_HOTSPOT_CHANGESET=018d705fd601
-_JAXP_CHANGESET=948e734135ea
-_JAXWS_CHANGESET=a2ebfdc9db7e
-_JDK_CHANGESET=2054526dd141
-_LANGTOOLS_CHANGESET=9b85f1265346
-_OPENJDK_CHANGESET=0a76e5390e68
-
-pkgver=${_java_ver}.${_openjdk_build}_${_icedtea_ver}
+pkgver=7.b147.2.0
 pkgbuild=1
 arch=('auto')
 
-shortdesc="OpenJDK 7 WOOHOOO!"
+shortdesc="OpenJDK 7 meta-package. DO NOT upload."
 
-source=("hg:http://icedtea.classpath.org/hg/icedtea7"
-	"http://icedtea.classpath.org/hg/icedtea7-forest/archive/${_OPENJDK_CHANGESET}.tar.gz n"
-        "http://icedtea.classpath.org/hg/icedtea7-forest/corba/archive/${_CORBA_CHANGESET}.tar.gz n"
-        "http://icedtea.classpath.org/hg/icedtea7-forest/jaxp/archive/${_JAXP_CHANGESET}.tar.gz n"
-        "http://icedtea.classpath.org/hg/icedtea7-forest/jaxws/archive/${_JAXWS_CHANGESET}.tar.gz n"
-        "http://icedtea.classpath.org/hg/icedtea7-forest/jdk/archive/${_JDK_CHANGESET}.tar.gz n"
-        "http://icedtea.classpath.org/hg/icedtea7-forest/langtools/archive/${_LANGTOOLS_CHANGESET}.tar.gz n"
-        "http://icedtea.classpath.org/hg/icedtea7-forest/hotspot/archive/${_HOTSPOT_CHANGESET}.tar.gz n")
+source=("hg:http://icedtea.classpath.org/hg/icedtea7")
 
 tags="libs sys-libs"
 
@@ -52,6 +31,9 @@ jdk7-source() {
 }
 build() {
 	go_src_dir
+
+    scripts/update_tarballs.sh $srcache
+
 	unset JAVA_HOME
 	unset CLASSPATH
 	unset MAKEFLAGS
@@ -66,7 +48,7 @@ build() {
     #TODO stop hardcoding that here.
     export DISTRIBUTION_PATCHES="patches/fontconfig-paths.diff patches/fix_corba_cmds_path.diff patches/openjdk7_fix_jdk_cmds_path.diff patches/openjdk7_nonreparenting-wm.diff"
 
-	# Bootstrap IcedTea with ecj and a GNU Classpath-based JDK:
+	# Bootstrap IcedTea with ecj and a GNU Classpath-based JDK
     # NOTE It's actually Oracle JDK, except it doesn't know that :P
 	autoreconf --force --install
 
@@ -74,20 +56,20 @@ build() {
 	      --disable-bootstrap \
 	      --disable-tests \
 	      --with-pkgversion=AgiliaLinux-${pkgver} \
-	      --with-openjdk-src-zip=${srcache}/${_OPENJDK_CHANGESET}.tar.gz \
-	      --with-hotspot-src-zip=${srcache}/${_HOTSPOT_CHANGESET}.tar.gz \
-	      --with-corba-src-zip=${srcache}/${_CORBA_CHANGESET}.tar.gz \
-	      --with-jaxp-src-zip=${srcache}/${_JAXP_CHANGESET}.tar.gz \
-	      --with-jaxws-src-zip=${srcache}/${_JAXWS_CHANGESET}.tar.gz \
-	      --with-jdk-src-zip=${srcache}/${_JDK_CHANGESET}.tar.gz \
-	      --with-langtools-src-zip=${srcache}/${_LANGTOOLS_CHANGESET}.tar.gz \
+	      --with-openjdk-src-zip=${srcache}/openjdk.tar.gz \
+	      --with-hotspot-src-zip=${srcache}/hotspot.tar.gz \
+	      --with-corba-src-zip=${srcache}/corba.tar.gz \
+	      --with-jaxp-src-zip=${srcache}/jaxp.tar.gz \
+	      --with-jaxws-src-zip=${srcache}/jaxws.tar.gz \
+	      --with-jdk-src-zip=${srcache}/jdk.tar.gz \
+	      --with-langtools-src-zip=${srcache}/langtools.tar.gz \
 	      --with-jdk-home=/opt/java
 
 	# OMEGA HACK
 	export LANG=en_US.UTF-8
 	export LC_ALL=en_US.UTF-8
 
-	make
+	make -j$numjobs
 }
 
 jre7_prep()

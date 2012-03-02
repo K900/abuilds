@@ -9,8 +9,6 @@ source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-open
 
 tags="libs dev-db"
 
-BUILD_SYSTEM="autotools"
-
 BUILD_WORD="LDFLAGS=\"$SLKLDFLAGS\" CFLAGS=\"$SLKCFLAGS\" CXXFLAGS=\"$SLKCFLAGS\" ./configure"
 
 BUILD_KEYS="--prefix=/usr \
@@ -20,18 +18,20 @@ BUILD_KEYS="--prefix=/usr \
 --disable-static \
 --mandir=/usr/man \
 --program-prefix= \
---program-suffix="
+--program-suffix= \
+--disable-hslookup \
+--disable-rendezvous \
+--disable-all-vads"
 
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
-after_build() {
+build() {
     go_src_dir
-    cd virtuoso
+    eval $BUILD_WORD $BUILD_KEYS
+    make -j$numjobs
+
+    cd binsrc/virtuoso
     make $INSTALL_KEYS install
     cd ../driver
     make $INSTALL_KEYS install
-    cd ../binsrc/tests
-    for i in isql isqlw; do
-        install -Dm755 $i $pkgdir/usr/bin/${i}-virtuoso
-    done
 }
