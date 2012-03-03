@@ -1,0 +1,40 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=wit
+pkgver=2.03a-r3309
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A set of tools for working with Wii ISO/WBFS images"
+
+if [ "$LIBDIRSUFFIX" == "64" ]; then
+    _arch=x86_64
+else
+    _arch=i386
+fi
+
+source="http://wit.wiimm.de/download/wit-v${pkgver}-${_arch}.tar.gz"
+
+tags="libs app-emulation"
+
+build() {
+	go_src_dir
+	_srcdir=$(pwd)
+
+	sed -i "s|/usr/local|${pkgdir}/usr|" install.sh
+	sed -i "s|/usr/local|${pkgdir}/usr|" load-titles.sh
+	# Load titles from http://www.wiitdb.com/
+	sed -i "s|NEEDED=\"wit wget tr\"|NEEDED=\"wget tr\"|" load-titles.sh
+	sed -i "s|wit titles|$_srcdir/bin/wit titles|" load-titles.sh
+	./load-titles.sh
+
+	# INSTALL
+	./install.sh
+
+	cd $pkgdir/usr/share/wit
+	sed -i "s|${pkgdir}||" load-titles.sh
+	sed -i "s|${_srcdir}||" load-titles.sh
+
+	cd $pkgdir/usr/bin
+	chmod 755 wdf
+	chmod 755 wdf-cat
+}

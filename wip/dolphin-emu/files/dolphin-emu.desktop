@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Dolphin
+
+GenericName=GameCube/Wii emulator
+GenericName[ru]=Эмулятор GameCube/Wii
+Comment=Play GameCube and Wii games on your PC
+Comment[ru]=Играть в игры GameCube/Wii на компьютере
+
+Exec=dolphin-emu
+Icon=dolphin-emu
+Type=Application
+Categories=Game;Emulator

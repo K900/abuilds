@@ -1,0 +1,20 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=wii-backup-fusion-hg
+pkgver=1.2
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A universal tool for manipulating Wii images"
+
+source="hg:http://hg.code.sf.net/p/wiibafu/code"
+
+tags="xapps app-emulation"
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+
+after_build() {
+    go_src_dir
+    install -Dm755 bin/WiiBaFu $pkgdir/usr/bin/WiiBaFu
+    install -Dm755 resources/WiiBaFu.desktop $pkgdir/usr/share/applications/WiiBaFu.desktop
+    install -Dm755 resources/images/WiiBaFu.png $pkgdir/usr/share/pixmaps/WiiBaFu.png
+}
