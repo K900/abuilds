@@ -56,7 +56,6 @@ build() {
 
 	export ALT_PARALLEL_COMPILE_JOBS=$numjobs
 	export HOTSPOT_BUILD_JOBS=$numjobs
-	export ALT_BOOTDIR=/opt/java
 
 	. /etc/profile.d/apache-ant.sh
 
@@ -67,6 +66,14 @@ build() {
 	# Bootstrap IcedTea with ecj and a GNU Classpath-based JDK
     # NOTE It's actually Oracle JDK, except it doesn't know that :P
 	autoreconf --force --install
+
+    if [ -d /opt/java ]; then
+        JDK_PATH=/opt/java
+    else
+        JDK_PATH=/opt/openjdk7
+    fi
+
+    export ALT_BOOTDIR=$JDK_PATH
 
 	./configure \
 	      --disable-bootstrap \
@@ -79,7 +86,7 @@ build() {
 	      --with-jaxws-src-zip=${srcache}/${_JAXWS_CHANGESET}.tar.gz \
 	      --with-jdk-src-zip=${srcache}/${_JDK_CHANGESET}.tar.gz \
 	      --with-langtools-src-zip=${srcache}/${_LANGTOOLS_CHANGESET}.tar.gz \
-	      --with-jdk-home=/opt/java
+	      --with-jdk-home=$JDK_PATH
 
 	# OMEGA HACK VERSION 2
 	export LANG=C
