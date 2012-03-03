@@ -1,0 +1,11 @@
+diff -uNr wiiuse_v0.12.old/src/io_nix.c wiiuse_v0.12/src/io_nix.c
+--- wiiuse_v0.12.old/src/io_nix.c	2012-03-03 12:43:30.512606855 +0400
++++ wiiuse_v0.12/src/io_nix.c	2012-03-03 12:44:09.004605245 +0400
+@@ -170,6 +170,7 @@
+  */
+ static int wiiuse_connect_single(struct wiimote_t* wm, char* address) {
+ 	struct sockaddr_l2 addr;
++    memset(&addr, 0, sizeof(addr));
+ 
+ 	if (!wm || WIIMOTE_IS_CONNECTED(wm))
+ 		return 0;

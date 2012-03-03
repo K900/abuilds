@@ -1,0 +1,17 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=dolphin-emulator-git
+pkgver=3.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A Nintendo GameCube/Wii emulator"
+source="git:http://code.google.com/p/dolphin-emu/"
+
+tags="games app-emulation"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"

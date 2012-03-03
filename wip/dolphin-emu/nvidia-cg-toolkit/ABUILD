@@ -1,0 +1,24 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=nvidia-cg-toolkit
+pkgver=3.1
+pkgdate=February2012
+pkgbuild=1
+arch=('auto')
+
+if [ "$LIBDIRSUFFIX" == "64" ]; then
+    _arch=x86_64
+else
+    _arch=x86
+fi
+
+shortdesc="NVidia Cg libraries"
+
+source="http://developer.download.nvidia.com/cg/Cg_$pkgver/Cg-${pkgver}_${pkgdate}_${_arch}.tgz"
+
+tags="libs media-gfx"
+
+build() {
+    go_src_dir
+    mkdir -p $pkgdir/usr/
+    cp -r {bin,include,lib$LIBDIRSUFFIX} $pkgdir/usr/    
+}

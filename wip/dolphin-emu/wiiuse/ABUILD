@@ -1,0 +1,19 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=wiiuse
+pkgver=0.12
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A library for interfacing with WiiMotes"
+
+source="http://downloads.sourceforge.net/sourceforge/wiiuse/wiiuse_v${pkgver}_src.tar.gz"
+
+tags="libs app-emulation"
+
+build() {
+    go_src_dir
+    burn_patches
+    make wiiuse
+    install -Dm644 src/release-/libwiiuse.so $pkgdir/usr/lib$LIBDIRSUFFIX/libwiiuse.so
+    install -Dm644 src/wiiuse.h $pkgdir/usr/include/wiiuse.h
+}

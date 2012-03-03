@@ -1,0 +1,21 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=sfml
+pkgver=1.99
+pkgbuild=1
+arch=('auto')
+
+shortdesc="A simple multimedia library"
+source="git:https://github.com/LaurentGomila/SFML.git"
+
+tags="libs media-sound"
+
+BUILD_SYSTEM="cmake"
+BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DLIB_DIR=lib${LIBDIRSUFFIX} \
+-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+../"
+
+after_build() {
+    install -Dm644 $pkgdir/usr/share/SFML/cmake/Modules/FindSFML.cmake $pkgdir/usr/share/cmake/Modules/FindSFML.cmake
+}
