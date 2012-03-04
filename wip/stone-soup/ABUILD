@@ -1,0 +1,27 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=dungeon-crawl-stone-soup
+_pkgname=stone_soup
+pkgver=0.10.0
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Dungeon Crawl Stone Soup is an open-source, single-player, role-playing roguelike game of exploration and treasure-hunting in dungeons filled with dangerous and unfriendly monsters in a quest to rescue the mystifyingly fabulous Orb of Zot."
+
+source=("http://downloads.sourceforge.net/sourceforge/crawl-ref/${_pkgname}-${pkgver}-nodeps.tar.xz")
+
+tags="games games-roguelike"
+
+build()
+{
+    go_src_dir
+    burn_patches
+    cd source
+    sed -i 's|bin_prefix    := bin|bin_prefix    := usr/bin|' Makefile
+    sed -i 's/INSTALL_UGRP := games:games/INSTALL_UGRP := root:root/' Makefile
+    sed -i 's|MCHMOD := 2755|MCHMOD := 755|' Makefile
+    makeflags="-j$numjobs DESTDIR=$pkgdir SAVEDIR=~/.stone-soup/ DATADIR=/usr/share/${pkgname}/data USE_UNICODE=y"
+    make $makeflags TILES=y install
+    mv $pkgdir/usr/bin/{crawl,crawl-tiles}
+    make $makeflags install
+    install -Dm644 dat/tiles/stone_soup_icon-32x32.png ${pkgdir}/usr/share/pixmaps/${pkgname}.png
+}
