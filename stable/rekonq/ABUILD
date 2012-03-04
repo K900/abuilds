@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=rekonq-git
-pkgver=0.7.57
+pkgver=0.9
 pkgbuild=1
 arch=('auto')
 
