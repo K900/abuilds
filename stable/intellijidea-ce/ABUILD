@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=jetbrains-ides
-pkgver=2.0.1_pycharm
+pkgver=11.0.2_ideace
 
 # HAAAAACKS >>>
 if [ "$filedir" == "" ]; then
@@ -39,7 +39,7 @@ libs()
 {
 	pkgname=$p_pkgname-libs
 	shortdesc="Arch-dependent libraries for $prodname"
-	arch=('x86_64')
+	arch=('auto')
 }
 
 libs_prep()
