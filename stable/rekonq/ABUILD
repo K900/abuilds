@@ -1,16 +1,14 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
-pkgname=rekonq-git
-pkgver=0.9
+pkgname=rekonq
+pkgver=0.9.0
 pkgbuild=1
 arch=('auto')
 
 shortdesc="A new web browser for KDE. Hopefully to replace konqueror soon."
 
-source="git:git://anongit.kde.org/rekonq"
+source="https://downloads.sourceforge.net/project/rekonq/0.9/rekonq-$pkgver-$pkgbuild.tar.bz2"
 
 tags="kde4 kde-misc"
-
-provides="rekonq"
 
 BUILD_SYSTEM="cmake"
 BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
