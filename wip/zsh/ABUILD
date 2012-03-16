@@ -1,6 +1,6 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=zsh
-pkgver=4.3.15
+pkgver=4.3.17
 pkgbuild=1
 arch=('auto')
 
@@ -40,6 +40,7 @@ BUILD_KEYS="--prefix=/usr \
 INSTALL_KEYS="DESTDIR=$pkgdir"
 
 after_build() {
+    mkdir -p $pkgdir/etc/
     echo "# This is the zsh profile file. It is set to call /etc/profile by default." > $pkgdir/etc/zprofile
     echo "emulate sh -c 'source /etc/profile'" >> $pkgdir/etc/zprofile
 	echo "# This is your global zshrc file. Add whatever you need to be available to all users in here." > $pkgdir/usr/share/zsh/zshrc

@@ -1,12 +1,12 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=alien-arena
-pkgver=7.52
+pkgver=7.53
 pkgbuild=1
 arch=('auto')
 
 shortdesc="A fast, fun and FREE deathmatch game!"
 
-source="http://icculus.org/alienarena/Files/alienarena-7_52-linux20110929.tar.gz"
+source="http://icculus.org/alienarena/Files/alienarena-7.53-linux20111227.tar.gz"
 
 tags="games games-fps"
 
