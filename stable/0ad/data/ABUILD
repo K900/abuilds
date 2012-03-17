@@ -1,7 +1,7 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=0ad-data
-pkgver=alpha7
-_pkgver=r10288-alpha
+pkgver=alpha9
+_pkgver=r11339-alpha
 pkgbuild=1
 arch=('noarch')
 

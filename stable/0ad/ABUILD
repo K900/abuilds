@@ -1,7 +1,7 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=0ad
-pkgver=alpha7
-_pkgver=r10288-alpha
+pkgver=alpha9
+_pkgver=r11339-alpha
 pkgbuild=1
 arch=('auto')
 
@@ -17,9 +17,7 @@ build()
 {
   go_src_dir
   burn_patches
-  cd build/premake/
-  sed -i 's/unix_names = { "boost_signals-mt", "boost_filesystem-mt", "boost_system-mt" },/unix_names = { "boost_signals", "boost_filesystem", "boost_system" },/g' extern_libs.lua
-  cd ../workspaces/
+  cd build/workspaces/
   ./update-workspaces.sh
   cd gcc/
   make CONFIG=Release
