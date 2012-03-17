@@ -1,13 +1,18 @@
 #ABUILD created by/создан: K900, k0009000 at gmail.com 
 pkgname=vim-gvim-hg
-pkgver=7.31
+if [ -z $VIMTAG ]; then
+    # Fetch from latest hg
+    export VIMTAG=$(curl http://vim.googlecode.com/hg/.hgtags | tail -n1 | grep -P -o "(?<=v7-3-)[0-9]*")
+fi
+pkgver=7.3.$VIMTAG
 pkgbuild=1
 provides=vim
 arch=('auto')
 
-shortdesc="Vim advanced text editor with GTK2 GUI."
+shortdesc="Vim advanced text editor (vi clone)"
 
 source="hg:https://vim.googlecode.com/hg/"
+
 tags=('app-editors xapps')
 
 BUILD_SYSTEM="autotools"
@@ -18,7 +23,6 @@ BUILD_KEYS="--prefix=/usr \
 --sysconfdir=/etc \
 --localstatedir=/var \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
---disable-static \
 --mandir=/usr/man \
 --program-prefix= \
 --program-suffix= \
