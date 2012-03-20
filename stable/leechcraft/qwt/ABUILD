@@ -1,0 +1,21 @@
+#ABUILD created by/создан: Unnamed_Hero, sorry at email.hide 
+pkgname=qwt
+pkgver=6.0.1
+pkgbuild=1
+arch=('auto')
+
+shortdesc="Qt Widgets for Technical Applications"
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="libs dev-libs"
+
+before_build()
+{
+    go_src_dir
+    cp $filedir/qwtconfig.pri .
+    sed "s/@@LDS@@/$LIBDIRSUFFIX/" -i qwtconfig.pri
+}
+
+BUILD_SYSTEM="qmake"
+BUILD_KEYS="*.pro PREFIX=/usr"
+INSTALL_KEYS="INSTALL_ROOT=$pkgdir QTDIR=/usr"

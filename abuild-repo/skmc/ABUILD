@@ -1,0 +1,21 @@
+#ABUILD created by/создан: K900, k0009000 at gmail.com 
+pkgname=skmc
+pkgver=3.1.1
+pkgbuild=1
+arch="noarch"
+
+shortdesc="sk89q's Minecraft Launcher"
+
+source="https://github.com/downloads/sk89q/skmclauncher/skmclauncher-$pkgver.zip"
+
+tags="xapps games-misc"
+
+build_deps="maven"
+adddep="jre"
+
+build()
+{
+    go_src_dir
+    install -Dm755 $filedir/skmc $pkgdir/usr/bin/skmc
+    install -Dm644 SKMCLauncher.jar $pkgdir/usr/share/skmc/skmc.jar
+}

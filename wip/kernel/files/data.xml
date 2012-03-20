@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<name>
+		kernel
+	</name>
+	<version>
+		3.2.11
+	</version>
+	<arch>
+		x86_64
+	</arch>
+	<build>
+		1
+	</build>
+	<short_description>
+		Linux kernel
+	</short_description>
+	<description>
+		This is a Linux kernel with built-in support for most disk controllers and filesystems.
+	</description>
+	<dependencies>
+		<dep>
+			<name>
+				kernel-modules
+			</name>
+			<condition>
+				equal
+			</condition>
+			<version>
+				3.2.11
+			</version>
+		</dep>
+		<dep>
+			<name>
+				kernel-firmware
+			</name>
+			<condition>
+				any
+			</condition>
+			<version>
+			</version>
+		</dep>
+	</dependencies>
+	<suggests/>
+	<maintainer>
+		<name>
+			aix27249
+		</name>
+		<email>
+			i27249@gmail.com
+		</email>
+	</maintainer>
+	<tags>
+		<tag>
+			base
+		</tag>
+		<tag>
+			sys-kernel
+		</tag>
+	</tags>
+</package>

@@ -17,3 +17,8 @@ BUILD_KEYS="-DCMAKE_INSTALL_PREFIX=/usr \
 -DCMAKE_BUILD_TYPE=RELEASE \
 -DLIB_SUFFIX=${LIBDIRSUFFIX} \
 ../"
+
+after_build() {
+    cd $pkgdir/usr/share
+    mv cmake cmake-2.8
+}
