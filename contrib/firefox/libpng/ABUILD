@@ -1,0 +1,21 @@
+pkgname=libpng
+pkgver=1.2.47
+pkgbuild=1
+arch=('auto')
+
+shortdesc="libpng (Portable Network Graphics library)"
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+
+tags="libs media-gfx"
+
+build()
+{
+  go_src_dir
+  wget http://downloads.sourceforge.net/project/libpng-apng/libpng12/$pkgver/libpng-$pkgver-apng.patch.gz 
+  zcat libpng-$pkgver-apng.patch.gz | patch
+  ./autogen.sh 
+  ./configure --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX}
+  make -j$numjobs
+  make DESTDIR=$pkgdir install
+}
+
