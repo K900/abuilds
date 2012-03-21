@@ -11,22 +11,6 @@ source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source
 
 tags="xapps www-client"
 
-pkglist="dev"
-
-dev() {
-    pkgname=mozilla-firefox-dev
-    pkgver=11.0
-    shortdesc="Mozilla Firefox development files"
-}
-
-dev_prep() {
-    mkdir -p $pkgdir/usr/lib$LIBDIRSUFFIX
-    mkdir -p $pkgdir/usr/share
-    mv $p_pkgdir/usr/include $pkgdir/usr
-    mv $p_pkgdir/usr/lib$LIBDIRSUFFIX/firefox-devel $pkgdir/usr/lib$LIBDIRSUFFIX
-    mv $p_pkgdir/usr/share/idl $pkgdir/usr/share
-}
-
 build() 
 {
     go_src_dir
@@ -43,11 +27,11 @@ after_build()
 	    install -Dm644 browser/branding/official/default${i/x*/}.png ${pkgdir}/usr/share/icons/hicolor/$i/apps/firefox.png
     done
 
-    for _lang in "ru uk"; do
-	    install -m644 ${srcache}/${_lang}.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox/extensions/langpack-${_lang}@firefox.mozilla.org.xpi
+    for locale in ru uk; do
+	    install -m644 ${srcache}/$locale.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox/extensions/langpack-$locale@firefox.mozilla.org.xpi
     done
    
-    rm -rf "$pkgdir"/usr/lib/firefox/{dictionaries,hyphenation}
+    rm -rf $pkgdir/usr/lib/firefox/{dictionaries,hyphenation}
     ln -sf /usr/share/hunspell $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/dictionaries
     ln -sf /usr/share/hyphen $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/hyphenation
 
