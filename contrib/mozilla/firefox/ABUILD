@@ -39,4 +39,7 @@ after_build()
     ln -sf /usr/lib$LIBDIRSUFFIX/xulrunner $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/xulrunner
 
     install -m644 $filedir/vendor.js $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/defaults/pref
+
+    rm $pkgdir/usr/bin/firefox
+    install -Dm755 $filedir/firefox $pkgdir/usr/bin/firefox
 }

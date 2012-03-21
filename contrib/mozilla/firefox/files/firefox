@@ -1,0 +1,5 @@
+#!/bin/sh
+[ "$(uname -m)" == "x86_64" ] && LIBDIRSUFFIX=64
+pushd /usr/lib$LIBDIRSUFFIX/firefox/
+./firefox $@
+popd
