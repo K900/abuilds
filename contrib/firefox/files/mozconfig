@@ -14,7 +14,8 @@ ac_add_options --with-system-nss
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-zlib
 ac_add_options --with-system-bz2
-ac_add_options --with-system-png
+# TODO libpng15
+#ac_add_options --with-system-png
 ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
 ac_add_options --enable-system-hunspell
@@ -37,4 +38,3 @@ ac_add_options --disable-mochitest
 ac_add_options --disable-installer
 
 mk_add_options MOZ_MAKE_FLAGS="-j%%JOBS%%"
-ac_add_options --with-ccache=/usr/bin/ccache
