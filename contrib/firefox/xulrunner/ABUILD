@@ -1,0 +1,44 @@
+pkgname=xulrunner
+pkgver=11.0
+pkgbuild=1
+arch=('any')
+
+shortdesc="Mozilla XULRunner library"
+
+source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source/firefox-${pkgver}.source.tar.bz2")
+
+tags="xapps www-client"
+
+pkglist="dev"
+
+dev() {
+    pkgname=xulrunner-devel
+}
+
+dev_prep() {
+    mkdir -p $pkgdir/usr/{lib$LIBDIRSUFFIX,share}
+    mv $p_pkgdir/usr/include $pkgdir/usr
+    mv $p_pkgdir/usr/lib$LIBDIRSUFFIX/xulrunner-devel $pkgdir/usr/lib$LIBDIRSUFFIX
+    mv $p_pkgdir/usr/share/idl $pkgdir/usr/share
+}
+
+build() 
+{
+    go_src_dir
+    burn_patches
+    sed "${filedir}/mozconfig" -e "s/%%LIBSUFFIX%%/${LIBDIRSUFFIX}/g" -e "s/%%JOBS%%/${numjobs}/g" > .mozconfig
+    make -j$numjobs -f client.mk build
+    make -j1 -f client.mk DESTDIR=${pkgdir} install
+}
+
+after_build()
+{
+    rm -rf $pkgdir/usr/lib$LIBDIRSUFFIX/xulrunner/{dictionaries,hyphenation}
+    ln -sf /usr/share/hunspell $pkgdir/usr/lib$LIBDIRSUFFIX/xulrunner/dictionaries
+    ln -sf /usr/share/hyphen $pkgdir/usr/lib$LIBDIRSUFFIX/xulrunner/hyphenation
+
+    install -d $pkgdir/etc/ld.so.conf.d
+    echo /usr/lib$LIBDIRSUFFIX/xulrunner > $pkgdir/etc/ld.so.conf.d/xulrunner.conf 
+
+    chmod +x ${pkgdir}/usr/lib$LIBDIRSUFFIX/xulrunner-devel/sdk/bin/xpt.py
+}
