@@ -11,6 +11,8 @@ source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source
 
 tags="xapps www-client"
 
+adddep="xulrunner"
+
 build() 
 {
     go_src_dir
@@ -34,6 +36,7 @@ after_build()
     rm -rf $pkgdir/usr/lib/firefox/{dictionaries,hyphenation}
     ln -sf /usr/share/hunspell $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/dictionaries
     ln -sf /usr/share/hyphen $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/hyphenation
+    ln -sf /usr/lib$LIBDIRSUFFIX/xulrunner $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/xulrunner
 
     install -m644 $filedir/vendor.js $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/defaults/pref
 }

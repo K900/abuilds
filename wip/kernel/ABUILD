@@ -112,9 +112,9 @@ build() {
 
 	# Now copy kernel config
 	if [ "$ARCH" = "x86_64" ] ; then
-		cat $filedir/3.$kernel_base.defconfig-x86_64 > .config
+		cat $filedir/defconfig-x86_64 > .config
 	else
-		cat $filedir/3.$kernel_base.defconfig-x86 > .config
+		cat $filedir/defconfig-x86 > .config
 	fi
 
 	# Running make oldconfig seems to be a good idea when upgrading kernel version. Note that here can be interactive questions.
