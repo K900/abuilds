@@ -1,12 +1,13 @@
 #ABUILD created by/создан: fat0troll, fat0troll at riseup.net 
 pkgname=virtualgl
-pkgver=2.3
+pkgver=2.3.1
 pkgbuild=1
 arch=('auto')
 
 shortdesc="Redirects 3D commands from an OpenGL application onto a server-side 3D graphics card."
 
-source=("http://downloads.sourceforge.net/project/virtualgl/VirtualGL/$pkgver/VirtualGL-$pkgver.tar.gz")
+# Latest snapshot. Because checking out a shitton of SVN is bad practice.
+source="svn:http://virtualgl.svn.sourceforge.net/svnroot/virtualgl/vgl/trunk"
 
 # Yeah. They did it. They made cmake fail w/ccache.
 export CC="gcc"
