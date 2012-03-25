@@ -32,7 +32,13 @@ build()
         --prefix=/usr --sysconfdir=/etc
     make
     make DESTDIR=$pkgdir install
+
+    # Agilia: init scripts
     install -Dm755 $filedir/bumblebeed.init $pkgdir/etc/init.d/bumblebeed
     install -Dm644 $filedir/bumblebeed.conf $pkgdir/etc/conf.d/bumblebeed
+    
     install -Dm644 scripts/bash_completion/bumblebee $pkgdir/etc/bash_completion.d/bumblebee
+
+    # Agilia: zsh completion script
+    install -Dm644 $filedir/_optirun $pkgdir/usr/share/zsh/functions/Completion/X/_optirun
 }
