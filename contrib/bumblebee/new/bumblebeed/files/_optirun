@@ -9,4 +9,17 @@ for e in "${environ[@]}"
 do local -x "$e"
 done
 
-_arguments '*::arguments: _normal'
+_arguments -s \
+       '(--no-failsafe)'--failsafe'[run a program even if the nvidia card is unavailable]' \
+       '(--failsafe)'--no-failsafe'[do not run a program if the nvidia card is unavailable]' \
+       '(-q --quiet --silent)'{-q,--quiet,--silent}'[supress all logging messages]' \
+       '(-v --verbose)'{-v,--verbose}'[increase the verbosity level of log messages]' \
+       '--debug[show all logging messages]' \
+       '(-h --help)'{-h,--help}'[display help and exit]' \
+       '--version[output version information and exit]' \
+       '(-d --display)'{-d,--display=}'[X display number to use]:X display number:(0 1 2 3 4 5 6 7 8 9)' \
+       '(-C --config)'{-C,--config=}'[alternative config file]:config file:_files' \
+       '(-l --ldpath)'{-l,--ldpath=}'[path to libGL and other libraries]:library path:_directories' \
+       '(-s --socket)'{-s,--socket=}'[file socket for communication with the daemon]:socket file:_files' \
+       '(-c --vgl-compress)'{-c,--vgl-compress=}'[image compression method for VirtualGL]:compression method:(proxy jpeg rgb xv yuv)' \
+       '*::application: _normal'
