@@ -8,6 +8,8 @@ arch=('auto')
 shortdesc="Latest Skype version with OSS support"
 longdesc=("$shortdesc")
 
+# Google skype_static-2.0.0.72-oss.tar.bz2 and put it in your srcache
+
 source="http://localhost/skype_static-$pkgver-oss.tar.bz2"
 tags="xapps net-im proprietary x86"
 
