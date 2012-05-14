@@ -37,3 +37,6 @@ ac_add_options --disable-mochitest
 ac_add_options --disable-installer
 
 mk_add_options MOZ_MAKE_FLAGS="-j%%JOBS%%"
+
+# Gstreamer
+ac_add_options --enable-gstreamer
