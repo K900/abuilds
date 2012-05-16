@@ -13,6 +13,7 @@ tags="xapps www-client"
 build_deps="autoconf2.13"
 
 adddep="xulrunner"
+conflicts="mozilla-firefox"
 
 build() 
 {
