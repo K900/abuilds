@@ -28,10 +28,6 @@ after_build()
 	    install -Dm644 browser/branding/official/default${i/x*/}.png ${pkgdir}/usr/share/icons/hicolor/$i/apps/firefox.png
     done
 
-#    for locale in ru uk; do
-#	    install -m644 ${srcache}/$locale.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox/extensions/langpack-$locale@firefox.mozilla.org.xpi
-#    done
-   
     rm -rf $pkgdir/usr/lib/firefox/{dictionaries,hyphenation}
     ln -sf /usr/share/hunspell $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/dictionaries
     ln -sf /usr/share/hyphen $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/hyphenation
