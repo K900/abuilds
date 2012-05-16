@@ -5,9 +5,8 @@ arch=('any')
 
 shortdesc="Mozilla Firefox web browser"
 
-source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source/firefox-${pkgver}.source.tar.bz2"
-"ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}/linux-i686/xpi/ru.xpi n"
-"ftp://ftp.mozilla.org/pub/firefox/releases/${pkgver}/linux-i686/xpi/uk.xpi n")
+#source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source/firefox-${pkgver}.source.tar.bz2")
+source=("hg:http://hg.mozilla.org/mozilla-central")
 
 tags="xapps www-client"
 
@@ -29,9 +28,9 @@ after_build()
 	    install -Dm644 browser/branding/official/default${i/x*/}.png ${pkgdir}/usr/share/icons/hicolor/$i/apps/firefox.png
     done
 
-    for locale in ru uk; do
-	    install -m644 ${srcache}/$locale.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox/extensions/langpack-$locale@firefox.mozilla.org.xpi
-    done
+#    for locale in ru uk; do
+#	    install -m644 ${srcache}/$locale.xpi ${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox/extensions/langpack-$locale@firefox.mozilla.org.xpi
+#    done
    
     rm -rf $pkgdir/usr/lib/firefox/{dictionaries,hyphenation}
     ln -sf /usr/share/hunspell $pkgdir/usr/lib$LIBDIRSUFFIX/firefox/dictionaries

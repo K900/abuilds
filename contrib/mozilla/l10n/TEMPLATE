@@ -1,0 +1,18 @@
+pkgname=mozilla-firefox-l10n-@LOCALE@
+pkgver=15.0a1
+pkgbuild=1
+arch=('noarch')
+
+shortdesc="Mozilla Firefox web browser"
+
+source=("ftp://ftp.mozilla.org/pub/firefox/nightly/latest-mozilla-central-l10n/win32/xpi/firefox-${pkgver}.@LOCALE@.langpack.xpi n")
+
+tags="xapps www-client"
+
+adddep="mozilla-firefox"
+
+build() {
+     extdir=${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox/extensions/
+     mkdir -p $extdir
+     install -m644 ${srcache}/firefox-${pkgver}.@LOCALE@.langpack.xpi $extdir/langpack-@LOCALE@@firefox.mozilla.org.xpi
+}
