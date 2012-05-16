@@ -9,7 +9,7 @@ source=("ftp://ftp.mozilla.org/pub/firefox/nightly/latest-mozilla-central-l10n/w
 
 tags="xapps www-client"
 
-adddep="mozilla-firefox"
+adddep="mozilla-firefox==$pkgver"
 
 build() {
      extdir=${pkgdir}/usr/lib${LIBDIRSUFFIX}/firefox/extensions/

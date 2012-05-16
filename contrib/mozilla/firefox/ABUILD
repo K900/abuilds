@@ -10,7 +10,7 @@ source=("hg:http://hg.mozilla.org/mozilla-central")
 
 tags="xapps www-client"
 
-adddep="xulrunner"
+adddep="xulrunner==$pkgver"
 
 build() 
 {
