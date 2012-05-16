@@ -1,11 +1,12 @@
 pkgname=xulrunner
-pkgver=12.0
+pkgver=15.0a1
 pkgbuild=1
 arch=('any')
 
 shortdesc="Mozilla XULRunner library"
 
-source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source/firefox-${pkgver}.source.tar.bz2")
+#source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source/firefox-${pkgver}.source.tar.bz2")
+source=("hg:http://hg.mozilla.org/mozilla-central")
 
 tags="xapps www-client"
 
