@@ -24,9 +24,9 @@ dev_prep() {
     mv $p_pkgdir/usr/lib$LIBDIRSUFFIX/xulrunner-devel $pkgdir/usr/lib$LIBDIRSUFFIX
     mv $p_pkgdir/usr/share/idl $pkgdir/usr/share
     cd $pkgdir/usr/lib$LIBDIRSUFFIX/xulrunner-devel/sdk
-    binpath=$pkgdir/usr/lib$LIBDIRSUFFIX/xulrunner/
-    mkdir -p $binpath
-    mv bin $binpath
+    binpath=/usr/lib$LIBDIRSUFFIX/xulrunner/
+    mkdir -p $pkgdir/$binpath
+    mv bin $pkgdir/$binpath
     ln -s $binpath/bin .
 }
 
@@ -48,5 +48,5 @@ after_build()
     install -d $pkgdir/etc/ld.so.conf.d
     echo /usr/lib$LIBDIRSUFFIX/xulrunner > $pkgdir/etc/ld.so.conf.d/xulrunner.conf 
 
-    chmod +x ${pkgdir}/usr/lib$LIBDIRSUFFIX/xulrunner-devel/sdk/bin/xpt.py
+    chmod +x ${pkgdir}/usr/lib$LIBDIRSUFFIX/xulrunner-devel/sdk/bin/*.py
 }

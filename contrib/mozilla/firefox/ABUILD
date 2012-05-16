@@ -12,7 +12,7 @@ tags="xapps www-client"
 
 build_deps="autoconf2.13"
 
-adddep="xulrunner==$pkgver"
+adddep="xulrunner"
 
 build() 
 {
