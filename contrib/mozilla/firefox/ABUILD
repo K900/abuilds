@@ -10,6 +10,8 @@ source=("hg:http://hg.mozilla.org/mozilla-central")
 
 tags="xapps www-client"
 
+build_deps="autoconf2.13"
+
 adddep="xulrunner==$pkgver"
 
 build() 

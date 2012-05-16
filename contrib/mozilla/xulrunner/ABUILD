@@ -8,6 +8,8 @@ shortdesc="Mozilla XULRunner library"
 #source=("ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${pkgver}/source/firefox-${pkgver}.source.tar.bz2")
 source=("hg:http://hg.mozilla.org/mozilla-central")
 
+build_deps="autoconf2.13"
+
 tags="xapps www-client"
 
 pkglist="dev"
